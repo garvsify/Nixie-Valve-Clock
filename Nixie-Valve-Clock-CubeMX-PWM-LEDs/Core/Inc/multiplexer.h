@@ -12,8 +12,8 @@
 #define VALVE_ANODE_OFF_STATE 1
 #define VALVE_ANODE_ON_STATE 0
 #define NUM_BINARY_DIGITS_IN_BCD 4
-#define MULTIPLEXER_TIMER_PERIOD 65536
-#define MULTIPLEXER_TIMER_PRESCALER 0
+#define MULTIPLEXER_TIMER_PERIOD_MINUS_ONE 65535 //with clkdivby4 should give 4.096ms overflow
+#define MULTIPLEXER_TIMER_PRESCALER 0 //with clkdivby4 should give 4.096ms overflow
 
 #include <stdint.h>
 #include "stm32g031xx.h"

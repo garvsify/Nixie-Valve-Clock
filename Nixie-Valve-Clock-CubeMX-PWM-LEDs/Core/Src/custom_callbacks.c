@@ -10,6 +10,11 @@
 
 void TIM17_Multiplexer_Sequencer_Callback(TIM_HandleTypeDef *htim){
 
+	__HAL_TIM_SET_AUTORELOAD(&htim17, MULTIPLEXER_TIMER_PERIOD_MINUS_ONE);
+
+	//get current time
+	HAL_RTC_GetTime(&hrtc, &get_time, RTC_FORMAT_BCD);
+
 	static uint8_t valve = 0;
 	uint8_t BCD = 0;
 

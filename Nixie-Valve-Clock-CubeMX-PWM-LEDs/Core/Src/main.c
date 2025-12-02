@@ -84,56 +84,56 @@ static void MX_TIM17_Init(void);
   */
 int main(void)
 {
+	/* USER CODE BEGIN 1 */
 
-  /* USER CODE BEGIN 1 */
+	/* USER CODE END 1 */
 
-  /* USER CODE END 1 */
+	/* MCU Configuration--------------------------------------------------------*/
 
-  /* MCU Configuration--------------------------------------------------------*/
+	/* Reset of all peripherals, Initializes the Flash interface and the Systick. */
+	HAL_Init();
 
-  /* Reset of all peripherals, Initializes the Flash interface and the Systick. */
-  HAL_Init();
+	/* USER CODE BEGIN Init */
 
-  /* USER CODE BEGIN Init */
+	/* USER CODE END Init */
 
-  /* USER CODE END Init */
+	/* Configure the system clock */
+	SystemClock_Config();
 
-  /* Configure the system clock */
-  SystemClock_Config();
+	/* USER CODE BEGIN SysInit */
 
-  /* USER CODE BEGIN SysInit */
+	/* USER CODE END SysInit */
 
-  /* USER CODE END SysInit */
+	/* Initialize all configured peripherals */
+	MX_GPIO_Init();
+	MX_RTC_Init();
+	MX_TIM2_Init();
+	MX_TIM3_Init();
+	MX_USART2_UART_Init();
+	MX_TIM1_Init();
+	MX_TIM17_Init();
+	/* USER CODE BEGIN 2 */
 
-  /* Initialize all configured peripherals */
-  MX_GPIO_Init();
-  MX_RTC_Init();
-  MX_TIM2_Init();
-  MX_TIM3_Init();
-  MX_USART2_UART_Init();
-  MX_TIM1_Init();
-  MX_TIM17_Init();
-  /* USER CODE BEGIN 2 */
+	//Assign custom callbacks
+	HAL_TIM_RegisterCallback(&htim17, HAL_TIM_PERIOD_ELAPSED_CB_ID, &TIM17_Multiplexer_Sequencer_Callback);
 
-  //Assign custom callbacks
-  HAL_TIM_RegisterCallback(&htim17, HAL_TIM_PERIOD_ELAPSED_CB_ID, &TIM17_Multiplexer_Sequencer_Callback);
+	/* USER CODE END 2 */
 
-  /* USER CODE END 2 */
+	/* Infinite loop */
+	/* USER CODE BEGIN WHILE */
 
-  /* Infinite loop */
-  /* USER CODE BEGIN WHILE */
+	RTC_Time_Init();
 
-  RTC_Time_Init();
+	while (1)
+	{
+		/* USER CODE END WHILE */
+		Start_Multiplexer_Timer();
 
-  while (1)
-  {
-    /* USER CODE END WHILE */
-	/* Get the RTC current Time */
-	HAL_RTC_GetTime(&hrtc, &get_time, RTC_FORMAT_BCD);
+		/* Get the RTC current Time */
 
-    /* USER CODE BEGIN 3 */
-  }
-  /* USER CODE END 3 */
+		/* USER CODE BEGIN 3 */
+	  }
+	  /* USER CODE END 3 */
 }
 
 
@@ -492,10 +492,10 @@ static void MX_TIM17_Init(void)
   htim17.Instance = TIM17;
   htim17.Init.Prescaler = MULTIPLEXER_TIMER_PRESCALER;
   htim17.Init.CounterMode = TIM_COUNTERMODE_UP;
-  htim17.Init.Period = MULTIPLEXER_TIMER_PERIOD;
+  htim17.Init.Period = MULTIPLEXER_TIMER_PERIOD_MINUS_ONE;
   htim17.Init.ClockDivision = TIM_CLOCKDIVISION_DIV4;
   htim17.Init.RepetitionCounter = 0;
-  htim17.Init.AutoReloadPreload = TIM_AUTORELOAD_PRELOAD_DISABLE;
+  htim17.Init.AutoReloadPreload = TIM_AUTORELOAD_PRELOAD_ENABLE;
   if (HAL_TIM_Base_Init(&htim17) != HAL_OK)
   {
     Error_Handler();
@@ -505,7 +505,7 @@ static void MX_TIM17_Init(void)
     Error_Handler();
   }
   sConfigOC.OCMode = TIM_OCMODE_TIMING;
-  sConfigOC.Pulse = MULTIPLEXER_TIMER_PERIOD;
+  sConfigOC.Pulse = MULTIPLEXER_TIMER_PERIOD_MINUS_ONE;
   sConfigOC.OCPolarity = TIM_OCPOLARITY_HIGH;
   sConfigOC.OCNPolarity = TIM_OCNPOLARITY_HIGH;
   sConfigOC.OCFastMode = TIM_OCFAST_DISABLE;
