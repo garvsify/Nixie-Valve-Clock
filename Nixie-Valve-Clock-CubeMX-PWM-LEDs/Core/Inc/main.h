@@ -28,6 +28,8 @@ extern "C" {
 
 /* Includes ------------------------------------------------------------------*/
 #include "stm32g0xx_hal.h"
+#include "custom_callbacks.h"
+#include "multiplexer.h"
 
 /* Private includes ----------------------------------------------------------*/
 /* USER CODE BEGIN Includes */
@@ -48,6 +50,7 @@ extern "C" {
 /* USER CODE BEGIN EM */
 
 /* USER CODE END EM */
+void RTC_Time_Init(void);
 
 void HAL_TIM_MspPostInit(TIM_HandleTypeDef *htim);
 
@@ -55,6 +58,14 @@ void HAL_TIM_MspPostInit(TIM_HandleTypeDef *htim);
 void Error_Handler(void);
 
 /* USER CODE BEGIN EFP */
+
+extern RTC_HandleTypeDef hrtc;
+extern TIM_HandleTypeDef htim1; //valve LEDs
+extern TIM_HandleTypeDef htim2; //rotary encoder
+extern TIM_HandleTypeDef htim3; //rotary encoder LEDs
+extern TIM_HandleTypeDef htim17; //multiplexer timer
+extern UART_HandleTypeDef huart2; //VCP
+extern RTC_TimeTypeDef get_time;
 
 /* USER CODE END EFP */
 

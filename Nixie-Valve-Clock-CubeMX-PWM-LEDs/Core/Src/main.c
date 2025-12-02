@@ -41,13 +41,12 @@
 
 /* Private variables ---------------------------------------------------------*/
 RTC_HandleTypeDef hrtc;
-
-TIM_HandleTypeDef htim1;
-TIM_HandleTypeDef htim2;
-TIM_HandleTypeDef htim3;
-TIM_HandleTypeDef htim17;
-
-UART_HandleTypeDef huart2;
+TIM_HandleTypeDef htim1; //valve LEDs
+TIM_HandleTypeDef htim2; //rotary encoder
+TIM_HandleTypeDef htim3; //rotary encoder LEDs
+TIM_HandleTypeDef htim17; //multiplexer timer
+UART_HandleTypeDef huart2; //VCP
+RTC_TimeTypeDef get_time;
 
 /* USER CODE BEGIN PV */
 
@@ -70,6 +69,14 @@ static void MX_TIM17_Init(void);
 /* USER CODE BEGIN 0 */
 
 /* USER CODE END 0 */
+
+
+
+
+
+
+
+
 
 /**
   * @brief  The application entry point.
@@ -108,18 +115,70 @@ int main(void)
   MX_TIM17_Init();
   /* USER CODE BEGIN 2 */
 
+  //Assign custom callbacks
+  HAL_TIM_RegisterCallback(&htim17, HAL_TIM_PERIOD_ELAPSED_CB_ID, &TIM17_Multiplexer_Sequencer_Callback);
+
   /* USER CODE END 2 */
 
   /* Infinite loop */
   /* USER CODE BEGIN WHILE */
+
+  RTC_Time_Init();
+
   while (1)
   {
     /* USER CODE END WHILE */
+	/* Get the RTC current Time */
+	HAL_RTC_GetTime(&hrtc, &get_time, RTC_FORMAT_BCD);
 
     /* USER CODE BEGIN 3 */
   }
   /* USER CODE END 3 */
 }
+
+
+
+
+
+
+
+
+void RTC_Time_Init(void)
+{
+  //RTC_DateTypeDef sdatestructure;
+  RTC_TimeTypeDef time;
+
+  /*##-1- Configure the Date #################################################*/
+  /* Set Date: Tuesday February 18th 2016 */
+  /*sdatestructure.Year = 0x16;
+  sdatestructure.Month = RTC_MONTH_FEBRUARY;
+  sdatestructure.Date = 0x18;
+  sdatestructure.WeekDay = RTC_WEEKDAY_TUESDAY;*/
+
+  /*if(HAL_RTC_SetDate(&RtcHandle,&sdatestructure,RTC_FORMAT_BCD) != HAL_OK)
+  {
+    Error_Handler();
+  }*/
+
+  /*##-2- Configure the Time #################################################*/
+  /* Set Time: 02:00:00 */
+  time.Hours = 0x00;
+  time.Minutes = 0x00;
+  time.Seconds = 0x00;
+  time.TimeFormat = RTC_HOURFORMAT12_AM;
+  time.DayLightSaving = RTC_DAYLIGHTSAVING_NONE ;
+  time.StoreOperation = RTC_STOREOPERATION_RESET;
+
+  if (HAL_RTC_SetTime(&hrtc, &time, RTC_FORMAT_BCD) != HAL_OK)
+  {
+    /* Initialization Error */
+    Error_Handler();
+  }
+}
+
+
+
+
 
 /**
   * @brief System Clock Configuration
@@ -431,9 +490,9 @@ static void MX_TIM17_Init(void)
 
   /* USER CODE END TIM17_Init 1 */
   htim17.Instance = TIM17;
-  htim17.Init.Prescaler = 0;
+  htim17.Init.Prescaler = MULTIPLEXER_TIMER_PRESCALER;
   htim17.Init.CounterMode = TIM_COUNTERMODE_UP;
-  htim17.Init.Period = 65535;
+  htim17.Init.Period = MULTIPLEXER_TIMER_PERIOD;
   htim17.Init.ClockDivision = TIM_CLOCKDIVISION_DIV4;
   htim17.Init.RepetitionCounter = 0;
   htim17.Init.AutoReloadPreload = TIM_AUTORELOAD_PRELOAD_DISABLE;
@@ -446,7 +505,7 @@ static void MX_TIM17_Init(void)
     Error_Handler();
   }
   sConfigOC.OCMode = TIM_OCMODE_TIMING;
-  sConfigOC.Pulse = 0;
+  sConfigOC.Pulse = MULTIPLEXER_TIMER_PERIOD;
   sConfigOC.OCPolarity = TIM_OCPOLARITY_HIGH;
   sConfigOC.OCNPolarity = TIM_OCNPOLARITY_HIGH;
   sConfigOC.OCFastMode = TIM_OCFAST_DISABLE;
