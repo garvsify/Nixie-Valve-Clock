@@ -76,7 +76,7 @@ void TIM16_Anti_Cathode_Poisoning_Callback(TIM_HandleTypeDef *htim){
 	if(anti_cathode_poisoning.timer_mode == ACTIVE_MODE){
 
 		if((anti_cathode_poisoning.cycle == (anti_cathode_poisoning.max_cycles - 1))
-				&& (anti_cathode_poisoning.counter == anti_cathode_poisoning.max_counter - 1)){ //final cycle and final count
+				&& (anti_cathode_poisoning.counter == anti_cathode_poisoning.max_counter)){ //final cycle and final count
 
 			__HAL_TIM_SET_AUTORELOAD(&htim16, ANTI_CATHODE_POISONING_TIMER_WAITING_MODE_PERIOD_MINUS_ONE);
 			__HAL_TIM_SET_PRESCALER(&htim16, ANTI_CATHODE_POISONING_TIMER_WAITING_MODE_PRESCALER);
@@ -90,7 +90,7 @@ void TIM16_Anti_Cathode_Poisoning_Callback(TIM_HandleTypeDef *htim){
 			__HAL_TIM_SET_AUTORELOAD(&htim16, ANTI_CATHODE_POISONING_TIMER_ACTIVE_MODE_PERIOD_MINUS_ONE);
 			__HAL_TIM_SET_PRESCALER(&htim16, ANTI_CATHODE_POISONING_TIMER_ACTIVE_MODE_PRESCALER);
 
-			if((anti_cathode_poisoning.counter == anti_cathode_poisoning.max_counter - 1)
+			if((anti_cathode_poisoning.counter == anti_cathode_poisoning.max_counter)
 					&& (anti_cathode_poisoning.cycle != (anti_cathode_poisoning.max_cycles - 1))){
 
 				anti_cathode_poisoning.counter = 0;

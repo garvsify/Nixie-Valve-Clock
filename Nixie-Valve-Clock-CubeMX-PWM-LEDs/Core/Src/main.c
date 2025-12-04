@@ -138,7 +138,7 @@ int main(void)
 		/* Get the RTC current Time */
 
 		/* USER CODE BEGIN 3 */
-	  }
+	}
 	  /* USER CODE END 3 */
 }
 
