@@ -109,16 +109,17 @@ int main(void)
 	/* Initialize all configured peripherals */
 	MX_GPIO_Init();
 	MX_RTC_Init();
-	MX_TIM2_Init();
-	MX_TIM3_Init();
 	MX_USART2_UART_Init();
 	MX_TIM1_Init();
-	MX_TIM17_Init();
+	MX_TIM2_Init();
+	MX_TIM3_Init();
 	MX_TIM16_Init();
+	MX_TIM17_Init();
 	/* USER CODE BEGIN 2 */
 
 	//Assign custom callbacks
 	HAL_TIM_RegisterCallback(&htim17, HAL_TIM_PERIOD_ELAPSED_CB_ID, &TIM17_Multiplexer_Sequencer_Callback);
+	HAL_TIM_RegisterCallback(&htim16, HAL_TIM_PERIOD_ELAPSED_CB_ID, &TIM16_Anti_Cathode_Poisoning_Callback);
 
 	/* USER CODE END 2 */
 
@@ -126,11 +127,13 @@ int main(void)
 	/* USER CODE BEGIN WHILE */
 
 	RTC_Time_Init();
+	Anti_Cathode_Poisoning_Struct_Init(&anti_cathode_poisoning);
+	Start_Multiplexer_Timer();
+	Start_Anti_Cathode_Poisoning_Timer();
 
 	while (1)
 	{
 		/* USER CODE END WHILE */
-		Start_Multiplexer_Timer();
 
 		/* Get the RTC current Time */
 
@@ -493,9 +496,9 @@ static void MX_TIM16_Init(void)
 
   /* USER CODE END TIM16_Init 1 */
   htim16.Instance = TIM16;
-  htim16.Init.Prescaler = 65536 - 1;
+  htim16.Init.Prescaler = ANTI_CATHODE_POISONING_TIMER_WAITING_MODE_PRESCALER;
   htim16.Init.CounterMode = TIM_COUNTERMODE_UP;
-  htim16.Init.Period = 65535;
+  htim16.Init.Period = ANTI_CATHODE_POISONING_TIMER_WAITING_MODE_PERIOD_MINUS_ONE;
   htim16.Init.ClockDivision = TIM_CLOCKDIVISION_DIV4;
   htim16.Init.RepetitionCounter = 0;
   htim16.Init.AutoReloadPreload = TIM_AUTORELOAD_PRELOAD_DISABLE;

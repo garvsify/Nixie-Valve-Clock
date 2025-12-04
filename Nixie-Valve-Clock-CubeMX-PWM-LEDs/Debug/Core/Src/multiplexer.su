@@ -1,2 +1,4 @@
-../Core/Src/multiplexer.c:9:9:Write_Digit_to_Valve	32	static
-../Core/Src/multiplexer.c:33:9:Start_Multiplexer_Timer	24	static
+../Core/Src/multiplexer.c:11:9:Write_Digit_to_Valve	32	static
+../Core/Src/multiplexer.c:35:9:Start_Multiplexer_Timer	24	static
+../Core/Src/multiplexer.c:49:9:Start_Anti_Cathode_Poisoning_Timer	24	static
+../Core/Src/multiplexer.c:63:9:Anti_Cathode_Poisoning_Struct_Init	16	static
