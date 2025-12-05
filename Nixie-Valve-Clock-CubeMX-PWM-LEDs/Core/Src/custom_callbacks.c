@@ -14,7 +14,6 @@ void TIM17_Multiplexer_Sequencer_Callback(TIM_HandleTypeDef *htim){
 
 	static uint8_t valve = 0;
 	uint8_t BCD = 0;
-	static RTC_TimeTypeDef adjust_time;
 	uint8_t valve_on = 1;
 
 	if(master.system_mode_tracker.current_mode == NORMAL_MODE){
@@ -73,7 +72,7 @@ void TIM17_Multiplexer_Sequencer_Callback(TIM_HandleTypeDef *htim){
 				valve_on = 0;
 			}
 
-			BCD = (adjust_time.Hours >> 4) & 0xF;
+			BCD = (master.time_adjust.adjust_time.Hours >> 4) & 0xF;
 		}
 		else if(valve == 1){
 
@@ -86,27 +85,27 @@ void TIM17_Multiplexer_Sequencer_Callback(TIM_HandleTypeDef *htim){
 				valve_on = 0;
 			}
 
-			BCD = adjust_time.Hours & 0xF;
+			BCD = master.time_adjust.adjust_time.Hours & 0xF;
 		}
 		else if(valve == 2){
 
 			valve_on = 1;
-			BCD = (adjust_time.Minutes >> 4) & 0xF;
+			BCD = (master.time_adjust.adjust_time.Minutes >> 4) & 0xF;
 		}
 		else if(valve == 3){
 
 			valve_on = 1;
-			BCD = adjust_time.Minutes & 0xF;
+			BCD = master.time_adjust.adjust_time.Minutes & 0xF;
 		}
 		else if(valve == 4){
 
 			valve_on = 1;
-			BCD = (adjust_time.Seconds >> 4) & 0xF;
+			BCD = (master.time_adjust.adjust_time.Seconds >> 4) & 0xF;
 		}
 		else if(valve == 5){
 
 			valve_on = 1;
-			BCD = adjust_time.Seconds & 0xF;
+			BCD = master.time_adjust.adjust_time.Seconds & 0xF;
 		}
 
 	}
@@ -115,12 +114,12 @@ void TIM17_Multiplexer_Sequencer_Callback(TIM_HandleTypeDef *htim){
 		if(valve == 0){
 
 			valve_on = 1;
-			BCD = (adjust_time.Hours >> 4) & 0xF;
+			BCD = (master.time_adjust.adjust_time.Hours >> 4) & 0xF;
 		}
 		else if(valve == 1){
 
 			valve_on = 1;
-			BCD = adjust_time.Hours & 0xF;
+			BCD = master.time_adjust.adjust_time.Hours & 0xF;
 		}
 		else if(valve == 2){
 
@@ -133,7 +132,7 @@ void TIM17_Multiplexer_Sequencer_Callback(TIM_HandleTypeDef *htim){
 				valve_on = 0;
 			}
 
-			BCD = (adjust_time.Minutes >> 4) & 0xF;
+			BCD = (master.time_adjust.adjust_time.Minutes >> 4) & 0xF;
 		}
 		else if(valve == 3){
 
@@ -146,17 +145,17 @@ void TIM17_Multiplexer_Sequencer_Callback(TIM_HandleTypeDef *htim){
 				valve_on = 0;
 			}
 
-			BCD = adjust_time.Minutes & 0xF;
+			BCD = master.time_adjust.adjust_time.Minutes & 0xF;
 		}
 		else if(valve == 4){
 
 			valve_on = 1;
-			BCD = (adjust_time.Seconds >> 4) & 0xF;
+			BCD = (master.time_adjust.adjust_time.Seconds >> 4) & 0xF;
 		}
 		else if(valve == 5){
 
 			valve_on = 1;
-			BCD = adjust_time.Seconds & 0xF;
+			BCD = master.time_adjust.adjust_time.Seconds & 0xF;
 		}
 	}
 	else if(master.system_mode_tracker.current_mode == SS_ADJUST_MODE){
@@ -164,22 +163,22 @@ void TIM17_Multiplexer_Sequencer_Callback(TIM_HandleTypeDef *htim){
 		if(valve == 0){
 
 			valve_on = 1;
-			BCD = (adjust_time.Hours >> 4) & 0xF;
+			BCD = (master.time_adjust.adjust_time.Hours >> 4) & 0xF;
 		}
 		else if(valve == 1){
 
 			valve_on = 1;
-			BCD = adjust_time.Hours & 0xF;
+			BCD = master.time_adjust.adjust_time.Hours & 0xF;
 		}
 		else if(valve == 2){
 
 			valve_on = 1;
-			BCD = (adjust_time.Minutes >> 4) & 0xF;
+			BCD = (master.time_adjust.adjust_time.Minutes >> 4) & 0xF;
 		}
 		else if(valve == 3){
 
 			valve_on = 1;
-			BCD = adjust_time.Minutes & 0xF;
+			BCD = master.time_adjust.adjust_time.Minutes & 0xF;
 		}
 		else if(valve == 4){
 
@@ -192,7 +191,7 @@ void TIM17_Multiplexer_Sequencer_Callback(TIM_HandleTypeDef *htim){
 				valve_on = 0;
 			}
 
-			BCD = (adjust_time.Seconds >> 4) & 0xF;
+			BCD = (master.time_adjust.adjust_time.Seconds >> 4) & 0xF;
 		}
 		else if(valve == 5){
 
@@ -205,7 +204,7 @@ void TIM17_Multiplexer_Sequencer_Callback(TIM_HandleTypeDef *htim){
 				valve_on = 0;
 			}
 
-			BCD = adjust_time.Seconds & 0xF;
+			BCD = master.time_adjust.adjust_time.Seconds & 0xF;
 		}
 	}
 
