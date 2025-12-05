@@ -47,7 +47,6 @@ TIM_HandleTypeDef htim3; //rotary encoder LEDs
 TIM_HandleTypeDef htim16; //anti-cathode poisoning timer
 TIM_HandleTypeDef htim17; //multiplexer timer
 UART_HandleTypeDef huart2; //VCP
-RTC_TimeTypeDef get_time;
 
 struct Master master;
 

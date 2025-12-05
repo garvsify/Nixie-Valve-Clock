@@ -36,6 +36,7 @@ enum Blink_State{
 struct Time_Adjust{
 
 	enum Blink_State blink_state;
+	RTC_TimeTypeDef adjust_time;
 };
 
 enum System_Mode{
@@ -69,6 +70,7 @@ struct Master{
 	struct Anti_Cathode_Poisoning anti_cathode_poisoning;
 	struct System_Mode_Tracker system_mode_tracker;
 	struct Time_Adjust time_adjust;
+	RTC_TimeTypeDef get_time;
 };
 
 extern GPIO_TypeDef* Valve_Anode_Registers[NUM_VALVES];

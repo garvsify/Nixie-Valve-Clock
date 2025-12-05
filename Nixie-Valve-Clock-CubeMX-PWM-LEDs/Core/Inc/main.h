@@ -66,7 +66,6 @@ extern TIM_HandleTypeDef htim3; //rotary encoder LEDs
 extern TIM_HandleTypeDef htim16; //anti-cathode poisoning timer
 extern TIM_HandleTypeDef htim17; //multiplexer timer
 extern UART_HandleTypeDef huart2; //VCP
-extern RTC_TimeTypeDef get_time;
 
 /* USER CODE END EFP */
 
