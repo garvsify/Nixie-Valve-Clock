@@ -32,6 +32,13 @@ uint8_t Write_Digit_to_Valve(uint8_t valve_num, uint8_t BCD_of_digit){
 	return 1;
 }
 
+uint8_t Turn_Valve_Off(uint8_t valve){
+
+	HAL_GPIO_WritePin(Valve_Anode_Registers[valve], Valve_Anode_Pins[valve], VALVE_ANODE_OFF_STATE);
+
+	return 1;
+}
+
 uint8_t Start_Multiplexer_Timer(void){
 
 	__HAL_TIM_ENABLE_IT(&htim17, TIM_IT_UPDATE); //make sure overflow (update) interrupt is enabled for TIM17
@@ -60,14 +67,26 @@ uint8_t Start_Anti_Cathode_Poisoning_Timer(void){
 	return ok;
 }
 
-uint8_t Anti_Cathode_Poisoning_Struct_Init(struct Anti_Cathode_Poisoning *anti_cathode_poisoning){
+uint8_t Master_Init(struct Master *master){
 
-	anti_cathode_poisoning->counter = 0;
-	anti_cathode_poisoning->cycle = 0;
-	anti_cathode_poisoning->max_counter = ANTI_CATHODE_POISONING_MAX_COUNTER;
-	anti_cathode_poisoning->max_cycles = ANTI_CATHODE_POISONING_MAX_CYCLES;
-	anti_cathode_poisoning->timer_mode = WAITING_MODE;
-	anti_cathode_poisoning->mode_changed = 0;
+	master->anti_cathode_poisoning.counter = 0;
+	master->anti_cathode_poisoning.cycle = 0;
+	master->anti_cathode_poisoning.max_counter = ANTI_CATHODE_POISONING_MAX_COUNTER;
+	master->anti_cathode_poisoning.max_cycles = ANTI_CATHODE_POISONING_MAX_CYCLES;
+	master->anti_cathode_poisoning.anti_cathode_poisoning_mode_enetered = 0;
+
+	master->system_mode_tracker.current_mode = NORMAL_MODE;
+	master->system_mode_tracker.previous_mode = NONE;
+
+	master->time_adjust.blink_state = BLINK_OFF;
+
+	return 1;
+}
+
+uint8_t Set_System_Mode_and_Store_Previous_Mode(struct System_Mode_Tracker *system_mode_tracker, enum System_Mode desired_mode){
+
+	system_mode_tracker->previous_mode = system_mode_tracker->current_mode;
+	system_mode_tracker->current_mode = desired_mode;
 
 	return 1;
 }

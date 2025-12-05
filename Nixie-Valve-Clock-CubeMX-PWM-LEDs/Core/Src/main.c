@@ -49,6 +49,8 @@ TIM_HandleTypeDef htim17; //multiplexer timer
 UART_HandleTypeDef huart2; //VCP
 RTC_TimeTypeDef get_time;
 
+struct Master master;
+
 /* USER CODE BEGIN PV */
 
 /* USER CODE END PV */
@@ -127,7 +129,7 @@ int main(void)
 	/* USER CODE BEGIN WHILE */
 
 	RTC_Time_Init();
-	Anti_Cathode_Poisoning_Struct_Init(&anti_cathode_poisoning);
+	Master_Init(&master);
 	Start_Multiplexer_Timer();
 	Start_Anti_Cathode_Poisoning_Timer();
 
