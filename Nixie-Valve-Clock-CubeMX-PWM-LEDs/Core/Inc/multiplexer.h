@@ -20,6 +20,8 @@
 #define ANTI_CATHODE_POISONING_TIMER_ACTIVE_MODE_PERIOD_MINUS_ONE 65535 //with clkdivby4 should give 204.8ms overflow
 #define ANTI_CATHODE_POISONING_MAX_COUNTER 9
 #define ANTI_CATHODE_POISONING_MAX_CYCLES 3
+#define TIME_ADJUST_BLINK_PERIOD_MINUS_ONE 65535 //with clkdivby4 should give 500ms overflow
+#define TIME_ADJUST_BLINK_PRESCALER 122 //with clkdivby4 should give 500ms overflow
 
 #include <stdint.h>
 #include "stm32g031xx.h"
