@@ -50,9 +50,9 @@ extern "C" {
 /* USER CODE BEGIN EM */
 
 /* USER CODE END EM */
-void RTC_Time_Init(void);
 
 void HAL_TIM_MspPostInit(TIM_HandleTypeDef *htim);
+void RTC_Time_Init(void);
 
 /* Exported functions prototypes ---------------------------------------------*/
 void Error_Handler(void);
