@@ -3,6 +3,6 @@
 ../Core/Src/multiplexer.c:40:9:Start_Multiplexer_Timer	24	static
 ../Core/Src/multiplexer.c:54:9:Start_Anti_Cathode_Poisoning_Timer	24	static
 ../Core/Src/multiplexer.c:68:9:Master_Init	16	static
-../Core/Src/multiplexer.c:84:9:Set_System_Mode_and_Store_Previous_Mode	16	static
-../Core/Src/multiplexer.c:92:9:Toggle_HV_Power_Supply	16	static
-../Core/Src/multiplexer.c:106:9:Get_RTC_Time	8	static
+../Core/Src/multiplexer.c:83:9:Set_System_Mode_and_Store_Previous_Mode	16	static
+../Core/Src/multiplexer.c:91:9:Toggle_HV_Power_Supply	16	static
+../Core/Src/multiplexer.c:105:9:Get_RTC_Time	8	static

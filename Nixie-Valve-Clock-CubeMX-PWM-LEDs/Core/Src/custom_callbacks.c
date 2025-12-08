@@ -47,12 +47,6 @@ void TIM17_Multiplexer_Sequencer_Callback(TIM_HandleTypeDef *htim){
 	}
 	else if(master.system_mode_tracker.current_mode == ANTI_CATHODE_POISONING_MODE){
 
-		if(master.anti_cathode_poisoning.anti_cathode_poisoning_mode_enetered == 1){
-
-			valve = 0;
-			master.anti_cathode_poisoning.anti_cathode_poisoning_mode_enetered = 0;
-		}
-
 		valve_on = 1;
 		BCD = master.anti_cathode_poisoning.counter & 0xF;
 	}
@@ -227,10 +221,13 @@ void TIM16_Anti_Cathode_Poisoning_Callback(TIM_HandleTypeDef *htim){
 	if(master.system_mode_tracker.current_mode != ANTI_CATHODE_POISONING_MODE){
 
 		Set_System_Mode_and_Store_Previous_Mode(&master.system_mode_tracker, ANTI_CATHODE_POISONING_MODE);
-		master.anti_cathode_poisoning.anti_cathode_poisoning_mode_enetered = 1;
+	}
+	else{
+
+		master.anti_cathode_poisoning.counter++;
 	}
 	if((master.anti_cathode_poisoning.cycle == (master.anti_cathode_poisoning.max_cycles - 1))
-			&& (master.anti_cathode_poisoning.counter == master.anti_cathode_poisoning.max_counter)){ //final cycle and final count
+			&& (master.anti_cathode_poisoning.counter == master.anti_cathode_poisoning.max_counter + 1)){ //final cycle and final count + 1
 
 		__HAL_TIM_SET_AUTORELOAD(&htim16, ANTI_CATHODE_POISONING_TIMER_WAITING_MODE_PERIOD_MINUS_ONE);
 		__HAL_TIM_SET_PRESCALER(&htim16, ANTI_CATHODE_POISONING_TIMER_WAITING_MODE_PRESCALER);
@@ -246,15 +243,11 @@ void TIM16_Anti_Cathode_Poisoning_Callback(TIM_HandleTypeDef *htim){
 		__HAL_TIM_SET_AUTORELOAD(&htim16, ANTI_CATHODE_POISONING_TIMER_ACTIVE_MODE_PERIOD_MINUS_ONE);
 		__HAL_TIM_SET_PRESCALER(&htim16, ANTI_CATHODE_POISONING_TIMER_ACTIVE_MODE_PRESCALER);
 
-		if((master.anti_cathode_poisoning.counter == master.anti_cathode_poisoning.max_counter)
+		if((master.anti_cathode_poisoning.counter == master.anti_cathode_poisoning.max_counter + 1)
 				&& (master.anti_cathode_poisoning.cycle != (master.anti_cathode_poisoning.max_cycles - 1))){
 
 			master.anti_cathode_poisoning.counter = 0;
 			master.anti_cathode_poisoning.cycle++;
-		}
-		else{
-
-			master.anti_cathode_poisoning.counter++;
 		}
 	}
 }

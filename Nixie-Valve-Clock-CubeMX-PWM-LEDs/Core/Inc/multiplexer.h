@@ -14,8 +14,8 @@
 #define NUM_BINARY_DIGITS_IN_BCD 4
 #define MULTIPLEXER_TIMER_PERIOD_MINUS_ONE 65535 //with clkdivby4 should give 4.096ms overflow
 #define MULTIPLEXER_TIMER_PRESCALER 0 //with clkdivby4 should give 4.096ms overflow
-#define ANTI_CATHODE_POISONING_TIMER_WAITING_MODE_PRESCALER 65535 //with clkdivby4 should give ~4.5min overflow
-#define ANTI_CATHODE_POISONING_TIMER_WAITING_MODE_PERIOD_MINUS_ONE 65535 //with clkdivby4 should give ~4.5min overflow
+#define ANTI_CATHODE_POISONING_TIMER_WAITING_MODE_PRESCALER 65535  //with clkdivby4 should give ~4.5min overflow
+#define ANTI_CATHODE_POISONING_TIMER_WAITING_MODE_PERIOD_MINUS_ONE 10000 //with clkdivby4 should give ~4.5min overflow //change back to 65535 for realbuild
 #define ANTI_CATHODE_POISONING_TIMER_ACTIVE_MODE_PRESCALER 49 //with clkdivby4 should give 204.8ms overflow
 #define ANTI_CATHODE_POISONING_TIMER_ACTIVE_MODE_PERIOD_MINUS_ONE 65535 //with clkdivby4 should give 204.8ms overflow
 #define ANTI_CATHODE_POISONING_MAX_COUNTER 9
@@ -53,27 +53,25 @@ enum System_Mode{
 
 struct System_Mode_Tracker{
 
-	enum System_Mode current_mode;
-	enum System_Mode previous_mode;
+	volatile enum System_Mode current_mode;
+	volatile enum System_Mode previous_mode;
 };
 
 struct Anti_Cathode_Poisoning{
 
-	uint8_t counter;
+	volatile uint8_t counter;
 	uint8_t max_counter;
-	uint8_t cycle;
+	volatile uint8_t cycle;
 	uint8_t max_cycles;
-
-	uint8_t anti_cathode_poisoning_mode_enetered;
 };
 
 struct Master{
 
 	struct Anti_Cathode_Poisoning anti_cathode_poisoning;
 	struct System_Mode_Tracker system_mode_tracker;
-	struct Time_Adjust time_adjust;
-	RTC_TimeTypeDef get_time;
-	RTC_DateTypeDef get_date;
+	volatile struct Time_Adjust time_adjust;
+	volatile RTC_TimeTypeDef get_time;
+	volatile RTC_DateTypeDef get_date;
 };
 
 extern GPIO_TypeDef* Valve_Anode_Registers[NUM_VALVES];

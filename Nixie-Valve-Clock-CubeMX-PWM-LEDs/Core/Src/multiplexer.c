@@ -71,7 +71,6 @@ uint8_t Master_Init(struct Master *master){
 	master->anti_cathode_poisoning.cycle = 0;
 	master->anti_cathode_poisoning.max_counter = ANTI_CATHODE_POISONING_MAX_COUNTER;
 	master->anti_cathode_poisoning.max_cycles = ANTI_CATHODE_POISONING_MAX_CYCLES;
-	master->anti_cathode_poisoning.anti_cathode_poisoning_mode_enetered = 0;
 
 	master->system_mode_tracker.current_mode = NORMAL_MODE;
 	master->system_mode_tracker.previous_mode = NONE;
@@ -105,8 +104,8 @@ uint8_t Toggle_HV_Power_Supply(uint8_t toggle){
 
 uint8_t Get_RTC_Time(void){
 
-	HAL_RTC_GetTime(&hrtc, &master.get_time, RTC_FORMAT_BCD);
-	HAL_RTC_GetDate(&hrtc, &master.get_date, RTC_FORMAT_BCD);
+	HAL_RTC_GetTime(&hrtc, (RTC_TimeTypeDef*)&master.get_time, RTC_FORMAT_BCD);
+	HAL_RTC_GetDate(&hrtc, (RTC_DateTypeDef*)&master.get_date, RTC_FORMAT_BCD);
 
 	return 1;
 }
