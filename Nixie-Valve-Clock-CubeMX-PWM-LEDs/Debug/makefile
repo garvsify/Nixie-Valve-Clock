@@ -60,8 +60,8 @@ all: main-build
 main-build: Nixie-Valve-Clock-CubeMX-PWM-LEDs.elf secondary-outputs
 
 # Tool invocations
-Nixie-Valve-Clock-CubeMX-PWM-LEDs.elf Nixie-Valve-Clock-CubeMX-PWM-LEDs.map: $(OBJS) $(USER_OBJS) /Users/jamesgarvey/git/Nixie-Valve-Clock/Nixie-Valve-Clock-CubeMX-PWM-LEDs/STM32G031K8TX_FLASH.ld makefile objects.list $(OPTIONAL_TOOL_DEPS)
-	arm-none-eabi-gcc -o "Nixie-Valve-Clock-CubeMX-PWM-LEDs.elf" @"objects.list" $(USER_OBJS) $(LIBS) -mcpu=cortex-m0plus -T"/Users/jamesgarvey/git/Nixie-Valve-Clock/Nixie-Valve-Clock-CubeMX-PWM-LEDs/STM32G031K8TX_FLASH.ld" --specs=nosys.specs -Wl,-Map="Nixie-Valve-Clock-CubeMX-PWM-LEDs.map" -Wl,--gc-sections -static --specs=nano.specs -mfloat-abi=soft -mthumb -Wl,--start-group -lc -lm -Wl,--end-group
+Nixie-Valve-Clock-CubeMX-PWM-LEDs.elf Nixie-Valve-Clock-CubeMX-PWM-LEDs.map: $(OBJS) $(USER_OBJS) C:\Users\James\ Garvey\git\Nixie-Valve-Clock\Nixie-Valve-Clock-CubeMX-PWM-LEDs\STM32G031K8TX_FLASH.ld makefile objects.list $(OPTIONAL_TOOL_DEPS)
+	arm-none-eabi-gcc -o "Nixie-Valve-Clock-CubeMX-PWM-LEDs.elf" @"objects.list" $(USER_OBJS) $(LIBS) -mcpu=cortex-m0plus -T"C:\Users\James Garvey\git\Nixie-Valve-Clock\Nixie-Valve-Clock-CubeMX-PWM-LEDs\STM32G031K8TX_FLASH.ld" --specs=nosys.specs -Wl,-Map="Nixie-Valve-Clock-CubeMX-PWM-LEDs.map" -Wl,--gc-sections -static --specs=nano.specs -mfloat-abi=soft -mthumb -Wl,--start-group -lc -lm -Wl,--end-group
 	@echo 'Finished building target: $@'
 	@echo ' '
 

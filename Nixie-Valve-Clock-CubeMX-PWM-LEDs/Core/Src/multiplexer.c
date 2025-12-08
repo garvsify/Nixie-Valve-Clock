@@ -1,12 +1,10 @@
 #include "multiplexer.h"
 
-GPIO_TypeDef* Valve_Anode_Registers[NUM_VALVES] = {GPIOA, GPIOA, GPIOA, GPIOA, GPIOA, GPIOA};
-uint16_t Valve_Anode_Pins[NUM_VALVES] = {4, 5, 6, 7, 11, 12};
+GPIO_TypeDef* Valve_Anode_Registers[NUM_VALVES] = {GPIO_Output_AS_0_GPIO_Port, GPIO_Output_AS_1_GPIO_Port, GPIO_Output_AS_2_GPIO_Port, GPIO_Output_AS_3_GPIO_Port, GPIO_Output_AS_4_GPIO_Port, GPIO_Output_AS_5_GPIO_Port};
+uint16_t Valve_Anode_Pins[NUM_VALVES] = {GPIO_Output_AS_0_Pin, GPIO_Output_AS_1_Pin, GPIO_Output_AS_2_Pin, GPIO_Output_AS_3_Pin, GPIO_Output_AS_4_Pin, GPIO_Output_AS_5_Pin};
 
-GPIO_TypeDef* BCD_Registers[NUM_BINARY_DIGITS_IN_BCD] = {GPIOB, GPIOB, GPIOB, GPIOB};
-uint16_t BCD_Pins[NUM_BINARY_DIGITS_IN_BCD] = {8, 5, 6, 7};
-
-struct Anti_Cathode_Poisoning anti_cathode_poisoning;
+GPIO_TypeDef* BCD_Registers[NUM_BINARY_DIGITS_IN_BCD] = {GPIO_Output_BCD0_GPIO_Port, GPIO_Output_BCD1_GPIO_Port, GPIO_Output_BCD2_GPIO_Port, GPIO_Output_BCD3_GPIO_Port};
+uint16_t BCD_Pins[NUM_BINARY_DIGITS_IN_BCD] = {GPIO_Output_BCD0_Pin, GPIO_Output_BCD1_Pin, GPIO_Output_BCD2_Pin, GPIO_Output_BCD3_Pin};
 
 uint8_t Write_Digit_to_Valve(uint8_t valve_num, uint8_t BCD_of_digit){
 
@@ -87,6 +85,28 @@ uint8_t Set_System_Mode_and_Store_Previous_Mode(struct System_Mode_Tracker *syst
 
 	system_mode_tracker->previous_mode = system_mode_tracker->current_mode;
 	system_mode_tracker->current_mode = desired_mode;
+
+	return 1;
+}
+
+uint8_t Toggle_HV_Power_Supply(uint8_t toggle){
+
+	if(toggle){
+
+		HAL_GPIO_WritePin(GPIO_Output__HV_SHDN_GPIO_Port, GPIO_Output__HV_SHDN_Pin, 1);
+	}
+	else if(!toggle){
+
+		HAL_GPIO_WritePin(GPIO_Output__HV_SHDN_GPIO_Port, GPIO_Output__HV_SHDN_Pin, 0);
+	}
+
+	return 1;
+}
+
+uint8_t Get_RTC_Time(void){
+
+	HAL_RTC_GetTime(&hrtc, &master.get_time, RTC_FORMAT_BCD);
+	HAL_RTC_GetDate(&hrtc, &master.get_date, RTC_FORMAT_BCD);
 
 	return 1;
 }

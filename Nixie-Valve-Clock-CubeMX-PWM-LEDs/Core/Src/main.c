@@ -84,37 +84,37 @@ static void MX_TIM14_Init(void);
 int main(void)
 {
 
-  /* USER CODE BEGIN 1 */
+	/* USER CODE BEGIN 1 */
 
-  /* USER CODE END 1 */
+	/* USER CODE END 1 */
 
-  /* MCU Configuration--------------------------------------------------------*/
+	/* MCU Configuration--------------------------------------------------------*/
 
-  /* Reset of all peripherals, Initializes the Flash interface and the Systick. */
-  HAL_Init();
+	/* Reset of all peripherals, Initializes the Flash interface and the Systick. */
+	HAL_Init();
 
-  /* USER CODE BEGIN Init */
+	/* USER CODE BEGIN Init */
 
-  /* USER CODE END Init */
+	/* USER CODE END Init */
 
-  /* Configure the system clock */
-  SystemClock_Config();
+	/* Configure the system clock */
+	SystemClock_Config();
 
-  /* USER CODE BEGIN SysInit */
+	/* USER CODE BEGIN SysInit */
 
-  /* USER CODE END SysInit */
+	/* USER CODE END SysInit */
 
-  /* Initialize all configured peripherals */
-  MX_GPIO_Init();
-  MX_RTC_Init();
-  MX_TIM2_Init();
-  MX_TIM3_Init();
-  MX_USART2_UART_Init();
-  MX_TIM1_Init();
-  MX_TIM17_Init();
-  MX_TIM16_Init();
-  MX_TIM14_Init();
-  /* USER CODE BEGIN 2 */
+	/* Initialize all configured peripherals */
+	MX_GPIO_Init();
+	MX_RTC_Init();
+	MX_TIM2_Init();
+	MX_TIM3_Init();
+	MX_USART2_UART_Init();
+	MX_TIM1_Init();
+	MX_TIM17_Init();
+	MX_TIM16_Init();
+	MX_TIM14_Init();
+	/* USER CODE BEGIN 2 */
 
 	//Assign custom callbacks
 	HAL_TIM_RegisterCallback(&htim17, HAL_TIM_PERIOD_ELAPSED_CB_ID, &TIM17_Multiplexer_Sequencer_Callback);
@@ -128,7 +128,9 @@ int main(void)
 	RTC_Time_Init();
 	Master_Init(&master);
 	Start_Multiplexer_Timer();
-	Start_Anti_Cathode_Poisoning_Timer();
+	//Start_Anti_Cathode_Poisoning_Timer();
+
+	Toggle_HV_Power_Supply(1);
 
 	while (1)
 	{
@@ -143,24 +145,25 @@ void RTC_Time_Init(void)
 {
   //RTC_DateTypeDef sdatestructure;
   RTC_TimeTypeDef time;
+  RTC_DateTypeDef date;
 
   /*##-1- Configure the Date #################################################*/
   /* Set Date: Tuesday February 18th 2016 */
-  /*sdatestructure.Year = 0x16;
-  sdatestructure.Month = RTC_MONTH_FEBRUARY;
-  sdatestructure.Date = 0x18;
-  sdatestructure.WeekDay = RTC_WEEKDAY_TUESDAY;*/
+  date.Year = 0x16;
+  date.Month = RTC_MONTH_FEBRUARY;
+  date.Date = 0x18;
+  date.WeekDay = RTC_WEEKDAY_TUESDAY;
 
-  /*if(HAL_RTC_SetDate(&RtcHandle,&sdatestructure,RTC_FORMAT_BCD) != HAL_OK)
+  if(HAL_RTC_SetDate(&hrtc, &date, RTC_FORMAT_BCD) != HAL_OK)
   {
     Error_Handler();
-  }*/
+  }
 
   /*##-2- Configure the Time #################################################*/
   /* Set Time: 02:00:00 */
-  time.Hours = 0x00;
-  time.Minutes = 0x00;
-  time.Seconds = 0x00;
+  time.Hours = 0x23;
+  time.Minutes = 0x24;
+  time.Seconds = 0x25;
   time.TimeFormat = RTC_HOURFORMAT12_AM;
   time.DayLightSaving = RTC_DAYLIGHTSAVING_NONE ;
   time.StoreOperation = RTC_STOREOPERATION_RESET;
@@ -687,14 +690,6 @@ static void MX_GPIO_Init(void)
   __HAL_RCC_GPIOF_CLK_ENABLE();
   __HAL_RCC_GPIOA_CLK_ENABLE();
 
-  /*Configure GPIO pin Output Level */
-  HAL_GPIO_WritePin(GPIOB, GPIO_Output_BUZZER_Pin|GPIO_Output__HV_SHDN_Pin|GPIO_Output_IN_3_0_Pin|GPIO_Output_IN_3_1_Pin
-                          |GPIO_Output_BCD1_Pin|GPIO_Output_BCD2_Pin|GPIO_Output_BCD3_Pin|GPIO_Output_BCD0_Pin, GPIO_PIN_RESET);
-
-  /*Configure GPIO pin Output Level */
-  HAL_GPIO_WritePin(GPIOA, GPIO_Output_AS_0_Pin|GPIO_Output_AS_1_Pin|GPIO_Output_AS_2_Pin|GPIO_Output_AS_3_Pin
-                          |GPIO_Output_AS_4_Pin|GPIO_Output_AS_5_Pin, GPIO_PIN_SET);
-
   /*Configure GPIO pins : GPIO_Output_BUZZER_Pin GPIO_Output__HV_SHDN_Pin GPIO_Output_IN_3_0_Pin GPIO_Output_IN_3_1_Pin
                            GPIO_Output_BCD1_Pin GPIO_Output_BCD2_Pin GPIO_Output_BCD3_Pin GPIO_Output_BCD0_Pin */
   GPIO_InitStruct.Pin = GPIO_Output_BUZZER_Pin|GPIO_Output__HV_SHDN_Pin|GPIO_Output_IN_3_0_Pin|GPIO_Output_IN_3_1_Pin
@@ -730,6 +725,14 @@ static void MX_GPIO_Init(void)
   GPIO_InitStruct.Mode = GPIO_MODE_IT_RISING_FALLING;
   GPIO_InitStruct.Pull = GPIO_PULLUP;
   HAL_GPIO_Init(GPIO_EXTI15_SW_GPIO_Port, &GPIO_InitStruct);
+
+  /*Configure GPIO pin Output Level */
+  HAL_GPIO_WritePin(GPIOB, GPIO_Output_BUZZER_Pin|GPIO_Output__HV_SHDN_Pin|GPIO_Output_IN_3_0_Pin|GPIO_Output_IN_3_1_Pin
+                          |GPIO_Output_BCD1_Pin|GPIO_Output_BCD2_Pin|GPIO_Output_BCD3_Pin|GPIO_Output_BCD0_Pin, GPIO_PIN_RESET);
+
+  /*Configure GPIO pin Output Level */
+  HAL_GPIO_WritePin(GPIOA, GPIO_Output_AS_0_Pin|GPIO_Output_AS_1_Pin|GPIO_Output_AS_2_Pin|GPIO_Output_AS_3_Pin
+                          |GPIO_Output_AS_4_Pin|GPIO_Output_AS_5_Pin, GPIO_PIN_SET);
 
   /* EXTI interrupt init*/
   HAL_NVIC_SetPriority(EXTI0_1_IRQn, 0, 0);

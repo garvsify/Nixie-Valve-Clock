@@ -73,6 +73,7 @@ struct Master{
 	struct System_Mode_Tracker system_mode_tracker;
 	struct Time_Adjust time_adjust;
 	RTC_TimeTypeDef get_time;
+	RTC_DateTypeDef get_date;
 };
 
 extern GPIO_TypeDef* Valve_Anode_Registers[NUM_VALVES];
@@ -89,5 +90,7 @@ uint8_t Start_Anti_Cathode_Poisoning_Timer(void);
 uint8_t Master_Init(struct Master *master);
 uint8_t Set_System_Mode_and_Store_Previous_Mode(struct System_Mode_Tracker *system_mode_tracker, enum System_Mode desired_mode);
 uint8_t Turn_Valve_Off(uint8_t valve_num);
+uint8_t Toggle_HV_Power_Supply(uint8_t toggle);
+uint8_t Get_RTC_Time(void);
 
 #endif /* INC_MULTIPLEXER_H_ */
