@@ -15,8 +15,8 @@
 #define MULTIPLEXER_TIMER_PERIOD_MINUS_ONE 65535 //with clkdivby4 should give 4.096ms overflow
 #define MULTIPLEXER_TIMER_PRESCALER 0 //with clkdivby4 should give 4.096ms overflow
 #define ANTI_CATHODE_POISONING_TIMER_WAITING_MODE_PRESCALER 65535  //with clkdivby4 should give ~4.5min overflow
-#define ANTI_CATHODE_POISONING_TIMER_WAITING_MODE_PERIOD_MINUS_ONE 10000 //with clkdivby4 should give ~4.5min overflow //change back to 65535 for realbuild
-#define ANTI_CATHODE_POISONING_TIMER_ACTIVE_MODE_PRESCALER 49 //with clkdivby4 should give 204.8ms overflow
+#define ANTI_CATHODE_POISONING_TIMER_WAITING_MODE_PERIOD_MINUS_ONE 6000 //with clkdivby4 should give ~4.5min overflow //change back to 65535 for realbuild
+#define ANTI_CATHODE_POISONING_TIMER_ACTIVE_MODE_PRESCALER 49 //with clkdivby4 should give 204.8ms overflow //was 49
 #define ANTI_CATHODE_POISONING_TIMER_ACTIVE_MODE_PERIOD_MINUS_ONE 65535 //with clkdivby4 should give 204.8ms overflow
 #define ANTI_CATHODE_POISONING_MAX_COUNTER 9
 #define ANTI_CATHODE_POISONING_MAX_CYCLES 3

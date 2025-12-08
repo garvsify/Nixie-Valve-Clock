@@ -222,6 +222,7 @@ void TIM16_Anti_Cathode_Poisoning_Callback(TIM_HandleTypeDef *htim){
 
 		Set_System_Mode_and_Store_Previous_Mode(&master.system_mode_tracker, ANTI_CATHODE_POISONING_MODE);
 	}
+
 	else{
 
 		master.anti_cathode_poisoning.counter++;
