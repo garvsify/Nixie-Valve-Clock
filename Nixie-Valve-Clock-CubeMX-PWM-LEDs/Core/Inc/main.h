@@ -130,6 +130,13 @@ extern UART_HandleTypeDef huart2; //VCP
 #define GPIO_Output_BCD0_Pin GPIO_PIN_8
 #define GPIO_Output_BCD0_GPIO_Port GPIOB
 
+//debug
+#define MONITOR_0_Port GPIOB
+#define MONITOR_0_Pin GPIO_PIN_8
+#define MONITOR_1_Port GPIOB
+#define MONITOR_1_Pin GPIO_PIN_5
+//debug
+
 /* USER CODE BEGIN Private defines */
 
 /* USER CODE END Private defines */

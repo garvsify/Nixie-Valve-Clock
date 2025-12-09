@@ -218,37 +218,43 @@ void TIM17_Multiplexer_Sequencer_Callback(TIM_HandleTypeDef *htim){
 
 void TIM16_Anti_Cathode_Poisoning_Callback(TIM_HandleTypeDef *htim){
 
-	if(master.system_mode_tracker.current_mode != ANTI_CATHODE_POISONING_MODE){
+	static uint8_t timer_length = 0;
+	static uint8_t master_counter = 0;
 
-		Set_System_Mode_and_Store_Previous_Mode(&master.system_mode_tracker, ANTI_CATHODE_POISONING_MODE);
-	}
+	master.system_mode_tracker.current_mode = ANTI_CATHODE_POISONING_MODE;
 
-	else{
+	if(timer_length == 0){
 
-		master.anti_cathode_poisoning.counter++;
-	}
-	if((master.anti_cathode_poisoning.cycle == (master.anti_cathode_poisoning.max_cycles - 1))
-			&& (master.anti_cathode_poisoning.counter == master.anti_cathode_poisoning.max_counter + 1)){ //final cycle and final count + 1
+		//HAL_GPIO_TogglePin(MONITOR_1_Port, MONITOR_1_Pin);
 
-		__HAL_TIM_SET_AUTORELOAD(&htim16, ANTI_CATHODE_POISONING_TIMER_WAITING_MODE_PERIOD_MINUS_ONE);
-		__HAL_TIM_SET_PRESCALER(&htim16, ANTI_CATHODE_POISONING_TIMER_WAITING_MODE_PRESCALER);
-
-		Set_System_Mode_and_Store_Previous_Mode(&master.system_mode_tracker, master.system_mode_tracker.previous_mode); //anti cathode poisoning
-		//mode over, return to previous mode
-
+		__HAL_TIM_SET_PRESCALER(&htim16, 1000);
+		timer_length = 1;
 		master.anti_cathode_poisoning.counter = 0;
-		master.anti_cathode_poisoning.cycle = 0;
+
+		if(master_counter != 10){
+
+			master_counter++;
+		}
+		else{
+
+			Set_System_Mode_and_Store_Previous_Mode(&master.system_mode_tracker, NORMAL_MODE);
+		}
 	}
-	else{
+	else if(timer_length == 1){
 
-		__HAL_TIM_SET_AUTORELOAD(&htim16, ANTI_CATHODE_POISONING_TIMER_ACTIVE_MODE_PERIOD_MINUS_ONE);
-		__HAL_TIM_SET_PRESCALER(&htim16, ANTI_CATHODE_POISONING_TIMER_ACTIVE_MODE_PRESCALER);
+		//HAL_GPIO_TogglePin(MONITOR_1_Port, MONITOR_1_Pin);
 
-		if((master.anti_cathode_poisoning.counter == master.anti_cathode_poisoning.max_counter + 1)
-				&& (master.anti_cathode_poisoning.cycle != (master.anti_cathode_poisoning.max_cycles - 1))){
+		__HAL_TIM_SET_PRESCALER(&htim16, 500);
+		timer_length = 0;
+		master.anti_cathode_poisoning.counter = 1;
 
-			master.anti_cathode_poisoning.counter = 0;
-			master.anti_cathode_poisoning.cycle++;
+		if(master_counter != 10){
+
+			master_counter++;
+		}
+		else{
+
+			Set_System_Mode_and_Store_Previous_Mode(&master.system_mode_tracker, NORMAL_MODE);
 		}
 	}
 }
