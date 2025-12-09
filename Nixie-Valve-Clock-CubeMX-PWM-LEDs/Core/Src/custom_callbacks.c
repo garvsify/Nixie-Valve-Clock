@@ -221,41 +221,43 @@ void TIM16_Anti_Cathode_Poisoning_Callback(TIM_HandleTypeDef *htim){
 	static uint8_t timer_length = 0;
 	static uint8_t master_counter = 0;
 
-	master.system_mode_tracker.current_mode = ANTI_CATHODE_POISONING_MODE;
+	if(master.system_mode_tracker.current_mode != ANTI_CATHODE_POISONING_MODE){
+
+		Set_System_Mode_and_Store_Previous_Mode(&master.system_mode_tracker, ANTI_CATHODE_POISONING_MODE);
+	}
 
 	if(timer_length == 0){
 
 		//HAL_GPIO_TogglePin(MONITOR_1_Port, MONITOR_1_Pin);
 
-		__HAL_TIM_SET_PRESCALER(&htim16, 1000);
+		__HAL_TIM_SET_PRESCALER(&htim16, 250);
+		__HAL_TIM_SET_AUTORELOAD(&htim16, 65535);
+		TIM16->EGR |= TIM_EGR_UG;
+		TIM16->SR &= ~TIM_SR_UIF;
+
 		timer_length = 1;
-		master.anti_cathode_poisoning.counter = 0;
-
-		if(master_counter != 10){
-
-			master_counter++;
-		}
-		else{
-
-			Set_System_Mode_and_Store_Previous_Mode(&master.system_mode_tracker, NORMAL_MODE);
-		}
+		master.anti_cathode_poisoning.counter = 2;
 	}
 	else if(timer_length == 1){
 
 		//HAL_GPIO_TogglePin(MONITOR_1_Port, MONITOR_1_Pin);
 
-		__HAL_TIM_SET_PRESCALER(&htim16, 500);
+		__HAL_TIM_SET_PRESCALER(&htim16, 1000);
+		__HAL_TIM_SET_AUTORELOAD(&htim16, 65535);
+		TIM16->EGR |= TIM_EGR_UG;
+		TIM16->SR &= ~TIM_SR_UIF;
+
 		timer_length = 0;
-		master.anti_cathode_poisoning.counter = 1;
+		master.anti_cathode_poisoning.counter = 0;
+	}
 
-		if(master_counter != 10){
+	if(master_counter != 10){
 
-			master_counter++;
-		}
-		else{
+		master_counter++;
+	}
+	else{
 
-			Set_System_Mode_and_Store_Previous_Mode(&master.system_mode_tracker, NORMAL_MODE);
-		}
+		Set_System_Mode_and_Store_Previous_Mode(&master.system_mode_tracker, master.system_mode_tracker.previous_mode);
 	}
 }
 
