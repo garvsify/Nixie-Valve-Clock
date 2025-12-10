@@ -65,6 +65,20 @@ uint8_t Start_Anti_Cathode_Poisoning_Timer(void){
 	return ok;
 }
 
+uint8_t Start_Adjust_Mode_Timer(void){
+
+	__HAL_TIM_ENABLE_IT(&htim14, TIM_IT_UPDATE); //make sure overflow (update) interrupt is enabled for TIM14
+
+	uint8_t ok = Start_OC_TIM(&htim14, TIM_CHANNEL_1);
+
+	if(ok != HAL_OK){
+
+		Error_Handler();
+	}
+
+	return ok;
+}
+
 uint8_t Master_Init(struct Master *master){
 
 	master->anti_cathode_poisoning.counter = 0;
@@ -76,6 +90,8 @@ uint8_t Master_Init(struct Master *master){
 	master->system_mode_tracker.previous_mode = NONE;
 
 	master->time_adjust.blink_state = BLINK_OFF;
+
+	master->separators.counter = 0;
 
 	return 1;
 }
