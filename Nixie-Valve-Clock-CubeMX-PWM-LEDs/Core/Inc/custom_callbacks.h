@@ -13,5 +13,6 @@
 
 void TIM17_Multiplexer_Sequencer_Callback(TIM_HandleTypeDef *htim);
 void TIM16_Anti_Cathode_Poisoning_Callback(TIM_HandleTypeDef *htim);
+void TIM14_Time_Adjust_Valve_Blink_Callback(TIM_HandleTypeDef *htim);
 
 #endif /* INC_CUSTOM_CALLBACKS_H_ */

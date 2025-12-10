@@ -119,6 +119,7 @@ int main(void)
 	//Assign custom callbacks
 	HAL_TIM_RegisterCallback(&htim17, HAL_TIM_PERIOD_ELAPSED_CB_ID, &TIM17_Multiplexer_Sequencer_Callback);
 	HAL_TIM_RegisterCallback(&htim16, HAL_TIM_PERIOD_ELAPSED_CB_ID, &TIM16_Anti_Cathode_Poisoning_Callback);
+	HAL_TIM_RegisterCallback(&htim14, HAL_TIM_PERIOD_ELAPSED_CB_ID, &TIM14_Time_Adjust_Valve_Blink_Callback);
 
   /* USER CODE END 2 */
 
@@ -131,8 +132,10 @@ int main(void)
 	Start_Anti_Cathode_Poisoning_Timer();
 	Toggle_HV_Power_Supply(1);
 
-	HAL_GPIO_WritePin(GPIO_Output_IN_3_0_GPIO_Port, GPIO_Output_IN_3_0_Pin, 1);
-	HAL_GPIO_WritePin(GPIO_Output_IN_3_1_GPIO_Port, GPIO_Output_IN_3_1_Pin, 1);
+	//HAL_GPIO_WritePin(GPIO_Output_BUZZER_GPIO_Port, GPIO_Output_BUZZER_Pin, 1);
+
+	master.system_mode_tracker.current_mode = SS_ADJUST_MODE;
+	Start_Adjust_Mode_Timer();
 
 	while (1)
 	{
@@ -487,11 +490,11 @@ static void MX_TIM14_Init(void)
 
   /* USER CODE END TIM14_Init 1 */
   htim14.Instance = TIM14;
-  htim14.Init.Prescaler = 122;
+  htim14.Init.Prescaler = TIME_ADJUST_BLINK_PRESCALER;
   htim14.Init.CounterMode = TIM_COUNTERMODE_UP;
-  htim14.Init.Period = 65535;
+  htim14.Init.Period = TIME_ADJUST_BLINK_PERIOD_MINUS_ONE;
   htim14.Init.ClockDivision = TIM_CLOCKDIVISION_DIV4;
-  htim14.Init.AutoReloadPreload = TIM_AUTORELOAD_PRELOAD_DISABLE;
+  htim14.Init.AutoReloadPreload = TIM_AUTORELOAD_PRELOAD_ENABLE;
   if (HAL_TIM_Base_Init(&htim14) != HAL_OK)
   {
     Error_Handler();
@@ -600,7 +603,7 @@ static void MX_TIM17_Init(void)
   htim17.Init.Period = MULTIPLEXER_TIMER_PERIOD_MINUS_ONE;
   htim17.Init.ClockDivision = TIM_CLOCKDIVISION_DIV4;
   htim17.Init.RepetitionCounter = 0;
-  htim17.Init.AutoReloadPreload = TIM_AUTORELOAD_PRELOAD_DISABLE;
+  htim17.Init.AutoReloadPreload = TIM_AUTORELOAD_PRELOAD_ENABLE;
   if (HAL_TIM_Base_Init(&htim17) != HAL_OK)
   {
     Error_Handler();

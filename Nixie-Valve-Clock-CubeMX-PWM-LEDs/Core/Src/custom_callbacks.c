@@ -214,6 +214,18 @@ void TIM17_Multiplexer_Sequencer_Callback(TIM_HandleTypeDef *htim){
 
 		valve = 0;
 	}
+
+
+	if(master.system_mode_tracker.current_mode == NORMAL_MODE || (master.system_mode_tracker.current_mode == ANTI_CATHODE_POISONING_MODE && master.system_mode_tracker.previous_mode == NORMAL_MODE)){
+
+		HAL_GPIO_WritePin(GPIO_Output_IN_3_0_GPIO_Port, GPIO_Output_IN_3_0_Pin, 1);
+		HAL_GPIO_WritePin(GPIO_Output_IN_3_1_GPIO_Port, GPIO_Output_IN_3_1_Pin, 1);
+	}
+	else{
+
+		HAL_GPIO_WritePin(GPIO_Output_IN_3_0_GPIO_Port, GPIO_Output_IN_3_0_Pin, 0);
+		HAL_GPIO_WritePin(GPIO_Output_IN_3_1_GPIO_Port, GPIO_Output_IN_3_1_Pin, 0);
+	}
 }
 
 void TIM16_Anti_Cathode_Poisoning_Callback(TIM_HandleTypeDef *htim){
@@ -254,5 +266,17 @@ void TIM16_Anti_Cathode_Poisoning_Callback(TIM_HandleTypeDef *htim){
 			master.anti_cathode_poisoning.counter = 0;
 			master.anti_cathode_poisoning.cycle++;
 		}
+	}
+}
+
+void TIM14_Time_Adjust_Valve_Blink_Callback(TIM_HandleTypeDef *htim){
+
+	if(master.time_adjust.blink_state == BLINK_OFF){
+
+		master.time_adjust.blink_state = BLINK_ON;
+	}
+	else{
+
+		master.time_adjust.blink_state = BLINK_OFF;
 	}
 }
