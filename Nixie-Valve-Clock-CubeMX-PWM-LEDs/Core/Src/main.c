@@ -129,8 +129,10 @@ int main(void)
 	Master_Init(&master);
 	Start_Multiplexer_Timer();
 	Start_Anti_Cathode_Poisoning_Timer();
-
 	Toggle_HV_Power_Supply(1);
+
+	HAL_GPIO_WritePin(GPIO_Output_IN_3_0_GPIO_Port, GPIO_Output_IN_3_0_Pin, 1);
+	HAL_GPIO_WritePin(GPIO_Output_IN_3_1_GPIO_Port, GPIO_Output_IN_3_1_Pin, 1);
 
 	while (1)
 	{
@@ -536,7 +538,7 @@ static void MX_TIM16_Init(void)
   htim16.Init.Period = ANTI_CATHODE_POISONING_TIMER_WAITING_MODE_PERIOD_MINUS_ONE;
   htim16.Init.ClockDivision = TIM_CLOCKDIVISION_DIV4;
   htim16.Init.RepetitionCounter = 0;
-  htim16.Init.AutoReloadPreload = TIM_AUTORELOAD_PRELOAD_DISABLE;
+  htim16.Init.AutoReloadPreload = TIM_AUTORELOAD_PRELOAD_ENABLE;
   if (HAL_TIM_Base_Init(&htim16) != HAL_OK)
   {
     Error_Handler();
