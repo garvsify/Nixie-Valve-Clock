@@ -280,3 +280,16 @@ void TIM14_Time_Adjust_Valve_Blink_Callback(TIM_HandleTypeDef *htim){
 		master.time_adjust.blink_state = BLINK_OFF;
 	}
 }
+
+void TIM1_CH1_Valve_LED_0_Callback(TIM_HandleTypeDef *htim){
+
+}
+
+void TIM1_CH2_Valve_LED_1_Callback(TIM_HandleTypeDef *htim){
+
+}
+
+void TIM1_CH3_Valve_LED_2_Callback(TIM_HandleTypeDef *htim){
+
+}
+

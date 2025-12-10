@@ -1,3 +1,6 @@
 ../Core/Src/custom_callbacks.c:11:6:TIM17_Multiplexer_Sequencer_Callback	48
 ../Core/Src/custom_callbacks.c:231:6:TIM16_Anti_Cathode_Poisoning_Callback	6
 ../Core/Src/custom_callbacks.c:272:6:TIM14_Time_Adjust_Valve_Blink_Callback	2
+../Core/Src/custom_callbacks.c:284:6:TIM1_CH1_Valve_LED_0_Callback	1
+../Core/Src/custom_callbacks.c:288:6:TIM1_CH2_Valve_LED_1_Callback	1
+../Core/Src/custom_callbacks.c:292:6:TIM1_CH3_Valve_LED_2_Callback	1
