@@ -22,6 +22,7 @@
 #define ANTI_CATHODE_POISONING_MAX_CYCLES 3
 #define TIME_ADJUST_BLINK_PERIOD_MINUS_ONE 65535
 #define TIME_ADJUST_BLINK_PRESCALER 750
+#define TIME_FLASH_BASE_ADDRESS 0x0800F800
 
 #include <stdint.h>
 #include "stm32g031xx.h"
@@ -98,5 +99,8 @@ uint8_t Set_System_Mode_and_Store_Previous_Mode(struct System_Mode_Tracker *syst
 uint8_t Turn_Valve_Off(uint8_t valve_num);
 uint8_t Toggle_HV_Power_Supply(uint8_t toggle);
 uint8_t Get_RTC_Time(void);
+uint8_t Write_Time_In_Flash(RTC_TimeTypeDef *time);
+uint8_t Read_Time_From_Flash(RTC_TimeTypeDef *time);
+uint8_t Pack_Time_Into_Doubleword(RTC_TimeTypeDef *time, uint64_t *doubleword);
 
 #endif /* INC_MULTIPLEXER_H_ */

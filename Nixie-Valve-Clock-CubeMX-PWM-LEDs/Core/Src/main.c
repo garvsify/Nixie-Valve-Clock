@@ -129,6 +129,7 @@ int main(void)
   /* Infinite loop */
   /* USER CODE BEGIN WHILE */
 
+	Read_Time_From_Flash((RTC_TimeTypeDef*)&master.get_time);
 	RTC_Time_Init();
 	Master_Init(&master);
 	Start_Multiplexer_Timer();
@@ -140,13 +141,13 @@ int main(void)
 	//master.system_mode_tracker.current_mode = SS_ADJUST_MODE;
 	//Start_Adjust_Mode_Timer();
 
-	__HAL_TIM_ENABLE_IT(&htim1, TIM_IT_UPDATE);
+	/*__HAL_TIM_ENABLE_IT(&htim1, TIM_IT_UPDATE);
 	Start_OC_TIM(&htim1, TIM_CHANNEL_1);
 	__HAL_TIM_SET_COMPARE(&htim1, TIM_CHANNEL_1, 20);
 	Start_OC_TIM(&htim1, TIM_CHANNEL_2);
 	__HAL_TIM_SET_COMPARE(&htim1, TIM_CHANNEL_2, 1000);
 	Start_OC_TIM(&htim1, TIM_CHANNEL_3);
-	__HAL_TIM_SET_COMPARE(&htim1, TIM_CHANNEL_3, 20000);
+	__HAL_TIM_SET_COMPARE(&htim1, TIM_CHANNEL_3, 20000);*/
 
 	while (1)
 	{
@@ -177,9 +178,9 @@ void RTC_Time_Init(void)
 
   /*##-2- Configure the Time #################################################*/
   /* Set Time: 02:00:00 */
-  time.Hours = 0x23;
-  time.Minutes = 0x24;
-  time.Seconds = 0x25;
+  time.Hours = master.get_time.Hours;
+  time.Minutes = master.get_time.Minutes;
+  time.Seconds = master.get_time.Seconds;
   time.TimeFormat = RTC_HOURFORMAT12_AM;
   time.DayLightSaving = RTC_DAYLIGHTSAVING_NONE ;
   time.StoreOperation = RTC_STOREOPERATION_RESET;

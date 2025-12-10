@@ -7,3 +7,6 @@
 ../Core/Src/multiplexer.c:99:9:Set_System_Mode_and_Store_Previous_Mode	1
 ../Core/Src/multiplexer.c:107:9:Toggle_HV_Power_Supply	3
 ../Core/Src/multiplexer.c:121:9:Get_RTC_Time	1
+../Core/Src/multiplexer.c:129:9:Write_Time_In_Flash	1
+../Core/Src/multiplexer.c:148:9:Read_Time_From_Flash	4
+../Core/Src/multiplexer.c:181:9:Pack_Time_Into_Doubleword	1
