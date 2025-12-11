@@ -8,13 +8,17 @@
 #include "custom_callbacks.h"
 #include "main.h"
 
-void TIM17_Multiplexer_Sequencer_Callback(TIM_HandleTypeDef *htim){
+void __RAM_FUNC TIM17_Multiplexer_Sequencer_Callback(TIM_HandleTypeDef *htim){
 
 	static uint8_t valve = 0;
 	uint8_t BCD = 0;
 	uint8_t valve_on = 1;
 
-	if(master.system_mode_tracker.current_mode == NORMAL_MODE){
+	if(master.system_mode_tracker.current_mode == VALVES_OFF_MODE){
+
+		valve_on = 0;
+	}
+	else if(master.system_mode_tracker.current_mode == NORMAL_MODE){
 
 		Get_RTC_Time();
 
@@ -228,7 +232,7 @@ void TIM17_Multiplexer_Sequencer_Callback(TIM_HandleTypeDef *htim){
 	}
 }
 
-void TIM16_Anti_Cathode_Poisoning_Callback(TIM_HandleTypeDef *htim){
+void __RAM_FUNC TIM16_Anti_Cathode_Poisoning_Callback(TIM_HandleTypeDef *htim){
 
 	if(master.system_mode_tracker.current_mode != ANTI_CATHODE_POISONING_MODE){
 
@@ -271,7 +275,7 @@ void TIM16_Anti_Cathode_Poisoning_Callback(TIM_HandleTypeDef *htim){
 	}
 }
 
-void TIM14_Time_Adjust_Valve_Blink_Callback(TIM_HandleTypeDef *htim){
+void __RAM_FUNC TIM14_Time_Adjust_Valve_Blink_Callback(TIM_HandleTypeDef *htim){
 
 	if(master.time_adjust.blink_state == BLINK_OFF){
 

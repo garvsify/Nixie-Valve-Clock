@@ -860,7 +860,7 @@ HAL_StatusTypeDef HAL_RTC_SetTime(RTC_HandleTypeDef *hrtc, RTC_TimeTypeDef *sTim
   *            @arg RTC_FORMAT_BCD: BCD data format
   * @retval HAL status
   */
-HAL_StatusTypeDef HAL_RTC_GetTime(RTC_HandleTypeDef *hrtc, RTC_TimeTypeDef *sTime, uint32_t Format)
+HAL_StatusTypeDef __RAM_FUNC HAL_RTC_GetTime(RTC_HandleTypeDef *hrtc, RTC_TimeTypeDef *sTime, uint32_t Format)
 {
   uint32_t tmpreg;
 
@@ -988,7 +988,7 @@ HAL_StatusTypeDef HAL_RTC_SetDate(RTC_HandleTypeDef *hrtc, RTC_DateTypeDef *sDat
   *            @arg RTC_FORMAT_BCD:  BCD data format
   * @retval HAL status
   */
-HAL_StatusTypeDef HAL_RTC_GetDate(RTC_HandleTypeDef *hrtc, RTC_DateTypeDef *sDate, uint32_t Format)
+HAL_StatusTypeDef __RAM_FUNC HAL_RTC_GetDate(RTC_HandleTypeDef *hrtc, RTC_DateTypeDef *sDate, uint32_t Format)
 {
   uint32_t datetmpreg;
 
@@ -1838,7 +1838,7 @@ uint8_t RTC_ByteToBcd2(uint8_t Value)
   * @param  Value BCD value to be converted
   * @retval Converted word
   */
-uint8_t RTC_Bcd2ToByte(uint8_t Value)
+__RAM_FUNC uint8_t RTC_Bcd2ToByte(uint8_t Value)
 {
   uint32_t tmp;
   tmp = (((uint32_t)Value & 0xF0U) >> 4U) * 10U;

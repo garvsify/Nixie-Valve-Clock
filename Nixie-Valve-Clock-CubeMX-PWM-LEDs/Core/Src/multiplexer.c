@@ -6,7 +6,7 @@ uint16_t Valve_Anode_Pins[NUM_VALVES] = {GPIO_Output_AS_0_Pin, GPIO_Output_AS_1_
 GPIO_TypeDef* BCD_Registers[NUM_BINARY_DIGITS_IN_BCD] = {GPIO_Output_BCD0_GPIO_Port, GPIO_Output_BCD1_GPIO_Port, GPIO_Output_BCD2_GPIO_Port, GPIO_Output_BCD3_GPIO_Port};
 uint16_t BCD_Pins[NUM_BINARY_DIGITS_IN_BCD] = {GPIO_Output_BCD0_Pin, GPIO_Output_BCD1_Pin, GPIO_Output_BCD2_Pin, GPIO_Output_BCD3_Pin};
 
-uint8_t Write_Digit_to_Valve(uint8_t valve_num, uint8_t BCD_of_digit){
+uint8_t __RAM_FUNC Write_Digit_to_Valve(uint8_t valve_num, uint8_t BCD_of_digit){
 
 	//turn off all anodes of valves except of valve of interest
 	for(uint8_t valve = 0; valve < NUM_VALVES; valve++){
@@ -30,7 +30,7 @@ uint8_t Write_Digit_to_Valve(uint8_t valve_num, uint8_t BCD_of_digit){
 	return 1;
 }
 
-uint8_t Turn_Valve_Off(uint8_t valve){
+uint8_t __RAM_FUNC Turn_Valve_Off(uint8_t valve){
 
 	HAL_GPIO_WritePin(Valve_Anode_Registers[valve], Valve_Anode_Pins[valve], VALVE_ANODE_OFF_STATE);
 
@@ -118,7 +118,7 @@ uint8_t Toggle_HV_Power_Supply(uint8_t toggle){
 	return 1;
 }
 
-uint8_t Get_RTC_Time(void){
+uint8_t __RAM_FUNC Get_RTC_Time(void){
 
 	HAL_RTC_GetTime(&hrtc, (RTC_TimeTypeDef*)&master.get_time, RTC_FORMAT_BCD);
 	HAL_RTC_GetDate(&hrtc, (RTC_DateTypeDef*)&master.get_date, RTC_FORMAT_BCD);
@@ -126,7 +126,7 @@ uint8_t Get_RTC_Time(void){
 	return 1;
 }
 
-uint8_t Write_Time_In_Flash(RTC_TimeTypeDef *time){
+uint8_t __RAM_FUNC Write_Time_In_Flash(RTC_TimeTypeDef *time){
 
 	uint64_t packed;
 	uint32_t errors = 0;
@@ -178,7 +178,7 @@ uint8_t Read_Time_From_Flash(RTC_TimeTypeDef *time){
 	return 1;
 }
 
-uint8_t Pack_Time_Into_Doubleword(RTC_TimeTypeDef *time, uint64_t *doubleword){
+uint8_t __RAM_FUNC Pack_Time_Into_Doubleword(RTC_TimeTypeDef *time, uint64_t *doubleword){
 
 	uint64_t packed = 0;
 

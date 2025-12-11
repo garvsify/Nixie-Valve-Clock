@@ -550,9 +550,9 @@ static void MX_TIM16_Init(void)
 
   /* USER CODE END TIM16_Init 1 */
   htim16.Instance = TIM16;
-  htim16.Init.Prescaler = 0;
+  htim16.Init.Prescaler = ANTI_CATHODE_POISONING_TIMER_WAITING_MODE_PRESCALER;
   htim16.Init.CounterMode = TIM_COUNTERMODE_UP;
-  htim16.Init.Period = 65535;
+  htim16.Init.Period = ANTI_CATHODE_POISONING_TIMER_WAITING_MODE_PERIOD_MINUS_ONE;
   htim16.Init.ClockDivision = TIM_CLOCKDIVISION_DIV4;
   htim16.Init.RepetitionCounter = 0;
   htim16.Init.AutoReloadPreload = TIM_AUTORELOAD_PRELOAD_ENABLE;
