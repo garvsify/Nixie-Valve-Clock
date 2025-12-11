@@ -96,7 +96,7 @@ uint8_t Master_Init(struct Master *master){
 	return 1;
 }
 
-uint8_t Set_System_Mode_and_Store_Previous_Mode(struct System_Mode_Tracker *system_mode_tracker, enum System_Mode desired_mode){
+uint8_t __RAM_FUNC Set_System_Mode_and_Store_Previous_Mode(struct System_Mode_Tracker *system_mode_tracker, enum System_Mode desired_mode){
 
 	system_mode_tracker->previous_mode = system_mode_tracker->current_mode;
 	system_mode_tracker->current_mode = desired_mode;

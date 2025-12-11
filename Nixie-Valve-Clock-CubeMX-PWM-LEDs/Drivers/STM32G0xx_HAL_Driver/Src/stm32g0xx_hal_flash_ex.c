@@ -151,7 +151,7 @@ static void               FLASH_OB_GetSecMem(uint32_t *BootEntry, uint32_t *SecS
   *         the pages have been correctly erased)
   * @retval HAL Status
   */
-HAL_StatusTypeDef HAL_FLASHEx_Erase(FLASH_EraseInitTypeDef *pEraseInit, uint32_t *PageError)
+HAL_StatusTypeDef __RAM_FUNC HAL_FLASHEx_Erase(FLASH_EraseInitTypeDef *pEraseInit, uint32_t *PageError)
 {
   HAL_StatusTypeDef status;
   uint32_t index;

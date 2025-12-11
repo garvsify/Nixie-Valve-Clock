@@ -12,8 +12,8 @@
 #define VALVE_ANODE_OFF_STATE 1
 #define VALVE_ANODE_ON_STATE 0
 #define NUM_BINARY_DIGITS_IN_BCD 4
-#define MULTIPLEXER_TIMER_PERIOD_MINUS_ONE 30000 //with 0 prescaler and clkdivby4 should give 4.096ms overflow; with 2 prescaler and clkdivby4 should give 12.288ms overflow
-#define MULTIPLEXER_TIMER_PRESCALER 0 //with 0 prescaler and clkdivby4 should give 4.096ms overflow; with 2 prescaler and clkdivby4 should give 12.288ms overflow
+#define MULTIPLEXER_TIMER_PERIOD_MINUS_ONE 55000 //with 0 prescaler and clkdivby4 should give 4.096ms overflow; with 2 prescaler and clkdivby4 should give 12.288ms overflow
+#define MULTIPLEXER_TIMER_PRESCALER 3 //with 0 prescaler and clkdivby4 should give 4.096ms overflow; with 2 prescaler and clkdivby4 should give 12.288ms overflow
 #define ANTI_CATHODE_POISONING_TIMER_WAITING_MODE_PRESCALER 65535  //with clkdivby4 should give ~4.5min overflow
 #define ANTI_CATHODE_POISONING_TIMER_WAITING_MODE_PERIOD_MINUS_ONE 5000//65535 //5000(test) //with clkdivby4 should give ~4.5min overflow
 #define ANTI_CATHODE_POISONING_TIMER_ACTIVE_MODE_PRESCALER 25 //with clkdivby4 should give 204.8ms overflow //was 49
@@ -104,7 +104,7 @@ uint8_t Start_Multiplexer_Timer(void);
 uint8_t Start_Anti_Cathode_Poisoning_Timer(void);
 uint8_t Start_Adjust_Mode_Timer(void);
 uint8_t Master_Init(struct Master *master);
-uint8_t Set_System_Mode_and_Store_Previous_Mode(struct System_Mode_Tracker *system_mode_tracker, enum System_Mode desired_mode);
+uint8_t __RAM_FUNC Set_System_Mode_and_Store_Previous_Mode(struct System_Mode_Tracker *system_mode_tracker, enum System_Mode desired_mode);
 __RAM_FUNC uint8_t Turn_Valve_Off(uint8_t valve_num);
 uint8_t Toggle_HV_Power_Supply(uint8_t toggle);
 __RAM_FUNC uint8_t Get_RTC_Time(void);
