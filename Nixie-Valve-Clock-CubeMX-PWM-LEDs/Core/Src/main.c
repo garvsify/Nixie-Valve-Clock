@@ -1,3 +1,11 @@
+/*
+
+Issues:
+
+With default RTC predscalers (127,255) the clock loses just over 3 minutes every ~8 hours
+
+*/
+
 /* USER CODE BEGIN Header */
 /**
   ******************************************************************************

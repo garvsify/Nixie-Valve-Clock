@@ -12,10 +12,10 @@
 #define VALVE_ANODE_OFF_STATE 1
 #define VALVE_ANODE_ON_STATE 0
 #define NUM_BINARY_DIGITS_IN_BCD 4
-#define MULTIPLEXER_TIMER_PERIOD_MINUS_ONE 55000 //with 0 prescaler and clkdivby4 should give 4.096ms overflow; with 2 prescaler and clkdivby4 should give 12.288ms overflow
+#define MULTIPLEXER_TIMER_PERIOD_MINUS_ONE 50000 //with 0 prescaler and clkdivby4 should give 4.096ms overflow; with 2 prescaler and clkdivby4 should give 12.288ms overflow
 #define MULTIPLEXER_TIMER_PRESCALER 3 //with 0 prescaler and clkdivby4 should give 4.096ms overflow; with 2 prescaler and clkdivby4 should give 12.288ms overflow
 #define ANTI_CATHODE_POISONING_TIMER_WAITING_MODE_PRESCALER 65535  //with clkdivby4 should give ~4.5min overflow
-#define ANTI_CATHODE_POISONING_TIMER_WAITING_MODE_PERIOD_MINUS_ONE 5000//65535 //5000(test) //with clkdivby4 should give ~4.5min overflow
+#define ANTI_CATHODE_POISONING_TIMER_WAITING_MODE_PERIOD_MINUS_ONE 65535 //5000(test) //with clkdivby4 should give ~4.5min overflow
 #define ANTI_CATHODE_POISONING_TIMER_ACTIVE_MODE_PRESCALER 25 //with clkdivby4 should give 204.8ms overflow //was 49
 #define ANTI_CATHODE_POISONING_TIMER_ACTIVE_MODE_PERIOD_MINUS_ONE 65535 //with clkdivby4 should give 204.8ms overflow
 #define ANTI_CATHODE_POISONING_MAX_COUNTER 9
