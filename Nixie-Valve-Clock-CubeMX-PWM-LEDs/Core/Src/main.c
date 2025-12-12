@@ -137,7 +137,7 @@ int main(void)
   /* Infinite loop */
   /* USER CODE BEGIN WHILE */
 
-	Read_Time_From_Flash((RTC_TimeTypeDef*)&master.get_time);
+	//Read_Time_From_Flash((RTC_TimeTypeDef*)&master.get_time);
 	RTC_Time_Init();
 	Master_Init(&master);
 	Start_Multiplexer_Timer();
@@ -186,9 +186,9 @@ void RTC_Time_Init(void)
 
   /*##-2- Configure the Time #################################################*/
   /* Set Time: 02:00:00 */
-  time.Hours = master.get_time.Hours;
-  time.Minutes = master.get_time.Minutes;
-  time.Seconds = master.get_time.Seconds;
+  time.Hours = 0x07;//master.get_time.Hours;
+  time.Minutes = 0x14;//master.get_time.Minutes;
+  time.Seconds = 0x00;//master.get_time.Seconds;
   time.TimeFormat = RTC_HOURFORMAT12_AM;
   time.DayLightSaving = RTC_DAYLIGHTSAVING_NONE ;
   time.StoreOperation = RTC_STOREOPERATION_RESET;

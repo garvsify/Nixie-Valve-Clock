@@ -246,7 +246,7 @@ void __RAM_FUNC TIM16_Anti_Cathode_Poisoning_Callback(TIM_HandleTypeDef *htim){
 	if((master.anti_cathode_poisoning.cycle == (master.anti_cathode_poisoning.max_cycles - 1))
 			&& (master.anti_cathode_poisoning.counter == master.anti_cathode_poisoning.max_counter + 1)){ //final cycle and final count + 1
 
-		Write_Time_In_Flash((RTC_TimeTypeDef*)&master.get_time);
+		//Write_Time_In_Flash((RTC_TimeTypeDef*)&master.get_time);
 
 		__HAL_TIM_SET_AUTORELOAD(&htim16, ANTI_CATHODE_POISONING_TIMER_WAITING_MODE_PERIOD_MINUS_ONE);
 		__HAL_TIM_SET_PRESCALER(&htim16, ANTI_CATHODE_POISONING_TIMER_WAITING_MODE_PRESCALER);
