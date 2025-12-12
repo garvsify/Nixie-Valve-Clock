@@ -287,7 +287,7 @@ static void MX_RTC_Init(void)
 
   /** Enable Calibration
   */
-  if (HAL_RTCEx_SetCalibrationOutPut(&hrtc, RTC_CALIBOUTPUT_1HZ) != HAL_OK)
+  if (HAL_RTCEx_SetCalibrationOutPut(&hrtc, RTC_CALIBOUTPUT_512HZ) != HAL_OK)
   {
     Error_Handler();
   }
