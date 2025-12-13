@@ -138,11 +138,12 @@ int main(void)
   /* USER CODE BEGIN WHILE */
 
 	//Read_Time_From_Flash((RTC_TimeTypeDef*)&master.get_time);
-	RTC_Time_Init();
+	/*RTC_Time_Init();
+	HAL_RTCEx_SetSmoothCalib(&hrtc, 32, 0, 200); //calibrate time
 	Master_Init(&master);
 	Start_Multiplexer_Timer();
 	Start_Anti_Cathode_Poisoning_Timer();
-	Toggle_HV_Power_Supply(1);
+	Toggle_HV_Power_Supply(1);*/
 
 	//HAL_GPIO_WritePin(GPIO_Output_BUZZER_GPIO_Port, GPIO_Output_BUZZER_Pin, 1);
 
@@ -186,8 +187,8 @@ void RTC_Time_Init(void)
 
   /*##-2- Configure the Time #################################################*/
   /* Set Time: 02:00:00 */
-  time.Hours = 0x07;//master.get_time.Hours;
-  time.Minutes = 0x14;//master.get_time.Minutes;
+  time.Hours = 0x23;//master.get_time.Hours;
+  time.Minutes = 0x21;//master.get_time.Minutes;
   time.Seconds = 0x00;//master.get_time.Seconds;
   time.TimeFormat = RTC_HOURFORMAT12_AM;
   time.DayLightSaving = RTC_DAYLIGHTSAVING_NONE ;
@@ -217,7 +218,8 @@ void SystemClock_Config(void)
   /** Configure LSE Drive Capability
   */
   HAL_PWR_EnableBkUpAccess();
-  __HAL_RCC_LSEDRIVE_CONFIG(RCC_LSEDRIVE_LOW);
+  //__HAL_RCC_LSEDRIVE_CONFIG(RCC_LSEDRIVE_LOW);
+  __HAL_RCC_LSEDRIVE_CONFIG(RCC_LSEDRIVE_MEDIUMHIGH);
 
   /** Initializes the RCC Oscillators according to the specified parameters
   * in the RCC_OscInitTypeDef structure.
