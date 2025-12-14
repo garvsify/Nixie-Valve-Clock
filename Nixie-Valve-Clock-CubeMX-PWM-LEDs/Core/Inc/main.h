@@ -67,6 +67,7 @@ extern TIM_HandleTypeDef htim14; //Time adjust timer (for blinking valves being 
 extern TIM_HandleTypeDef htim16; //anti-cathode poisoning timer
 extern TIM_HandleTypeDef htim17; //multiplexer timer
 extern UART_HandleTypeDef huart2; //VCP
+extern LPTIM_HandleTypeDef hlptim1;
 
 /* USER CODE END EFP */
 

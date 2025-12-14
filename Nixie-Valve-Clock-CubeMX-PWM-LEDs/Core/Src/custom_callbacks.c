@@ -302,5 +302,7 @@ void TIM1_CH3_Valve_LED_2_Callback(TIM_HandleTypeDef *htim){
 void LPTIM1_Rotary_Encoder_Switch_Callback(LPTIM_HandleTypeDef *hlptim){
 
 
+
+	HAL_LPTIM_SetOnce_Start_IT(&hlptim1, LPTIM1_CCR_CHECK, LPTIM1_CCR_CHECK);
 }
 

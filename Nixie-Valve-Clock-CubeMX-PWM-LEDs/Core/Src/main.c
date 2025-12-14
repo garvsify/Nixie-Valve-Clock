@@ -48,6 +48,7 @@ With default RTC predscalers (127,255) the clock loses just over 3 minutes every
 /* USER CODE END PM */
 
 /* Private variables ---------------------------------------------------------*/
+
 RTC_HandleTypeDef hrtc;
 
 TIM_HandleTypeDef htim1;
@@ -56,6 +57,7 @@ TIM_HandleTypeDef htim3;
 TIM_HandleTypeDef htim14;
 TIM_HandleTypeDef htim16;
 TIM_HandleTypeDef htim17;
+LPTIM_HandleTypeDef hlptim1;
 
 UART_HandleTypeDef huart2;
 
@@ -123,6 +125,7 @@ int main(void)
 	MX_TIM17_Init();
 	MX_TIM16_Init();
 	MX_TIM14_Init();
+	MX_LPTIM1_Init();
 	/* USER CODE BEGIN 2 */
 
 	//Assign custom callbacks
