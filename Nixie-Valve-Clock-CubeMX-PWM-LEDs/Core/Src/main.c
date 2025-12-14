@@ -76,6 +76,7 @@ static void MX_TIM1_Init(void);
 static void MX_TIM17_Init(void);
 static void MX_TIM16_Init(void);
 static void MX_TIM14_Init(void);
+static void MX_LPTIM1_Init(void);
 /* USER CODE BEGIN PFP */
 
 /* USER CODE END PFP */
@@ -128,9 +129,10 @@ int main(void)
 	HAL_TIM_RegisterCallback(&htim17, HAL_TIM_PERIOD_ELAPSED_CB_ID, &TIM17_Multiplexer_Sequencer_Callback);
 	HAL_TIM_RegisterCallback(&htim16, HAL_TIM_PERIOD_ELAPSED_CB_ID, &TIM16_Anti_Cathode_Poisoning_Callback);
 	HAL_TIM_RegisterCallback(&htim14, HAL_TIM_PERIOD_ELAPSED_CB_ID, &TIM14_Time_Adjust_Valve_Blink_Callback);
-	HAL_TIM_RegisterCallback(&htim1, HAL_TIM_PERIOD_ELAPSED_CB_ID, &TIM1_CH1_Valve_LED_0_Callback);
-	HAL_TIM_RegisterCallback(&htim1, HAL_TIM_PERIOD_ELAPSED_CB_ID, &TIM1_CH2_Valve_LED_1_Callback);
-	HAL_TIM_RegisterCallback(&htim1, HAL_TIM_PERIOD_ELAPSED_CB_ID, &TIM1_CH3_Valve_LED_2_Callback);
+	//HAL_TIM_RegisterCallback(&htim1, HAL_TIM_PERIOD_ELAPSED_CB_ID, &TIM1_CH1_Valve_LED_0_Callback);
+	//HAL_TIM_RegisterCallback(&htim1, HAL_TIM_PERIOD_ELAPSED_CB_ID, &TIM1_CH2_Valve_LED_1_Callback);
+	//HAL_TIM_RegisterCallback(&htim1, HAL_TIM_PERIOD_ELAPSED_CB_ID, &TIM1_CH3_Valve_LED_2_Callback);
+	HAL_LPTIM_RegisterCallback(&hlptim1, HAL_LPTIM_COMPARE_MATCH_CB_ID, &LPTIM1_Rotary_Encoder_Switch_Callback);
 
   /* USER CODE END 2 */
 
@@ -138,12 +140,14 @@ int main(void)
   /* USER CODE BEGIN WHILE */
 
 	//Read_Time_From_Flash((RTC_TimeTypeDef*)&master.get_time);
-	/*RTC_Time_Init();
-	HAL_RTCEx_SetSmoothCalib(&hrtc, 32, 0, 200); //calibrate time
+	RTC_Time_Init();
+	HAL_RTCEx_SetSmoothCalib(&hrtc, 32, 1, 155); //calibrate time - second number = 0 -> slows down clock using final number //second number = 1 -> quickens the clock using final number
 	Master_Init(&master);
 	Start_Multiplexer_Timer();
 	Start_Anti_Cathode_Poisoning_Timer();
-	Toggle_HV_Power_Supply(1);*/
+	Toggle_HV_Power_Supply(1);
+	HAL_TIM_Encoder_Start(&htim2, TIM_CHANNEL_ALL);
+	HAL_LPTIM_SetOnce_Start_IT(&hlptim1, LPTIM1_CCR_CHECK, LPTIM1_CCR_CHECK);
 
 	//HAL_GPIO_WritePin(GPIO_Output_BUZZER_GPIO_Port, GPIO_Output_BUZZER_Pin, 1);
 
@@ -161,6 +165,7 @@ int main(void)
 	while (1)
 	{
     /* USER CODE END WHILE */
+		master.encoder = __HAL_TIM_GET_COUNTER(&htim2) >> 1;
 
     /* USER CODE BEGIN 3 */
 	}
@@ -187,8 +192,8 @@ void RTC_Time_Init(void)
 
   /*##-2- Configure the Time #################################################*/
   /* Set Time: 02:00:00 */
-  time.Hours = 0x23;//master.get_time.Hours;
-  time.Minutes = 0x21;//master.get_time.Minutes;
+  time.Hours = 0x19;//master.get_time.Hours;
+  time.Minutes = 0x38;//master.get_time.Minutes;
   time.Seconds = 0x00;//master.get_time.Seconds;
   time.TimeFormat = RTC_HOURFORMAT12_AM;
   time.DayLightSaving = RTC_DAYLIGHTSAVING_NONE ;
@@ -219,7 +224,7 @@ void SystemClock_Config(void)
   */
   HAL_PWR_EnableBkUpAccess();
   //__HAL_RCC_LSEDRIVE_CONFIG(RCC_LSEDRIVE_LOW);
-  __HAL_RCC_LSEDRIVE_CONFIG(RCC_LSEDRIVE_MEDIUMHIGH);
+  __HAL_RCC_LSEDRIVE_CONFIG(RCC_LSEDRIVE_HIGH);
 
   /** Initializes the RCC Oscillators according to the specified parameters
   * in the RCC_OscInitTypeDef structure.
@@ -287,6 +292,11 @@ static void MX_RTC_Init(void)
     Error_Handler();
   }
   /* USER CODE BEGIN RTC_Init 2 */
+
+  /*if (HAL_RTCEx_SetCalibrationOutPut(&hrtc, RTC_CALIBOUTPUT_512HZ) != HAL_OK)
+  {
+    Error_Handler();
+  }*/
 
   /* USER CODE END RTC_Init 2 */
 
@@ -778,6 +788,37 @@ static void MX_GPIO_Init(void)
 /* USER CODE BEGIN 4 */
 
 /* USER CODE END 4 */
+
+void MX_LPTIM1_Init(void)
+{
+
+  /* USER CODE BEGIN LPTIM1_Init 0 */
+
+  /* USER CODE END LPTIM1_Init 0 */
+
+  /* USER CODE BEGIN LPTIM1_Init 1 */
+
+  /* USER CODE END LPTIM1_Init 1 */
+  hlptim1.Instance = LPTIM1;
+  hlptim1.Init.Clock.Source = LPTIM_CLOCKSOURCE_APBCLOCK_LPOSC;
+  hlptim1.Init.Clock.Prescaler = LPTIM_PRESCALER_DIV128;
+  hlptim1.Init.Trigger.Source = LPTIM_TRIGSOURCE_SOFTWARE;
+  hlptim1.Init.OutputPolarity = LPTIM_OUTPUTPOLARITY_HIGH;
+  hlptim1.Init.UpdateMode = LPTIM_UPDATE_ENDOFPERIOD;
+  hlptim1.Init.CounterSource = LPTIM_COUNTERSOURCE_INTERNAL;
+  hlptim1.Init.Input1Source = LPTIM_INPUT1SOURCE_GPIO;
+  hlptim1.Init.Input2Source = LPTIM_INPUT2SOURCE_GPIO;
+  if (HAL_LPTIM_Init(&hlptim1) != HAL_OK)
+  {
+    Error_Handler();
+  }
+  /* USER CODE BEGIN LPTIM1_Init 2 */
+
+  /* USER CODE END LPTIM1_Init 2 */
+
+  HAL_NVIC_SetPriority(LPTIM1_IRQn, 2, 2);
+  HAL_NVIC_EnableIRQ(LPTIM1_IRQn);
+}
 
 /**
   * @brief  This function is executed in case of error occurrence.

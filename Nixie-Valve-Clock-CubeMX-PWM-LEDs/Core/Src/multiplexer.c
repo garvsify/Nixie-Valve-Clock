@@ -93,6 +93,8 @@ uint8_t Master_Init(struct Master *master){
 
 	master->separators.counter = 0;
 
+	master->encoder = 0;
+
 	return 1;
 }
 

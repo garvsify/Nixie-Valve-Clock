@@ -299,3 +299,8 @@ void TIM1_CH3_Valve_LED_2_Callback(TIM_HandleTypeDef *htim){
 
 }
 
+void LPTIM1_Rotary_Encoder_Switch_Callback(LPTIM_HandleTypeDef *hlptim){
+
+
+}
+
