@@ -254,7 +254,7 @@ uint8_t Set_Fault_LED_ON(void){
 
 	//__HAL_TIM_ENABLE_IT(&htim1, TIM_IT_UPDATE);
 	Start_OC_TIM(&htim3, TIM_CHANNEL_3);
-	__HAL_TIM_SET_COMPARE(&htim1, TIM_CHANNEL_3, 20000);
+	__HAL_TIM_SET_COMPARE(&htim3, TIM_CHANNEL_3, 20000);
 
 	return 1;
 }
