@@ -249,3 +249,12 @@ uint8_t Check_Rotary_Encoder_Switch_State(volatile struct Rotary_Encoder_Switch_
 
 	return 1;
 }
+
+uint8_t Set_Fault_LED_ON(void){
+
+	//__HAL_TIM_ENABLE_IT(&htim1, TIM_IT_UPDATE);
+	Start_OC_TIM(&htim3, TIM_CHANNEL_3);
+	__HAL_TIM_SET_COMPARE(&htim1, TIM_CHANNEL_3, 20000);
+
+	return 1;
+}

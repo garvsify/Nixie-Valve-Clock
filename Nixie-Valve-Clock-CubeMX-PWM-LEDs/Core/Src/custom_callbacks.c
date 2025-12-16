@@ -364,3 +364,11 @@ void LPTIM1_Rotary_Encoder_Switch_Callback(LPTIM_HandleTypeDef *hlptim){
 	HAL_LPTIM_SetOnce_Start_IT(&hlptim1, LPTIM1_CCR_CHECK, LPTIM1_CCR_CHECK);
 }
 
+void HAL_GPIO_EXTI_Rising_Callback(uint16_t GPIO_Pin){
+
+	//shutdown HV and turn on rotary encoder's red lED
+	Toggle_HV_Power_Supply(0);
+	Set_Fault_LED_ON();
+
+}
+

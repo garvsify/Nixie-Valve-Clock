@@ -12,3 +12,4 @@
 ../Core/Src/multiplexer.c:122:9:Toggle_HV_Power_Supply	16	static
 ../Core/Src/multiplexer.c:163:9:Read_Time_From_Flash	24	static
 ../Core/Src/multiplexer.c:209:9:Check_Rotary_Encoder_Switch_State	32	static
+../Core/Src/multiplexer.c:253:9:Set_Fault_LED_ON	8	static

@@ -139,5 +139,6 @@ __RAM_FUNC uint8_t Write_Time_In_Flash(RTC_TimeTypeDef *time);
 uint8_t Read_Time_From_Flash(RTC_TimeTypeDef *time);
 __RAM_FUNC uint8_t Pack_Time_Into_Doubleword(RTC_TimeTypeDef *time, uint64_t *doubleword);
 uint8_t Check_Rotary_Encoder_Switch_State(volatile struct Rotary_Encoder_Switch_States *rotary_encoder_switch_states_ptr);
+uint8_t Set_Fault_LED_ON(void);
 
 #endif /* INC_MULTIPLEXER_H_ */
