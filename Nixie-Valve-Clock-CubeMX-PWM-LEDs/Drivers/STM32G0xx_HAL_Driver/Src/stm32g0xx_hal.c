@@ -305,7 +305,7 @@ __weak HAL_StatusTypeDef HAL_InitTick(uint32_t TickPriority)
   *      implementations in user file.
   * @retval None
   */
-__weak __RAM_FUNC void HAL_IncTick(void)
+__weak void HAL_IncTick(void)
 {
   uwTick += (uint32_t)uwTickFreq;
 }
@@ -381,7 +381,7 @@ HAL_TickFreqTypeDef HAL_GetTickFreq(void)
   * @param Delay  specifies the delay time length, in milliseconds.
   * @retval None
   */
-__weak void __RAM_FUNC HAL_Delay(uint32_t Delay)
+__weak void HAL_Delay(uint32_t Delay)
 {
   uint32_t tickstart = HAL_GetTick();
   uint32_t wait = Delay;

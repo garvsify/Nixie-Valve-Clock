@@ -161,21 +161,13 @@ int main(void)
 	HAL_TIM_Encoder_Start(&htim2, TIM_CHANNEL_ALL);
 	HAL_LPTIM_SetOnce_Start_IT(&hlptim1, LPTIM1_CCR_CHECK, LPTIM1_CCR_CHECK);
 
-	Start_OC_TIM(&htim3, TIM_CHANNEL_3);
-	__HAL_TIM_SET_COMPARE(&htim3, TIM_CHANNEL_3, 10000);
+	HAL_TIM_Base_Start(&htim3);
+	HAL_TIM_PWM_Start(&htim3, TIM_CHANNEL_3);
+	__HAL_TIM_SET_COMPARE(&htim3, TIM_CHANNEL_3, 65000);
 
-	//HAL_GPIO_WritePin(GPIO_Output_BUZZER_GPIO_Port, GPIO_Output_BUZZER_Pin, 1);
+	/*HAL_TIM_PWM_Start(&htim3, TIM_CHANNEL_1);
+	__HAL_TIM_SET_COMPARE(&htim3, TIM_CHANNEL_1, 1000);*/
 
-	//master.system_mode_tracker.current_mode = SS_ADJUST_MODE;
-	//Start_Adjust_Mode_Timer();
-
-	/*__HAL_TIM_ENABLE_IT(&htim1, TIM_IT_UPDATE);
-	Start_OC_TIM(&htim1, TIM_CHANNEL_1);
-	__HAL_TIM_SET_COMPARE(&htim1, TIM_CHANNEL_1, 20);
-	Start_OC_TIM(&htim1, TIM_CHANNEL_2);
-	__HAL_TIM_SET_COMPARE(&htim1, TIM_CHANNEL_2, 1000);
-	Start_OC_TIM(&htim1, TIM_CHANNEL_3);
-	__HAL_TIM_SET_COMPARE(&htim1, TIM_CHANNEL_3, 20000);*/
 
 	while (1)
 	{
@@ -623,6 +615,7 @@ static void MX_TIM3_Init(void)
   HAL_TIM_MspPostInit(&htim3);
 
 }
+
 
 /**
   * @brief TIM14 Initialization Function

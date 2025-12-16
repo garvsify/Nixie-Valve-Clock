@@ -161,7 +161,7 @@ static void          FLASH_Program_Fast(uint32_t Address, uint32_t DataAddress);
   *
   * @retval HAL_StatusTypeDef HAL Status
   */
-HAL_StatusTypeDef __RAM_FUNC HAL_FLASH_Program(uint32_t TypeProgram, uint32_t Address, uint64_t Data)
+HAL_StatusTypeDef HAL_FLASH_Program(uint32_t TypeProgram, uint32_t Address, uint64_t Data)
 {
   HAL_StatusTypeDef status;
 
@@ -430,7 +430,7 @@ __weak void HAL_FLASH_OperationErrorCallback(uint32_t ReturnValue)
   * @brief  Unlock the FLASH control register access.
   * @retval HAL Status
   */
-HAL_StatusTypeDef __RAM_FUNC HAL_FLASH_Unlock(void)
+HAL_StatusTypeDef HAL_FLASH_Unlock(void)
 {
   HAL_StatusTypeDef status = HAL_OK;
 
@@ -454,7 +454,7 @@ HAL_StatusTypeDef __RAM_FUNC HAL_FLASH_Unlock(void)
   * @brief  Lock the FLASH control register access.
   * @retval HAL Status
   */
-HAL_StatusTypeDef __RAM_FUNC HAL_FLASH_Lock(void)
+HAL_StatusTypeDef HAL_FLASH_Lock(void)
 {
   HAL_StatusTypeDef status = HAL_ERROR;
 
@@ -675,7 +675,7 @@ static void FLASH_Program_DoubleWord(uint32_t Address, uint64_t Data)
   * @param  DataAddress Specifies the address where the data are stored.
   * @retval None
   */
-static __RAM_FUNC void FLASH_Program_Fast(uint32_t Address, uint32_t DataAddress)
+static void FLASH_Program_Fast(uint32_t Address, uint32_t DataAddress)
 {
   uint8_t index = 0;
   uint32_t dest = Address;

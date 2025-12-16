@@ -125,19 +125,19 @@ extern uint16_t BCD_Pins[NUM_BINARY_DIGITS_IN_BCD];
 
 extern struct Master master;
 
-__RAM_FUNC uint8_t Write_Digit_to_Valve(uint8_t valve_num, uint8_t BCD_of_digit);
+uint8_t Write_Digit_to_Valve(uint8_t valve_num, uint8_t BCD_of_digit);
 uint8_t Start_Multiplexer_Timer(void);
 uint8_t Start_Anti_Cathode_Poisoning_Timer(void);
 uint8_t Start_Adjust_Mode_Timer(void);
 uint8_t Stop_Adjust_Mode_Timer(void);
 uint8_t Master_Init(struct Master *master);
-uint8_t __RAM_FUNC Set_System_Mode_and_Store_Previous_Mode(struct System_Mode_Tracker *system_mode_tracker, enum System_Mode desired_mode);
-__RAM_FUNC uint8_t Turn_Valve_Off(uint8_t valve_num);
+uint8_t Set_System_Mode_and_Store_Previous_Mode(struct System_Mode_Tracker *system_mode_tracker, enum System_Mode desired_mode);
+uint8_t Turn_Valve_Off(uint8_t valve_num);
 uint8_t Toggle_HV_Power_Supply(uint8_t toggle);
-__RAM_FUNC uint8_t Get_RTC_Time(void);
-__RAM_FUNC uint8_t Write_Time_In_Flash(RTC_TimeTypeDef *time);
+uint8_t Get_RTC_Time(void);
+uint8_t Write_Time_In_Flash(RTC_TimeTypeDef *time);
 uint8_t Read_Time_From_Flash(RTC_TimeTypeDef *time);
-__RAM_FUNC uint8_t Pack_Time_Into_Doubleword(RTC_TimeTypeDef *time, uint64_t *doubleword);
+uint8_t Pack_Time_Into_Doubleword(RTC_TimeTypeDef *time, uint64_t *doubleword);
 uint8_t Check_Rotary_Encoder_Switch_State(volatile struct Rotary_Encoder_Switch_States *rotary_encoder_switch_states_ptr);
 uint8_t Set_Fault_LED_ON(void);
 

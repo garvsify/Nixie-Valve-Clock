@@ -820,7 +820,7 @@ extern FLASH_ProcessTypeDef pFlash;
 /** @addtogroup FLASH_Exported_Functions_Group1
   * @{
   */
-HAL_StatusTypeDef  __RAM_FUNC HAL_FLASH_Program(uint32_t TypeProgram, uint32_t Address, uint64_t Data);
+HAL_StatusTypeDef  HAL_FLASH_Program(uint32_t TypeProgram, uint32_t Address, uint64_t Data);
 HAL_StatusTypeDef  HAL_FLASH_Program_IT(uint32_t TypeProgram, uint32_t Address, uint64_t Data);
 /* FLASH IRQ handler method */
 void               HAL_FLASH_IRQHandler(void);
@@ -835,8 +835,8 @@ void               HAL_FLASH_OperationErrorCallback(uint32_t ReturnValue);
 /** @addtogroup FLASH_Exported_Functions_Group2
   * @{
   */
-HAL_StatusTypeDef  __RAM_FUNC HAL_FLASH_Unlock(void);
-HAL_StatusTypeDef  __RAM_FUNC HAL_FLASH_Lock(void);
+HAL_StatusTypeDef  HAL_FLASH_Unlock(void);
+HAL_StatusTypeDef  HAL_FLASH_Lock(void);
 /* Option bytes control */
 HAL_StatusTypeDef  HAL_FLASH_OB_Unlock(void);
 HAL_StatusTypeDef  HAL_FLASH_OB_Lock(void);

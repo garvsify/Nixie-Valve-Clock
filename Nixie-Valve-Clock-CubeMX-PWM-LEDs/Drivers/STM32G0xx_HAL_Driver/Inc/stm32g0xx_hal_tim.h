@@ -2333,7 +2333,7 @@ HAL_StatusTypeDef HAL_TIM_Encoder_Stop_DMA(TIM_HandleTypeDef *htim, uint32_t Cha
   * @{
   */
 /* Interrupt Handler functions  ***********************************************/
-void __RAM_FUNC HAL_TIM_IRQHandler(TIM_HandleTypeDef *htim);
+void HAL_TIM_IRQHandler(TIM_HandleTypeDef *htim);
 /**
   * @}
   */

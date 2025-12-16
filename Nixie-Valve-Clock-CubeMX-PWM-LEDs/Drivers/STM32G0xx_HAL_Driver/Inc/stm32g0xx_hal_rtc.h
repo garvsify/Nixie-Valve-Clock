@@ -770,9 +770,9 @@ HAL_StatusTypeDef HAL_RTC_UnRegisterCallback(RTC_HandleTypeDef *hrtc, HAL_RTC_Ca
   */
 /* RTC Time and Date functions ************************************************/
 HAL_StatusTypeDef HAL_RTC_SetTime(RTC_HandleTypeDef *hrtc, RTC_TimeTypeDef *sTime, uint32_t Format);
-__RAM_FUNC HAL_StatusTypeDef HAL_RTC_GetTime(RTC_HandleTypeDef *hrtc, RTC_TimeTypeDef *sTime, uint32_t Format);
+HAL_StatusTypeDef HAL_RTC_GetTime(RTC_HandleTypeDef *hrtc, RTC_TimeTypeDef *sTime, uint32_t Format);
 HAL_StatusTypeDef HAL_RTC_SetDate(RTC_HandleTypeDef *hrtc, RTC_DateTypeDef *sDate, uint32_t Format);
-__RAM_FUNC HAL_StatusTypeDef HAL_RTC_GetDate(RTC_HandleTypeDef *hrtc, RTC_DateTypeDef *sDate, uint32_t Format);
+HAL_StatusTypeDef HAL_RTC_GetDate(RTC_HandleTypeDef *hrtc, RTC_DateTypeDef *sDate, uint32_t Format);
 void              HAL_RTC_DST_Add1Hour(RTC_HandleTypeDef *hrtc);
 void              HAL_RTC_DST_Sub1Hour(RTC_HandleTypeDef *hrtc);
 void              HAL_RTC_DST_SetStoreOperation(RTC_HandleTypeDef *hrtc);
@@ -966,7 +966,7 @@ HAL_RTCStateTypeDef HAL_RTC_GetState(RTC_HandleTypeDef *hrtc);
 HAL_StatusTypeDef  RTC_EnterInitMode(RTC_HandleTypeDef* hrtc);
 HAL_StatusTypeDef  RTC_ExitInitMode(RTC_HandleTypeDef *hrtc);
 uint8_t            RTC_ByteToBcd2(uint8_t Value);
-__RAM_FUNC uint8_t            RTC_Bcd2ToByte(uint8_t Value);
+uint8_t            RTC_Bcd2ToByte(uint8_t Value);
 /**
   * @}
   */

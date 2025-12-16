@@ -124,7 +124,7 @@ void PendSV_Handler(void)
 /**
   * @brief This function handles System tick timer.
   */
-void __RAM_FUNC SysTick_Handler(void)
+void SysTick_Handler(void)
 {
   /* USER CODE BEGIN SysTick_IRQn 0 */
 
@@ -187,7 +187,7 @@ void TIM14_IRQHandler(void)
 /**
   * @brief This function handles TIM16 global interrupt.
   */
-void __RAM_FUNC TIM16_IRQHandler(void)
+void TIM16_IRQHandler(void)
 {
   /* USER CODE BEGIN TIM16_IRQn 0 */
 
@@ -201,7 +201,7 @@ void __RAM_FUNC TIM16_IRQHandler(void)
 /**
   * @brief This function handles TIM17 global interrupt.
   */
-void __RAM_FUNC TIM17_IRQHandler(void)
+void TIM17_IRQHandler(void)
 {
   /* USER CODE BEGIN TIM17_IRQn 0 */
 
