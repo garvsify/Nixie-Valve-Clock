@@ -136,6 +136,7 @@ int main(void)
 	//HAL_TIM_RegisterCallback(&htim1, HAL_TIM_PERIOD_ELAPSED_CB_ID, &TIM1_CH2_Valve_LED_1_Callback);
 	//HAL_TIM_RegisterCallback(&htim1, HAL_TIM_PERIOD_ELAPSED_CB_ID, &TIM1_CH3_Valve_LED_2_Callback);
 	HAL_LPTIM_RegisterCallback(&hlptim1, HAL_LPTIM_COMPARE_MATCH_CB_ID, &LPTIM1_Rotary_Encoder_Switch_Callback);
+	HAL_EXTI_RegisterCallback(EXTI_HandleTypeDef *hexti, EXTI_CallbackIDTypeDef CallbackID, void (*pPendingCbfn)(void))
 
   /* USER CODE END 2 */
 
@@ -870,15 +871,21 @@ static void MX_GPIO_Init(void)
 
   /*Configure GPIO pin : GPIO_EXTI1_FAULT_Pin */
   GPIO_InitStruct.Pin = GPIO_EXTI1_FAULT_Pin;
-  GPIO_InitStruct.Mode = GPIO_MODE_IT_RISING_FALLING;
+  GPIO_InitStruct.Mode = GPIO_MODE_IT_RISING;
   GPIO_InitStruct.Pull = GPIO_NOPULL;
   HAL_GPIO_Init(GPIO_EXTI1_FAULT_GPIO_Port, &GPIO_InitStruct);
 
   /*Configure GPIO pin : GPIO_EXTI15_SW_Pin */
-  GPIO_InitStruct.Pin = GPIO_EXTI15_SW_Pin;
+  /*GPIO_InitStruct.Pin = GPIO_EXTI15_SW_Pin;
   GPIO_InitStruct.Mode = GPIO_MODE_IT_RISING_FALLING;
   GPIO_InitStruct.Pull = GPIO_PULLUP;
-  HAL_GPIO_Init(GPIO_EXTI15_SW_GPIO_Port, &GPIO_InitStruct);
+  HAL_GPIO_Init(GPIO_EXTI15_SW_GPIO_Port, &GPIO_InitStruct);*/
+
+  /*Configure GPIO pin : GPIO_EXTI15_SW_Pin */
+  GPIO_InitStruct.Pin = GPIO_EXTI15_SW_Pin;
+  GPIO_InitStruct.Mode = GPIO_MODE_INPUT;
+  GPIO_InitStruct.Pull = GPIO_PULLUP;
+  HAL_GPIO_Init(GPIO_EXTI15_SW_GPIO_Port, &GPIO_InitStruct); //not using interrupts, can't be bothered to change GPIO name #define
 
   /*Configure GPIO pin Output Level */
   HAL_GPIO_WritePin(GPIOB, GPIO_Output_BUZZER_Pin|GPIO_Output__HV_SHDN_Pin|GPIO_Output_IN_3_0_Pin|GPIO_Output_IN_3_1_Pin
@@ -892,8 +899,8 @@ static void MX_GPIO_Init(void)
   HAL_NVIC_SetPriority(EXTI0_1_IRQn, 0, 0);
   HAL_NVIC_EnableIRQ(EXTI0_1_IRQn);
 
-  HAL_NVIC_SetPriority(EXTI4_15_IRQn, 0, 0);
-  HAL_NVIC_EnableIRQ(EXTI4_15_IRQn);
+  /*HAL_NVIC_SetPriority(EXTI4_15_IRQn, 0, 0);
+  HAL_NVIC_EnableIRQ(EXTI4_15_IRQn);*/ //not longer checking rotary encoder switch with interrupts
 
   /* USER CODE BEGIN MX_GPIO_Init_2 */
 
