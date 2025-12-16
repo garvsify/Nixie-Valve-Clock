@@ -79,6 +79,18 @@ uint8_t Start_Adjust_Mode_Timer(void){
 	return ok;
 }
 
+uint8_t Stop_Adjust_Mode_Timer(void){
+
+	uint8_t ok = Stop_OC_TIM(&htim14, TIM_CHANNEL_1);
+
+	if(ok != HAL_OK){
+
+		Error_Handler();
+	}
+
+	return ok;
+}
+
 uint8_t Master_Init(struct Master *master){
 
 	master->anti_cathode_poisoning.counter = 0;
@@ -93,7 +105,8 @@ uint8_t Master_Init(struct Master *master){
 
 	master->separators.counter = 0;
 
-	master->encoder = 0;
+	master->encoder_first = 0;
+	master->encoder_second = 0;
 
 	return 1;
 }
@@ -189,6 +202,50 @@ uint8_t __RAM_FUNC Pack_Time_Into_Doubleword(RTC_TimeTypeDef *time, uint64_t *do
 	packed |= (time->Seconds);
 
 	*doubleword = packed;
+
+	return 1;
+}
+
+uint8_t Check_Rotary_Encoder_Switch_State(volatile struct Rotary_Encoder_Switch_States *rotary_encoder_switch_states_ptr){
+
+	static uint8_t extend_rising_edge = 0;
+
+	static uint8_t rotary_encoder_switch_state_counter = ROTARY_ENCODER_SWITCH_CONFIDENCE_COUNT;
+
+	uint8_t switch_state = (uint8_t)HAL_GPIO_ReadPin(GPIO_EXTI15_SW_GPIO_Port, GPIO_EXTI15_SW_Pin);
+
+	if(switch_state == 0){
+
+		if(rotary_encoder_switch_state_counter != 0){
+
+			rotary_encoder_switch_state_counter--;
+
+		}
+	}
+	else{
+
+		if(rotary_encoder_switch_state_counter != ROTARY_ENCODER_SWITCH_CONFIDENCE_COUNT){
+
+			if(extend_rising_edge == COUNT_TO_DELAY_RISING_ROTARY_ENCODER_EDGE){
+
+				rotary_encoder_switch_state_counter++;
+				extend_rising_edge = 0;
+			}
+			else{
+
+				extend_rising_edge++;
+			}
+		}
+	}
+
+	if(rotary_encoder_switch_state_counter == 0){
+
+		rotary_encoder_switch_states_ptr->rotary_encoder_switch_state = ROTARY_ENCODER_SWITCH_STATE_DEPRESSED;
+	}
+	else if(rotary_encoder_switch_state_counter == ROTARY_ENCODER_SWITCH_CONFIDENCE_COUNT){
+
+		rotary_encoder_switch_states_ptr->rotary_encoder_switch_state = ROTARY_ENCODER_SWITCH_STATE_NOT_DEPRESSED;
+	}
 
 	return 1;
 }

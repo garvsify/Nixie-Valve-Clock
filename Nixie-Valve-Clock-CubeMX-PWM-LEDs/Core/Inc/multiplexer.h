@@ -24,6 +24,13 @@
 #define TIME_ADJUST_BLINK_PRESCALER 750
 #define TIME_FLASH_BASE_ADDRESS 0x0800F800
 #define LPTIM1_CCR_CHECK 250
+#define ROTARY_ENCODER_SWITCH_CONFIDENCE_COUNT 14
+#define COUNT_TO_DELAY_RISING_ROTARY_ENCODER_EDGE 4
+
+#define ROTARY_ENCODER_SWITCH_ENTER_SLASH_ADVANCE_TIME_ADJUST_MODE_COUNT_MIN 2000
+#define ROTARY_ENCODER_SWITCH_ENTER_SLASH_ADVANCE_TIME_ADJUST_MODE_COUNT_MAX ROTARY_ENCODER_SWITCH_ENTER_SLASH_ADVANCE_TIME_ADJUST_MODE_COUNT_MIN + 1500
+#define ROTARY_ENCODER_SWITCH_SAVE_TIME_COUNT_MIN 5000
+#define ROTARY_ENCODER_SWITCH_SAVE_TIME_COUNT_MAX ROTARY_ENCODER_SWITCH_SAVE_TIME_COUNT_MIN + 2000
 
 #include <stdint.h>
 #include "stm32g031xx.h"
@@ -41,6 +48,9 @@ struct Time_Adjust{
 
 	enum Blink_State blink_state;
 	RTC_TimeTypeDef adjust_time;
+	uint8_t Hours_Bin;
+	uint8_t Minutes_Bin;
+	uint8_t Seconds_Bin;
 };
 
 enum System_Mode{
@@ -81,6 +91,18 @@ struct Software_Timer{
 	uint8_t enabled;
 };
 
+enum Rotary_Encoder_Switch_State{
+
+	ROTARY_ENCODER_SWITCH_STATE_NOT_DEPRESSED,
+	ROTARY_ENCODER_SWITCH_STATE_DEPRESSED,
+};
+
+struct Rotary_Encoder_Switch_States{
+
+	enum Rotary_Encoder_Switch_State rotary_encoder_switch_state;
+	enum Rotary_Encoder_Switch_State rotary_encoder_switch_prev_state;
+};
+
 struct Master{
 
 	struct Anti_Cathode_Poisoning anti_cathode_poisoning;
@@ -90,7 +112,9 @@ struct Master{
 	volatile RTC_DateTypeDef get_date;
 	struct Separators separators;
 	struct Software_Timer software_timers[1]; //not yet used
-	uint32_t encoder;
+	uint32_t encoder_first;
+	uint32_t encoder_second;
+	volatile struct Rotary_Encoder_Switch_States rotary_encoder_switch_states;
 };
 
 extern GPIO_TypeDef* Valve_Anode_Registers[NUM_VALVES];
@@ -105,6 +129,7 @@ __RAM_FUNC uint8_t Write_Digit_to_Valve(uint8_t valve_num, uint8_t BCD_of_digit)
 uint8_t Start_Multiplexer_Timer(void);
 uint8_t Start_Anti_Cathode_Poisoning_Timer(void);
 uint8_t Start_Adjust_Mode_Timer(void);
+uint8_t Stop_Adjust_Mode_Timer(void);
 uint8_t Master_Init(struct Master *master);
 uint8_t __RAM_FUNC Set_System_Mode_and_Store_Previous_Mode(struct System_Mode_Tracker *system_mode_tracker, enum System_Mode desired_mode);
 __RAM_FUNC uint8_t Turn_Valve_Off(uint8_t valve_num);
@@ -113,5 +138,6 @@ __RAM_FUNC uint8_t Get_RTC_Time(void);
 __RAM_FUNC uint8_t Write_Time_In_Flash(RTC_TimeTypeDef *time);
 uint8_t Read_Time_From_Flash(RTC_TimeTypeDef *time);
 __RAM_FUNC uint8_t Pack_Time_Into_Doubleword(RTC_TimeTypeDef *time, uint64_t *doubleword);
+uint8_t Check_Rotary_Encoder_Switch_State(volatile struct Rotary_Encoder_Switch_States *rotary_encoder_switch_states_ptr);
 
 #endif /* INC_MULTIPLEXER_H_ */

@@ -301,7 +301,65 @@ void TIM1_CH3_Valve_LED_2_Callback(TIM_HandleTypeDef *htim){
 
 void LPTIM1_Rotary_Encoder_Switch_Callback(LPTIM_HandleTypeDef *hlptim){
 
+	Check_Rotary_Encoder_Switch_State(&master.rotary_encoder_switch_states);
 
+	static uint64_t depressed_num = 0;
+	static uint8_t time_adjust_mode_is_active = 0;
+
+	if(master.rotary_encoder_switch_states.rotary_encoder_switch_state == ROTARY_ENCODER_SWITCH_STATE_NOT_DEPRESSED){
+
+		if(time_adjust_mode_is_active == 0){
+
+			//enter time adjust mode
+			if(depressed_num >= ROTARY_ENCODER_SWITCH_ENTER_SLASH_ADVANCE_TIME_ADJUST_MODE_COUNT_MIN
+					&& depressed_num < ROTARY_ENCODER_SWITCH_ENTER_SLASH_ADVANCE_TIME_ADJUST_MODE_COUNT_MAX){
+
+				time_adjust_mode_is_active = 1;
+				Set_System_Mode_and_Store_Previous_Mode(&master.system_mode_tracker, HH_ADJUST_MODE);
+				//Start timer to blink HH valves
+				Start_Adjust_Mode_Timer();
+				master.time_adjust.adjust_time = master.get_time;
+				master.time_adjust.Hours_Bin = RTC_Bcd2ToByte(master.time_adjust.adjust_time.Hours);
+				master.time_adjust.Minutes_Bin = RTC_Bcd2ToByte(master.time_adjust.adjust_time.Minutes);
+				master.time_adjust.Seconds_Bin = RTC_Bcd2ToByte(master.time_adjust.adjust_time.Seconds);
+			}
+		}
+		else if(time_adjust_mode_is_active == 1){
+
+			//advance through HH:MM:SS
+			if(depressed_num >= ROTARY_ENCODER_SWITCH_ENTER_SLASH_ADVANCE_TIME_ADJUST_MODE_COUNT_MIN
+								&& depressed_num < ROTARY_ENCODER_SWITCH_ENTER_SLASH_ADVANCE_TIME_ADJUST_MODE_COUNT_MAX){
+
+				if(master.system_mode_tracker.current_mode == HH_ADJUST_MODE){
+
+					Set_System_Mode_and_Store_Previous_Mode(&master.system_mode_tracker, MM_ADJUST_MODE);
+				}
+				else if(master.system_mode_tracker.current_mode == MM_ADJUST_MODE){
+
+					Set_System_Mode_and_Store_Previous_Mode(&master.system_mode_tracker, SS_ADJUST_MODE);
+				}
+				else if(master.system_mode_tracker.current_mode == SS_ADJUST_MODE){
+
+					Set_System_Mode_and_Store_Previous_Mode(&master.system_mode_tracker, HH_ADJUST_MODE);
+				}
+			}
+			else if(depressed_num >= ROTARY_ENCODER_SWITCH_SAVE_TIME_COUNT_MIN
+					&& depressed_num < ROTARY_ENCODER_SWITCH_SAVE_TIME_COUNT_MAX){
+
+				Set_System_Mode_and_Store_Previous_Mode(&master.system_mode_tracker, NORMAL_MODE);
+				Stop_Adjust_Mode_Timer();
+				time_adjust_mode_is_active = 0;
+
+				HAL_RTC_SetTime(&hrtc, (RTC_TimeTypeDef*)&master.time_adjust.adjust_time, RTC_FORMAT_BCD);
+			}
+		}
+
+		depressed_num = 0;
+	}
+	else if(master.rotary_encoder_switch_states.rotary_encoder_switch_state == ROTARY_ENCODER_SWITCH_STATE_DEPRESSED){
+
+		depressed_num++;
+	}
 
 	HAL_LPTIM_SetOnce_Start_IT(&hlptim1, LPTIM1_CCR_CHECK, LPTIM1_CCR_CHECK);
 }

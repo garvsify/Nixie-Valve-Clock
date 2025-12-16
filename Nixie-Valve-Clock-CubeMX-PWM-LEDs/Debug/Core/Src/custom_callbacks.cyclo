@@ -4,4 +4,4 @@
 ../Core/Src/custom_callbacks.c:290:6:TIM1_CH1_Valve_LED_0_Callback	1
 ../Core/Src/custom_callbacks.c:294:6:TIM1_CH2_Valve_LED_1_Callback	1
 ../Core/Src/custom_callbacks.c:298:6:TIM1_CH3_Valve_LED_2_Callback	1
-../Core/Src/custom_callbacks.c:302:6:LPTIM1_Rotary_Encoder_Switch_Callback	1
+../Core/Src/custom_callbacks.c:302:6:LPTIM1_Rotary_Encoder_Switch_Callback	26
