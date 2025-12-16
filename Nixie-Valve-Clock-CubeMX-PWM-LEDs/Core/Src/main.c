@@ -310,8 +310,8 @@ void RTC_Time_Init(void)
 
   /*##-2- Configure the Time #################################################*/
   /* Set Time: 02:00:00 */
-  time.Hours = 0x07;//master.get_time.Hours;
-  time.Minutes = 0x42;//master.get_time.Minutes;
+  time.Hours = 0x00;//master.get_time.Hours;
+  time.Minutes = 0x00;//master.get_time.Minutes;
   time.Seconds = 0x00;//master.get_time.Seconds;
   time.TimeFormat = RTC_HOURFORMAT12_AM;
   time.DayLightSaving = RTC_DAYLIGHTSAVING_NONE ;
