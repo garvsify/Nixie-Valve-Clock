@@ -153,7 +153,7 @@ int main(void)
 	master.time_adjust.adjust_time.DayLightSaving = RTC_DAYLIGHTSAVING_NONE ;
 	master.time_adjust.adjust_time.StoreOperation = RTC_STOREOPERATION_RESET;
 
-	HAL_RTCEx_SetSmoothCalib(&hrtc, 32, 1, 157); //calibrate time - second number = 0 -> slows down clock using final number //second number = 1 -> quickens the clock using final number
+	HAL_RTCEx_SetSmoothCalib(&hrtc, 32, 1, 159); //calibrate time - second number = 0 -> slows down clock using final number //second number = 1 -> quickens the clock using final number
 	Master_Init(&master);
 	Start_Multiplexer_Timer();
 	Start_Anti_Cathode_Poisoning_Timer();
@@ -163,7 +163,7 @@ int main(void)
 
 	HAL_TIM_Base_Start(&htim3);
 	HAL_TIM_PWM_Start(&htim3, TIM_CHANNEL_3);
-	__HAL_TIM_SET_COMPARE(&htim3, TIM_CHANNEL_3, 65000);
+	__HAL_TIM_SET_COMPARE(&htim3, TIM_CHANNEL_3, 0);
 
 	/*HAL_TIM_PWM_Start(&htim3, TIM_CHANNEL_1);
 	__HAL_TIM_SET_COMPARE(&htim3, TIM_CHANNEL_1, 1000);*/

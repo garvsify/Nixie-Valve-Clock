@@ -126,6 +126,7 @@ extern uint16_t BCD_Pins[NUM_BINARY_DIGITS_IN_BCD];
 extern struct Master master;
 
 uint8_t Write_Digit_to_Valve(uint8_t valve_num, uint8_t BCD_of_digit);
+uint8_t Turn_All_Valves_Off(void);
 uint8_t Start_Multiplexer_Timer(void);
 uint8_t Start_Anti_Cathode_Poisoning_Timer(void);
 uint8_t Start_Adjust_Mode_Timer(void);

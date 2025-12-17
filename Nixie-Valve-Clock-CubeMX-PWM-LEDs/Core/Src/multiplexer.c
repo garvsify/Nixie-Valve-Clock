@@ -37,6 +37,15 @@ uint8_t Turn_Valve_Off(uint8_t valve){
 	return 1;
 }
 
+uint8_t Turn_All_Valves_Off(void){
+
+	for(uint8_t valve = 0; valve < NUM_VALVES; valve++){
+
+		HAL_GPIO_WritePin(Valve_Anode_Registers[valve], Valve_Anode_Pins[valve], VALVE_ANODE_OFF_STATE);
+	}
+	return 1;
+}
+
 uint8_t Start_Multiplexer_Timer(void){
 
 	__HAL_TIM_ENABLE_IT(&htim17, TIM_IT_UPDATE); //make sure overflow (update) interrupt is enabled for TIM17
@@ -252,9 +261,8 @@ uint8_t Check_Rotary_Encoder_Switch_State(volatile struct Rotary_Encoder_Switch_
 
 uint8_t Set_Fault_LED_ON(void){
 
-	//__HAL_TIM_ENABLE_IT(&htim1, TIM_IT_UPDATE);
-	Start_OC_TIM(&htim3, TIM_CHANNEL_3);
-	__HAL_TIM_SET_COMPARE(&htim3, TIM_CHANNEL_3, 20000);
+	HAL_TIM_PWM_Start(&htim3, TIM_CHANNEL_3);
+	__HAL_TIM_SET_COMPARE(&htim3, TIM_CHANNEL_3, 65535);
 
 	return 1;
 }

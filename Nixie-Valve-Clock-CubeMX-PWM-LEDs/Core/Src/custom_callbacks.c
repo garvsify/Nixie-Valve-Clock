@@ -12,7 +12,9 @@ void TIM17_Multiplexer_Sequencer_Callback(TIM_HandleTypeDef *htim){
 
 	static uint8_t valve = 0;
 	uint8_t BCD = 0;
-	uint8_t valve_on = 1;
+	uint8_t valve_on = 0;
+
+	Turn_All_Valves_Off(); // NEW: Ensure all valves are off at the start of each multiplex cycle
 
 	if(master.system_mode_tracker.current_mode == VALVES_OFF_MODE){
 
@@ -62,10 +64,10 @@ void TIM17_Multiplexer_Sequencer_Callback(TIM_HandleTypeDef *htim){
 
 				valve_on = 1;
 			}
-			else if(master.time_adjust.blink_state == 0){
+			/*else if(master.time_adjust.blink_state == 0){
 
 				valve_on = 0;
-			}
+			}*/
 
 			BCD = (master.time_adjust.adjust_time.Hours >> 4) & 0xF;
 		}
@@ -75,10 +77,10 @@ void TIM17_Multiplexer_Sequencer_Callback(TIM_HandleTypeDef *htim){
 
 				valve_on = 1;
 			}
-			else if(master.time_adjust.blink_state == 0){
+			/*else if(master.time_adjust.blink_state == 0){
 
 				valve_on = 0;
-			}
+			}*/
 
 			BCD = master.time_adjust.adjust_time.Hours & 0xF;
 		}
@@ -122,10 +124,10 @@ void TIM17_Multiplexer_Sequencer_Callback(TIM_HandleTypeDef *htim){
 
 				valve_on = 1;
 			}
-			else if(master.time_adjust.blink_state == 0){
+			/*else if(master.time_adjust.blink_state == 0){
 
 				valve_on = 0;
-			}
+			}*/
 
 			BCD = (master.time_adjust.adjust_time.Minutes >> 4) & 0xF;
 		}
@@ -135,10 +137,10 @@ void TIM17_Multiplexer_Sequencer_Callback(TIM_HandleTypeDef *htim){
 
 				valve_on = 1;
 			}
-			else if(master.time_adjust.blink_state == 0){
+			/*else if(master.time_adjust.blink_state == 0){
 
 				valve_on = 0;
-			}
+			}*/
 
 			BCD = master.time_adjust.adjust_time.Minutes & 0xF;
 		}
@@ -181,10 +183,10 @@ void TIM17_Multiplexer_Sequencer_Callback(TIM_HandleTypeDef *htim){
 
 				valve_on = 1;
 			}
-			else if(master.time_adjust.blink_state == 0){
+			/*else if(master.time_adjust.blink_state == 0){
 
 				valve_on = 0;
-			}
+			}*/
 
 			BCD = (master.time_adjust.adjust_time.Seconds >> 4) & 0xF;
 		}
@@ -194,10 +196,10 @@ void TIM17_Multiplexer_Sequencer_Callback(TIM_HandleTypeDef *htim){
 
 				valve_on = 1;
 			}
-			else if(master.time_adjust.blink_state == 0){
+			/*else if(master.time_adjust.blink_state == 0){
 
 				valve_on = 0;
-			}
+			}*/
 
 			BCD = master.time_adjust.adjust_time.Seconds & 0xF;
 		}
@@ -206,10 +208,6 @@ void TIM17_Multiplexer_Sequencer_Callback(TIM_HandleTypeDef *htim){
 	if(valve_on){
 
 		Write_Digit_to_Valve(valve, BCD);
-	}
-	else if(!valve_on){
-
-		Turn_Valve_Off(valve);
 	}
 
 	valve++;
