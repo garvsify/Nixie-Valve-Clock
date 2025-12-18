@@ -151,17 +151,11 @@ int main(void)
 	Toggle_HV_Power_Supply(1);
 	HAL_TIM_Encoder_Start(&htim2, TIM_CHANNEL_ALL);
 	HAL_LPTIM_SetOnce_Start_IT(&hlptim1, LPTIM1_CCR_CHECK, LPTIM1_CCR_CHECK);
-
-	HAL_TIM_Base_Start(&htim3);
-	HAL_TIM_PWM_Start(&htim3, TIM_CHANNEL_3);
-	__HAL_TIM_SET_COMPARE(&htim3, TIM_CHANNEL_3, 0);
-	HAL_TIM_PWM_Start(&htim3, TIM_CHANNEL_1);
-	__HAL_TIM_SET_COMPARE(&htim3, TIM_CHANNEL_1, 0);
-
+	Initialise_Rotary_Encoder_LEDs();
 
 	while (1)
 	{
-		HAL_Delay(100);
+		HAL_Delay(50);
 		master.encoder_first = master.encoder_second;
 		master.encoder_second = __HAL_TIM_GET_COUNTER(&htim2) >> 1;
     /* USER CODE END WHILE */

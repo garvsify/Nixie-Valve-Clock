@@ -159,5 +159,6 @@ uint8_t Set_Adjust_Time_LED_ON(void);
 uint8_t Set_Alarm_Set_LEDs_ON(void);
 uint8_t Set_Adjust_Time_LED_OFF(void);
 uint8_t Set_Alarm_Set_LEDs_OFF(void);
+uint8_t Initialise_Rotary_Encoder_LEDs(void);
 
 #endif /* INC_MULTIPLEXER_H_ */
