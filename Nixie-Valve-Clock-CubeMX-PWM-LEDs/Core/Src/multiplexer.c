@@ -1,10 +1,10 @@
 #include "multiplexer.h"
 
-const GPIO_TypeDef* Valve_Anode_Registers[NUM_VALVES] = {GPIO_Output_AS_0_GPIO_Port, GPIO_Output_AS_1_GPIO_Port, GPIO_Output_AS_2_GPIO_Port, GPIO_Output_AS_3_GPIO_Port, GPIO_Output_AS_4_GPIO_Port, GPIO_Output_AS_5_GPIO_Port};
-const uint16_t Valve_Anode_Pins[NUM_VALVES] = {GPIO_Output_AS_0_Pin, GPIO_Output_AS_1_Pin, GPIO_Output_AS_2_Pin, GPIO_Output_AS_3_Pin, GPIO_Output_AS_4_Pin, GPIO_Output_AS_5_Pin};
+GPIO_TypeDef* Valve_Anode_Registers[NUM_VALVES] = {GPIO_Output_AS_0_GPIO_Port, GPIO_Output_AS_1_GPIO_Port, GPIO_Output_AS_2_GPIO_Port, GPIO_Output_AS_3_GPIO_Port, GPIO_Output_AS_4_GPIO_Port, GPIO_Output_AS_5_GPIO_Port};
+uint16_t Valve_Anode_Pins[NUM_VALVES] = {GPIO_Output_AS_0_Pin, GPIO_Output_AS_1_Pin, GPIO_Output_AS_2_Pin, GPIO_Output_AS_3_Pin, GPIO_Output_AS_4_Pin, GPIO_Output_AS_5_Pin};
 
-const GPIO_TypeDef* BCD_Registers[NUM_BINARY_DIGITS_IN_BCD] = {GPIO_Output_BCD0_GPIO_Port, GPIO_Output_BCD1_GPIO_Port, GPIO_Output_BCD2_GPIO_Port, GPIO_Output_BCD3_GPIO_Port};
-const uint16_t BCD_Pins[NUM_BINARY_DIGITS_IN_BCD] = {GPIO_Output_BCD0_Pin, GPIO_Output_BCD1_Pin, GPIO_Output_BCD2_Pin, GPIO_Output_BCD3_Pin};
+GPIO_TypeDef* BCD_Registers[NUM_BINARY_DIGITS_IN_BCD] = {GPIO_Output_BCD0_GPIO_Port, GPIO_Output_BCD1_GPIO_Port, GPIO_Output_BCD2_GPIO_Port, GPIO_Output_BCD3_GPIO_Port};
+uint16_t BCD_Pins[NUM_BINARY_DIGITS_IN_BCD] = {GPIO_Output_BCD0_Pin, GPIO_Output_BCD1_Pin, GPIO_Output_BCD2_Pin, GPIO_Output_BCD3_Pin};
 
 uint8_t Write_Digit_to_Valve(uint8_t valve_num, uint8_t BCD_of_digit){
 
@@ -13,18 +13,18 @@ uint8_t Write_Digit_to_Valve(uint8_t valve_num, uint8_t BCD_of_digit){
 
 		if(valve != valve_num){
 
-			HAL_GPIO_WritePin((GPIO_TypeDef*)Valve_Anode_Registers[valve], (uint16_t)Valve_Anode_Pins[valve], VALVE_ANODE_OFF_STATE);
+			HAL_GPIO_WritePin(Valve_Anode_Registers[valve], Valve_Anode_Pins[valve], VALVE_ANODE_OFF_STATE);
 		}
 		else{
 
-			HAL_GPIO_WritePin((GPIO_TypeDef*)Valve_Anode_Registers[valve], (uint16_t)Valve_Anode_Pins[valve], VALVE_ANODE_ON_STATE);
+			HAL_GPIO_WritePin(Valve_Anode_Registers[valve], Valve_Anode_Pins[valve], VALVE_ANODE_ON_STATE);
 		}
 	}
 
 	//write BCD of digit to GPIOs that drive the BCD chip
 	for(uint8_t i = 0; i < NUM_BINARY_DIGITS_IN_BCD; i++){
 
-		HAL_GPIO_WritePin((GPIO_TypeDef*)BCD_Registers[i], (uint16_t)BCD_Pins[i], ((BCD_of_digit >> i) & 0b1));
+		HAL_GPIO_WritePin(BCD_Registers[i], BCD_Pins[i], ((BCD_of_digit >> i) & 0b1));
 	}
 
 	return 1;
@@ -32,7 +32,7 @@ uint8_t Write_Digit_to_Valve(uint8_t valve_num, uint8_t BCD_of_digit){
 
 uint8_t Turn_Valve_Off(uint8_t valve){
 
-	HAL_GPIO_WritePin((GPIO_TypeDef*)Valve_Anode_Registers[valve], (uint16_t)Valve_Anode_Pins[valve], VALVE_ANODE_OFF_STATE);
+	HAL_GPIO_WritePin(Valve_Anode_Registers[valve], Valve_Anode_Pins[valve], VALVE_ANODE_OFF_STATE);
 
 	return 1;
 }
@@ -41,7 +41,7 @@ uint8_t Turn_All_Valves_Off(void){
 
 	for(uint8_t valve = 0; valve < NUM_VALVES; valve++){
 
-		HAL_GPIO_WritePin((GPIO_TypeDef*)Valve_Anode_Registers[valve], (uint16_t)Valve_Anode_Pins[valve], VALVE_ANODE_OFF_STATE);
+		HAL_GPIO_WritePin(Valve_Anode_Registers[valve], Valve_Anode_Pins[valve], VALVE_ANODE_OFF_STATE);
 	}
 	return 1;
 }
@@ -74,7 +74,7 @@ uint8_t Start_Anti_Cathode_Poisoning_Timer(void){
 	return ok;
 }
 
-uint8_t Start_Adjust_Mode_Timer(void){
+uint8_t Start_Adjust_Time_Slash_Alarm_Set_Mode_Timer(void){
 
 	__HAL_TIM_ENABLE_IT(&htim14, TIM_IT_UPDATE); //make sure overflow (update) interrupt is enabled for TIM14
 
@@ -88,7 +88,7 @@ uint8_t Start_Adjust_Mode_Timer(void){
 	return ok;
 }
 
-uint8_t Stop_Adjust_Mode_Timer(void){
+uint8_t Stop_Adjust_Time_Slash_Alarm_Set_Mode_Timer(void){
 
 	uint8_t ok = Stop_OC_TIM(&htim14, TIM_CHANNEL_1);
 
@@ -110,10 +110,24 @@ uint8_t Master_Init(struct Master *master){
 	master->system_mode_tracker.current_mode = NORMAL_MODE;
 	master->system_mode_tracker.previous_mode = NONE;
 
-	master->time_adjust.blink_state = BLINK_OFF;
+	master->valve_blink_state = BLINK_OFF;
 
 	master->encoder_first = 0;
 	master->encoder_second = 0;
+
+	master->time_adjust.adjust_time.Hours = 0x00;
+	master->time_adjust.adjust_time.Minutes = 0x00;
+	master->time_adjust.adjust_time.Seconds = 0x00;
+	master->time_adjust.adjust_time.TimeFormat = RTC_HOURFORMAT12_AM;
+	master->time_adjust.adjust_time.DayLightSaving = RTC_DAYLIGHTSAVING_NONE ;
+	master->time_adjust.adjust_time.StoreOperation = RTC_STOREOPERATION_RESET;
+
+	master->alarm.alarm_time.Hours = 0x00;
+	master->alarm.alarm_time.Minutes = 0x00;
+	master->alarm.alarm_time.Seconds = 0x00;
+	master->alarm.alarm_time.TimeFormat = RTC_HOURFORMAT12_AM;
+	master->alarm.alarm_time.DayLightSaving = RTC_DAYLIGHTSAVING_NONE ;
+	master->alarm.alarm_time.StoreOperation = RTC_STOREOPERATION_RESET;
 
 	return 1;
 }
@@ -259,9 +273,82 @@ uint8_t Check_Rotary_Encoder_Switch_State(volatile struct Rotary_Encoder_Switch_
 
 uint8_t Set_Fault_LED_ON(void){
 
-	//__HAL_TIM_ENABLE_IT(&htim1, TIM_IT_UPDATE);
-	Start_OC_TIM(&htim3, TIM_CHANNEL_3);
-	__HAL_TIM_SET_COMPARE(&htim3, TIM_CHANNEL_3, 20000);
+	HAL_TIM_PWM_Start(&htim3, TIM_CHANNEL_3);
+	__HAL_TIM_SET_COMPARE(&htim3, TIM_CHANNEL_3, 65535);
+
+	return 1;
+}
+
+uint8_t Set_Alarm(uint8_t BCD_HH, uint8_t BCD_MM, uint8_t BCD_SS){
+
+	RTC_AlarmTypeDef alarm;
+
+	alarm.Alarm = RTC_ALARM_A;
+	alarm.AlarmDateWeekDay = RTC_WEEKDAY_MONDAY;
+	alarm.AlarmDateWeekDaySel = RTC_ALARMDATEWEEKDAYSEL_WEEKDAY;
+	alarm.AlarmMask = RTC_ALARMMASK_DATEWEEKDAY; //Alarm masks the date, so alarm will sound every day at the same time, unless cleared by user
+	alarm.AlarmSubSecondMask = RTC_ALARMSUBSECONDMASK_ALL;
+	alarm.AlarmTime.TimeFormat = RTC_HOURFORMAT12_AM;
+	alarm.AlarmTime.Hours = BCD_HH;
+	alarm.AlarmTime.Minutes = BCD_MM;
+	alarm.AlarmTime.Seconds = BCD_SS;
+	alarm.AlarmTime.SubSeconds = 0x00; //subseconds masked so don't care
+
+	if(HAL_RTC_SetAlarm_IT(&hrtc, &alarm, RTC_FORMAT_BCD) != HAL_OK)
+	{
+	  /* Initialization Error */
+	  Error_Handler();
+	}
+
+	return 1;
+}
+
+uint8_t Clear_Alarm(void){
+
+	HAL_RTC_DeactivateAlarm(&hrtc, RTC_ALARM_A);
+
+	return 1;
+}
+
+void HAL_RTC_AlarmAEventCallback(RTC_HandleTypeDef *hrtc)
+{
+	asm("NOP");
+}
+
+uint8_t Set_Adjust_Time_LED_ON(void){
+
+	//Set Rotary Encoder LED to Green
+
+	HAL_TIM_PWM_Start(&htim3, TIM_CHANNEL_1);
+	__HAL_TIM_SET_COMPARE(&htim3, TIM_CHANNEL_1, 65535);
+
+	return 1;
+}
+
+uint8_t Set_Adjust_Time_LED_OFF(void){
+
+	__HAL_TIM_SET_COMPARE(&htim3, TIM_CHANNEL_1, 0);
+
+	return 1;
+}
+
+uint8_t Set_Alarm_Set_LEDs_ON(void){
+
+	//Set Rotary Encoder LEDs to Orange
+
+	HAL_TIM_PWM_Start(&htim3, TIM_CHANNEL_1);
+	__HAL_TIM_SET_COMPARE(&htim3, TIM_CHANNEL_1, 20000);
+
+	HAL_TIM_PWM_Start(&htim3, TIM_CHANNEL_3);
+	__HAL_TIM_SET_COMPARE(&htim3, TIM_CHANNEL_3, 65535);
+
+	return 1;
+}
+
+uint8_t Set_Alarm_Set_LEDs_OFF(void){
+
+	__HAL_TIM_SET_COMPARE(&htim3, TIM_CHANNEL_1, 0);
+	__HAL_TIM_SET_COMPARE(&htim3, TIM_CHANNEL_3, 0);
 
 	return 1;
 }

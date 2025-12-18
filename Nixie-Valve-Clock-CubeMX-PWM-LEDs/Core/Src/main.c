@@ -131,7 +131,7 @@ int main(void)
 	//Assign custom callbacks
 	HAL_TIM_RegisterCallback(&htim17, HAL_TIM_PERIOD_ELAPSED_CB_ID, &TIM17_Multiplexer_Sequencer_Callback);
 	HAL_TIM_RegisterCallback(&htim16, HAL_TIM_PERIOD_ELAPSED_CB_ID, &TIM16_Anti_Cathode_Poisoning_Callback);
-	HAL_TIM_RegisterCallback(&htim14, HAL_TIM_PERIOD_ELAPSED_CB_ID, &TIM14_Time_Adjust_Valve_Blink_Callback);
+	HAL_TIM_RegisterCallback(&htim14, HAL_TIM_PERIOD_ELAPSED_CB_ID, &TIM14_Valve_Blink_Callback);
 	//HAL_TIM_RegisterCallback(&htim1, HAL_TIM_PERIOD_ELAPSED_CB_ID, &TIM1_CH1_Valve_LED_0_Callback);
 	//HAL_TIM_RegisterCallback(&htim1, HAL_TIM_PERIOD_ELAPSED_CB_ID, &TIM1_CH2_Valve_LED_1_Callback);
 	//HAL_TIM_RegisterCallback(&htim1, HAL_TIM_PERIOD_ELAPSED_CB_ID, &TIM1_CH3_Valve_LED_2_Callback);
