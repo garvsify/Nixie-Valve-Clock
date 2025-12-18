@@ -1,8 +1,9 @@
-../Core/Src/custom_callbacks.c:11:6:TIM17_Multiplexer_Sequencer_Callback	32	static
-../Core/Src/custom_callbacks.c:233:6:TIM16_Anti_Cathode_Poisoning_Callback	16	static
-../Core/Src/custom_callbacks.c:276:6:TIM14_Time_Adjust_Valve_Blink_Callback	16	static
-../Core/Src/custom_callbacks.c:288:6:TIM1_CH1_Valve_LED_0_Callback	16	static
-../Core/Src/custom_callbacks.c:292:6:TIM1_CH2_Valve_LED_1_Callback	16	static
-../Core/Src/custom_callbacks.c:296:6:TIM1_CH3_Valve_LED_2_Callback	16	static
-../Core/Src/custom_callbacks.c:300:6:LPTIM1_Rotary_Encoder_Switch_Callback	24	static
-../Core/Src/custom_callbacks.c:365:6:HAL_GPIO_EXTI_Rising_Callback	16	static
+../Core/Src/custom_callbacks.c:11:6:TIM17_Multiplexer_Sequencer_Callback	24	static
+../Core/Src/custom_callbacks.c:214:6:TIM16_Anti_Cathode_Poisoning_Callback	16	static
+../Core/Src/custom_callbacks.c:257:6:TIM14_Time_Adjust_Valve_Blink_Callback	16	static
+../Core/Src/custom_callbacks.c:269:6:TIM1_CH1_Valve_LED_0_Callback	16	static
+../Core/Src/custom_callbacks.c:273:6:TIM1_CH2_Valve_LED_1_Callback	16	static
+../Core/Src/custom_callbacks.c:277:6:TIM1_CH3_Valve_LED_2_Callback	16	static
+../Core/Src/custom_callbacks.c:281:6:LPTIM1_Rotary_Encoder_Switch_Callback	24	static
+../Core/Src/custom_callbacks.c:346:6:HAL_GPIO_EXTI_Rising_Callback	16	static
+../Core/Src/custom_callbacks.c:354:6:HAL_RTC_AlarmAEventCallback	16	static,ignoring_inline_asm

@@ -28,8 +28,8 @@
 #define COUNT_TO_DELAY_RISING_ROTARY_ENCODER_EDGE 4
 
 #define ROTARY_ENCODER_SWITCH_ENTER_SLASH_ADVANCE_TIME_ADJUST_MODE_COUNT_MIN 2000
-#define ROTARY_ENCODER_SWITCH_ENTER_SLASH_ADVANCE_TIME_ADJUST_MODE_COUNT_MAX ROTARY_ENCODER_SWITCH_ENTER_SLASH_ADVANCE_TIME_ADJUST_MODE_COUNT_MIN + 2000
-#define ROTARY_ENCODER_SWITCH_SAVE_TIME_COUNT_MIN 5500
+#define ROTARY_ENCODER_SWITCH_ENTER_SLASH_ADVANCE_TIME_ADJUST_MODE_COUNT_MAX ROTARY_ENCODER_SWITCH_ENTER_SLASH_ADVANCE_TIME_ADJUST_MODE_COUNT_MIN + 1500
+#define ROTARY_ENCODER_SWITCH_SAVE_TIME_COUNT_MIN 5000
 #define ROTARY_ENCODER_SWITCH_SAVE_TIME_COUNT_MAX ROTARY_ENCODER_SWITCH_SAVE_TIME_COUNT_MIN + 2000
 
 #include <stdint.h>
@@ -40,8 +40,17 @@
 
 enum Blink_State{
 
+	BLINK_OFF,
 	BLINK_ON,
-	BLINK_OFF
+};
+
+struct Alarm{
+
+	enum Blink_State blink_state;
+	RTC_TimeTypeDef alarm_time;
+	uint8_t Hours_Bin;
+	uint8_t Minutes_Bin;
+	uint8_t Seconds_Bin;
 };
 
 struct Time_Adjust{
@@ -62,6 +71,9 @@ enum System_Mode{
 	MM_ADJUST_MODE,
 	SS_ADJUST_MODE,
 	VALVES_OFF_MODE,
+	ALARM_SET_HH_MODE,
+	ALARM_SET_MM_MODE,
+	ALARM_SET_SS_MODE,
 };
 
 struct System_Mode_Tracker{
@@ -108,20 +120,20 @@ struct Master{
 	struct Anti_Cathode_Poisoning anti_cathode_poisoning;
 	struct System_Mode_Tracker system_mode_tracker;
 	volatile struct Time_Adjust time_adjust;
+	volatile struct Alarm alarm;
 	volatile RTC_TimeTypeDef get_time;
 	volatile RTC_DateTypeDef get_date;
-	struct Separators separators;
 	struct Software_Timer software_timers[1]; //not yet used
 	uint32_t encoder_first;
 	uint32_t encoder_second;
 	volatile struct Rotary_Encoder_Switch_States rotary_encoder_switch_states;
 };
 
-extern GPIO_TypeDef* Valve_Anode_Registers[NUM_VALVES];
-extern uint16_t Valve_Anode_Pins[NUM_VALVES];
+extern const GPIO_TypeDef* Valve_Anode_Registers[NUM_VALVES];
+extern const uint16_t Valve_Anode_Pins[NUM_VALVES];
 
-extern GPIO_TypeDef* BCD_Registers[NUM_BINARY_DIGITS_IN_BCD];
-extern uint16_t BCD_Pins[NUM_BINARY_DIGITS_IN_BCD];
+extern const GPIO_TypeDef* BCD_Registers[NUM_BINARY_DIGITS_IN_BCD];
+extern const uint16_t BCD_Pins[NUM_BINARY_DIGITS_IN_BCD];
 
 extern struct Master master;
 

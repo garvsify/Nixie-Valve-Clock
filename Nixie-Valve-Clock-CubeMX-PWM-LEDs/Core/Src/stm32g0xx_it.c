@@ -215,6 +215,11 @@ void TIM17_IRQHandler(void)
 /* USER CODE BEGIN 1 */
 
 /* USER CODE END 1 */
+
+void RTC_IRQHandler(void)
+{
+
+}
 void LPTIM1_IRQHandler(void)
 
 {

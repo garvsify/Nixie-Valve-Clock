@@ -8,4 +8,5 @@
 ../Core/Src/stm32g0xx_it.c:176:6:TIM14_IRQHandler	8	static
 ../Core/Src/stm32g0xx_it.c:190:6:TIM16_IRQHandler	8	static
 ../Core/Src/stm32g0xx_it.c:204:6:TIM17_IRQHandler	8	static
-../Core/Src/stm32g0xx_it.c:218:6:LPTIM1_IRQHandler	8	static
+../Core/Src/stm32g0xx_it.c:219:6:RTC_IRQHandler	8	static
+../Core/Src/stm32g0xx_it.c:223:6:LPTIM1_IRQHandler	8	static

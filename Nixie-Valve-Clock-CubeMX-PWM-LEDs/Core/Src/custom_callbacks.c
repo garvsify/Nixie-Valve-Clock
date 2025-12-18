@@ -12,9 +12,7 @@ void TIM17_Multiplexer_Sequencer_Callback(TIM_HandleTypeDef *htim){
 
 	static uint8_t valve = 0;
 	uint8_t BCD = 0;
-	uint8_t valve_on = 0;
-
-	Turn_All_Valves_Off(); // NEW: Ensure all valves are off at the start of each multiplex cycle
+	uint8_t valve_on = 1;
 
 	if(master.system_mode_tracker.current_mode == VALVES_OFF_MODE){
 
@@ -58,53 +56,36 @@ void TIM17_Multiplexer_Sequencer_Callback(TIM_HandleTypeDef *htim){
 	}
 	else if(master.system_mode_tracker.current_mode == HH_ADJUST_MODE){
 
-		if(valve == 0){
-
-			if(master.time_adjust.blink_state == 1){
-
+		if(master.time_adjust.blink_state == BLINK_OFF){
+			Turn_All_Valves_Off(); // Turn off all anodes when the blinking segment is in the "off" state
+			valve_on = 0; // Ensure no valve is turned on in the subsequent logic
+		}
+		else { // BLINK_ON state
+			if(valve == 0){
 				valve_on = 1;
+				BCD = (master.time_adjust.adjust_time.Hours >> 4) & 0xF;
 			}
-			/*else if(master.time_adjust.blink_state == 0){
-
-				valve_on = 0;
-			}*/
-
-			BCD = (master.time_adjust.adjust_time.Hours >> 4) & 0xF;
-		}
-		else if(valve == 1){
-
-			if(master.time_adjust.blink_state == 1){
-
+			else if(valve == 1){
 				valve_on = 1;
+				BCD = master.time_adjust.adjust_time.Hours & 0xF;
 			}
-			/*else if(master.time_adjust.blink_state == 0){
-
-				valve_on = 0;
-			}*/
-
-			BCD = master.time_adjust.adjust_time.Hours & 0xF;
+			else if(valve == 2){
+				valve_on = 1;
+				BCD = (master.time_adjust.adjust_time.Minutes >> 4) & 0xF;
+			}
+			else if(valve == 3){
+				valve_on = 1;
+				BCD = master.time_adjust.adjust_time.Minutes & 0xF;
+			}
+			else if(valve == 4){
+				valve_on = 1;
+				BCD = (master.time_adjust.adjust_time.Seconds >> 4) & 0xF;
+			}
+			else if(valve == 5){
+				valve_on = 1;
+				BCD = master.time_adjust.adjust_time.Seconds & 0xF;
+			}
 		}
-		else if(valve == 2){
-
-			valve_on = 1;
-			BCD = (master.time_adjust.adjust_time.Minutes >> 4) & 0xF;
-		}
-		else if(valve == 3){
-
-			valve_on = 1;
-			BCD = master.time_adjust.adjust_time.Minutes & 0xF;
-		}
-		else if(valve == 4){
-
-			valve_on = 1;
-			BCD = (master.time_adjust.adjust_time.Seconds >> 4) & 0xF;
-		}
-		else if(valve == 5){
-
-			valve_on = 1;
-			BCD = master.time_adjust.adjust_time.Seconds & 0xF;
-		}
-
 	}
 	else if(master.system_mode_tracker.current_mode == MM_ADJUST_MODE){
 
@@ -124,10 +105,10 @@ void TIM17_Multiplexer_Sequencer_Callback(TIM_HandleTypeDef *htim){
 
 				valve_on = 1;
 			}
-			/*else if(master.time_adjust.blink_state == 0){
+			else if(master.time_adjust.blink_state == 0){
 
 				valve_on = 0;
-			}*/
+			}
 
 			BCD = (master.time_adjust.adjust_time.Minutes >> 4) & 0xF;
 		}
@@ -137,10 +118,10 @@ void TIM17_Multiplexer_Sequencer_Callback(TIM_HandleTypeDef *htim){
 
 				valve_on = 1;
 			}
-			/*else if(master.time_adjust.blink_state == 0){
+			else if(master.time_adjust.blink_state == 0){
 
 				valve_on = 0;
-			}*/
+			}
 
 			BCD = master.time_adjust.adjust_time.Minutes & 0xF;
 		}
@@ -183,10 +164,10 @@ void TIM17_Multiplexer_Sequencer_Callback(TIM_HandleTypeDef *htim){
 
 				valve_on = 1;
 			}
-			/*else if(master.time_adjust.blink_state == 0){
+			else if(master.time_adjust.blink_state == 0){
 
 				valve_on = 0;
-			}*/
+			}
 
 			BCD = (master.time_adjust.adjust_time.Seconds >> 4) & 0xF;
 		}
@@ -196,10 +177,10 @@ void TIM17_Multiplexer_Sequencer_Callback(TIM_HandleTypeDef *htim){
 
 				valve_on = 1;
 			}
-			/*else if(master.time_adjust.blink_state == 0){
+			else if(master.time_adjust.blink_state == 0){
 
 				valve_on = 0;
-			}*/
+			}
 
 			BCD = master.time_adjust.adjust_time.Seconds & 0xF;
 		}
@@ -368,5 +349,10 @@ void HAL_GPIO_EXTI_Rising_Callback(uint16_t GPIO_Pin){
 	Toggle_HV_Power_Supply(0);
 	Set_Fault_LED_ON();
 
+}
+
+void HAL_RTC_AlarmAEventCallback(RTC_HandleTypeDef *hrtc)
+{
+	asm("NOP");
 }
 
