@@ -523,3 +523,8 @@ void HAL_GPIO_EXTI_Rising_Callback(uint16_t GPIO_Pin){
 	Set_Fault_LED_ON();
 }
 
+void Alarm_Callback(RTC_HandleTypeDef *hrtc)
+{
+	asm("NOP");
+}
+

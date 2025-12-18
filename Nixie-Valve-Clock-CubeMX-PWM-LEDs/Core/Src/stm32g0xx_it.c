@@ -216,10 +216,11 @@ void TIM17_IRQHandler(void)
 
 /* USER CODE END 1 */
 
-void RTC_IRQHandler(void)
+void RTC_Alarm_IRQHandler(void)
 {
-
+  HAL_RTC_AlarmIRQHandler(&hrtc);
 }
+
 void LPTIM1_IRQHandler(void)
 
 {

@@ -1,5 +1,7 @@
 ../Drivers/STM32G0xx_HAL_Driver/Src/stm32g0xx_hal_rtc.c:242:19:HAL_RTC_Init	32	static
 ../Drivers/STM32G0xx_HAL_Driver/Src/stm32g0xx_hal_rtc.c:358:19:HAL_RTC_DeInit	32	static
+../Drivers/STM32G0xx_HAL_Driver/Src/stm32g0xx_hal_rtc.c:465:19:HAL_RTC_RegisterCallback	32	static
+../Drivers/STM32G0xx_HAL_Driver/Src/stm32g0xx_hal_rtc.c:592:19:HAL_RTC_UnRegisterCallback	24	static
 ../Drivers/STM32G0xx_HAL_Driver/Src/stm32g0xx_hal_rtc.c:700:13:HAL_RTC_MspInit	16	static
 ../Drivers/STM32G0xx_HAL_Driver/Src/stm32g0xx_hal_rtc.c:715:13:HAL_RTC_MspDeInit	16	static
 ../Drivers/STM32G0xx_HAL_Driver/Src/stm32g0xx_hal_rtc.c:753:19:HAL_RTC_SetTime	40	static
