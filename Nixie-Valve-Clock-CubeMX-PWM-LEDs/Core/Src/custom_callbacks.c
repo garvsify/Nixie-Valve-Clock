@@ -416,7 +416,7 @@ void LPTIM1_Rotary_Encoder_Switch_Callback(LPTIM_HandleTypeDef *hlptim){
 
 	if(master.rotary_encoder_switch_states.rotary_encoder_switch_state == ROTARY_ENCODER_SWITCH_STATE_NOT_DEPRESSED){
 
-		if(time_adjust_mode_is_active == 0 && alarm_set_mode_is_active == 0){
+		if(time_adjust_mode_is_active == 0 && alarm_set_mode_is_active == 0 && master.alarm.alarm_triggered == 0){
 
 			//enter time adjust mode
 			if(depressed_num >= ROTARY_ENCODER_SWITCH_ENTER_SLASH_ADVANCE_TIME_ADJUST_MODE_COUNT_MIN
@@ -505,6 +505,15 @@ void LPTIM1_Rotary_Encoder_Switch_Callback(LPTIM_HandleTypeDef *hlptim){
 				Set_Alarm_Set_LEDs_OFF();
 			}
 		}
+		else if(master.alarm.alarm_triggered == 1){
+
+			if(depressed_num >= CLEAR_ALARM_COUNT_MIN
+				&& depressed_num < CLEAR_ALARM_COUNT_MAX){
+
+				Clear_Alarm();
+				master.alarm.alarm_triggered = 0;
+			}
+		}
 
 		depressed_num = 0;
 	}
@@ -525,6 +534,6 @@ void HAL_GPIO_EXTI_Rising_Callback(uint16_t GPIO_Pin){
 
 void Alarm_Callback(RTC_HandleTypeDef *hrtc)
 {
-	asm("NOP");
+	master.alarm.alarm_triggered = 1;
 }
 

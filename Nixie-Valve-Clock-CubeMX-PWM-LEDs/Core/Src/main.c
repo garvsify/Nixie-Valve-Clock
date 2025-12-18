@@ -364,6 +364,10 @@ int main(void)
 			master.alarm.alarm_time.Seconds = RTC_ByteToBcd2(master.alarm.Seconds_Bin);
 		}
 		/* USER CODE BEGIN 3 */
+		if(master.alarm.alarm_triggered == 1){
+
+			Sound_Alarm();
+		}
 	}
   /* USER CODE END 3 */
 }

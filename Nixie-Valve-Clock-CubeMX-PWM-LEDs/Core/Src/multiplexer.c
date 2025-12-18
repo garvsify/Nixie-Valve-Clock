@@ -129,6 +129,8 @@ uint8_t Master_Init(struct Master *master){
 	master->alarm.alarm_time.DayLightSaving = RTC_DAYLIGHTSAVING_NONE ;
 	master->alarm.alarm_time.StoreOperation = RTC_STOREOPERATION_RESET;
 
+	master->alarm.alarm_triggered = 0;
+
 	return 1;
 }
 
@@ -361,6 +363,42 @@ uint8_t Initialise_Rotary_Encoder_LEDs(void){
 	__HAL_TIM_SET_COMPARE(&htim3, TIM_CHANNEL_3, 0);
 	HAL_TIM_PWM_Start(&htim3, TIM_CHANNEL_1);
 	__HAL_TIM_SET_COMPARE(&htim3, TIM_CHANNEL_1, 0);
+
+	return 1;
+}
+
+uint8_t Sound_Alarm(void){
+
+	static uint32_t counter = 0;
+	const uint32_t short_tone = BUZZER_SHORT_TONE_COUNT;
+	const uint32_t short_off = BUZZER_SHORT_OFF_COUNT;
+	const uint32_t long_off = BUZZER_LONG_OFF_COUNT;
+
+	if(counter != BUZZER_COUNT_MAX){
+
+		if(counter <= short_tone){
+
+			HAL_GPIO_WritePin(GPIO_Output_BUZZER_GPIO_Port, GPIO_Output_BUZZER_Pin, 1);
+		}
+		else if(counter > short_tone && counter <= (short_tone + short_off)){
+
+			HAL_GPIO_WritePin(GPIO_Output_BUZZER_GPIO_Port, GPIO_Output_BUZZER_Pin, 0);
+		}
+		else if(counter > (short_tone + short_off) && counter <= (short_tone + short_off + short_tone)){
+
+			HAL_GPIO_WritePin(GPIO_Output_BUZZER_GPIO_Port, GPIO_Output_BUZZER_Pin, 1);
+		}
+		else if(counter > (short_tone + short_off + short_tone) && counter <= (short_tone + short_off + short_tone + long_off)){
+
+			HAL_GPIO_WritePin(GPIO_Output_BUZZER_GPIO_Port, GPIO_Output_BUZZER_Pin, 0);
+		}
+
+		counter++;
+	}
+	else{
+
+		counter = 0;
+	}
 
 	return 1;
 }

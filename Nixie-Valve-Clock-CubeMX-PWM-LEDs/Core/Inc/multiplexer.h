@@ -37,6 +37,12 @@
 #define SET_ALARM_COUNT_MAX ROTARY_ENCODER_SWITCH_SAVE_TIME_COUNT_MAX
 #define SET_ALARM_SAVE_COUNT_MIN ROTARY_ENCODER_SWITCH_SAVE_TIME_COUNT_MIN
 #define SET_ALARM_SAVE_COUNT_MAX ROTARY_ENCODER_SWITCH_SAVE_TIME_COUNT_MAX
+#define CLEAR_ALARM_COUNT_MIN 5
+#define CLEAR_ALARM_COUNT_MAX 50
+#define BUZZER_SHORT_TONE_COUNT 1
+#define BUZZER_SHORT_OFF_COUNT 1
+#define BUZZER_LONG_OFF_COUNT 4
+#define BUZZER_COUNT_MAX BUZZER_SHORT_TONE_COUNT + BUZZER_SHORT_TONE_COUNT + BUZZER_SHORT_OFF_COUNT + BUZZER_LONG_OFF_COUNT
 
 #include <stdint.h>
 #include "stm32g031xx.h"
@@ -52,7 +58,6 @@ enum Blink_State{
 
 struct Time_Adjust{
 
-	enum Blink_State blink_state;
 	RTC_TimeTypeDef adjust_time;
 	uint8_t Hours_Bin;
 	uint8_t Minutes_Bin;
@@ -61,6 +66,7 @@ struct Time_Adjust{
 
 struct Alarm{
 
+	uint8_t alarm_triggered;
 	RTC_TimeTypeDef alarm_time;
 	uint8_t Hours_Bin;
 	uint8_t Minutes_Bin;
@@ -160,5 +166,6 @@ uint8_t Set_Alarm_Set_LEDs_ON(void);
 uint8_t Set_Adjust_Time_LED_OFF(void);
 uint8_t Set_Alarm_Set_LEDs_OFF(void);
 uint8_t Initialise_Rotary_Encoder_LEDs(void);
+uint8_t Sound_Alarm(void);
 
 #endif /* INC_MULTIPLEXER_H_ */
