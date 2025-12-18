@@ -328,6 +328,7 @@ uint8_t Set_Adjust_Time_LED_ON(void){
 uint8_t Set_Adjust_Time_LED_OFF(void){
 
 	__HAL_TIM_SET_COMPARE(&htim3, TIM_CHANNEL_1, 0);
+	__HAL_TIM_SET_COMPARE(&htim3, TIM_CHANNEL_3, 0);
 
 	return 1;
 }
