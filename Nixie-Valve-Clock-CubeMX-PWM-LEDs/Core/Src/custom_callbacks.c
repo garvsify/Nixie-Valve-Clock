@@ -337,6 +337,31 @@ void TIM17_Multiplexer_Sequencer_Callback(TIM_HandleTypeDef *htim){
 		HAL_GPIO_WritePin(GPIO_Output_IN_3_0_GPIO_Port, GPIO_Output_IN_3_0_Pin, 0);
 		HAL_GPIO_WritePin(GPIO_Output_IN_3_1_GPIO_Port, GPIO_Output_IN_3_1_Pin, 0);
 	}
+
+	static uint16_t counter = 0;
+
+	if(master.alarm.alarm_triggered == 1){
+
+		__HAL_TIM_SET_COMPARE(&htim1, TIM_CHANNEL_1, triangle_wavetable[counter]);
+		__HAL_TIM_SET_COMPARE(&htim1, TIM_CHANNEL_2, triangle_wavetable[counter]);
+		__HAL_TIM_SET_COMPARE(&htim1, TIM_CHANNEL_3, triangle_wavetable[counter]);
+
+		if(counter == TRI_WAVETABLE_SIZE - 1){
+
+			counter = 0;
+		}
+		else{
+
+			counter++;
+		}
+	}
+	else{
+
+		__HAL_TIM_SET_COMPARE(&htim1, TIM_CHANNEL_1, 0);
+		__HAL_TIM_SET_COMPARE(&htim1, TIM_CHANNEL_2, 0);
+		__HAL_TIM_SET_COMPARE(&htim1, TIM_CHANNEL_3, 0);
+		counter = 0;
+	}
 }
 
 void TIM16_Anti_Cathode_Poisoning_Callback(TIM_HandleTypeDef *htim){

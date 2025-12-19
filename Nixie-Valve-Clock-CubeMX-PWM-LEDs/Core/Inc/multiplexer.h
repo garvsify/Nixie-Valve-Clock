@@ -12,7 +12,7 @@
 #define VALVE_ANODE_OFF_STATE 1
 #define VALVE_ANODE_ON_STATE 0
 #define NUM_BINARY_DIGITS_IN_BCD 4
-#define MULTIPLEXER_TIMER_PERIOD_MINUS_ONE 50000 //with 0 prescaler and clkdivby4 should give 4.096ms overflow; with 2 prescaler and clkdivby4 should give 12.288ms overflow
+#define MULTIPLEXER_TIMER_PERIOD_MINUS_ONE 40000 //with 0 prescaler and clkdivby4 should give 4.096ms overflow; with 2 prescaler and clkdivby4 should give 12.288ms overflow
 #define MULTIPLEXER_TIMER_PRESCALER 3 //with 0 prescaler and clkdivby4 should give 4.096ms overflow; with 2 prescaler and clkdivby4 should give 12.288ms overflow
 #define ANTI_CATHODE_POISONING_TIMER_WAITING_MODE_PRESCALER 65535  //with clkdivby4 should give ~4.5min overflow
 #define ANTI_CATHODE_POISONING_TIMER_WAITING_MODE_PERIOD_MINUS_ONE 65535 //5000(test) //with clkdivby4 should give ~4.5min overflow
@@ -47,6 +47,8 @@
 #define ALARM_SET_GREEN_LED_BRIGHTNESS_CCR 5000
 #define ALARM_SET_RED_LED_BRIGHTNESS_CCR 20000
 #define FAULT_RED_LED_BRIGHTNESS_CCR 65535
+
+#define TRI_WAVETABLE_SIZE 256
 
 #include <stdint.h>
 #include "stm32g031xx.h"
@@ -145,6 +147,7 @@ extern uint16_t Valve_Anode_Pins[NUM_VALVES];
 extern GPIO_TypeDef* BCD_Registers[NUM_BINARY_DIGITS_IN_BCD];
 extern uint16_t BCD_Pins[NUM_BINARY_DIGITS_IN_BCD];
 
+extern const uint16_t triangle_wavetable[TRI_WAVETABLE_SIZE];
 extern struct Master master;
 
 uint8_t Write_Digit_to_Valve(uint8_t valve_num, uint8_t BCD_of_digit);
