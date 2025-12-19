@@ -5,5 +5,5 @@
 ../Core/Src/custom_callbacks.c:401:6:TIM1_CH2_Valve_LED_1_Callback	16	static
 ../Core/Src/custom_callbacks.c:405:6:TIM1_CH3_Valve_LED_2_Callback	16	static
 ../Core/Src/custom_callbacks.c:409:6:LPTIM1_Rotary_Encoder_Switch_Callback	24	static
-../Core/Src/custom_callbacks.c:528:6:HAL_GPIO_EXTI_Rising_Callback	16	static
-../Core/Src/custom_callbacks.c:535:6:Alarm_Callback	16	static
+../Core/Src/custom_callbacks.c:527:6:HAL_GPIO_EXTI_Rising_Callback	16	static
+../Core/Src/custom_callbacks.c:534:6:Alarm_Callback	16	static

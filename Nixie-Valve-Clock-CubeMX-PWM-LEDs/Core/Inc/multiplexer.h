@@ -13,7 +13,7 @@
 #define VALVE_ANODE_ON_STATE 0
 #define NUM_BINARY_DIGITS_IN_BCD 4
 #define MULTIPLEXER_TIMER_PERIOD_MINUS_ONE 50000 //with 0 prescaler and clkdivby4 should give 4.096ms overflow; with 2 prescaler and clkdivby4 should give 12.288ms overflow
-#define MULTIPLEXER_TIMER_PRESCALER 0 //with 0 prescaler and clkdivby4 should give 4.096ms overflow; with 2 prescaler and clkdivby4 should give 12.288ms overflow
+#define MULTIPLEXER_TIMER_PRESCALER 3 //with 0 prescaler and clkdivby4 should give 4.096ms overflow; with 2 prescaler and clkdivby4 should give 12.288ms overflow
 #define ANTI_CATHODE_POISONING_TIMER_WAITING_MODE_PRESCALER 65535  //with clkdivby4 should give ~4.5min overflow
 #define ANTI_CATHODE_POISONING_TIMER_WAITING_MODE_PERIOD_MINUS_ONE 65535 //5000(test) //with clkdivby4 should give ~4.5min overflow
 #define ANTI_CATHODE_POISONING_TIMER_ACTIVE_MODE_PRESCALER 25 //with clkdivby4 should give 204.8ms overflow //was 49
@@ -37,12 +37,16 @@
 #define SET_ALARM_COUNT_MAX ROTARY_ENCODER_SWITCH_SAVE_TIME_COUNT_MAX
 #define SET_ALARM_SAVE_COUNT_MIN ROTARY_ENCODER_SWITCH_SAVE_TIME_COUNT_MIN
 #define SET_ALARM_SAVE_COUNT_MAX ROTARY_ENCODER_SWITCH_SAVE_TIME_COUNT_MAX
-#define CLEAR_ALARM_COUNT_MIN 5
-#define CLEAR_ALARM_COUNT_MAX 50
-#define BUZZER_SHORT_TONE_COUNT 1
-#define BUZZER_SHORT_OFF_COUNT 1
-#define BUZZER_LONG_OFF_COUNT 4
+#define CLEAR_ALARM_COUNT_MIN 50
+#define CLEAR_ALARM_COUNT_MAX 500
+#define BUZZER_SHORT_TONE_COUNT 20000
+#define BUZZER_SHORT_OFF_COUNT 20000
+#define BUZZER_LONG_OFF_COUNT 40000
 #define BUZZER_COUNT_MAX BUZZER_SHORT_TONE_COUNT + BUZZER_SHORT_TONE_COUNT + BUZZER_SHORT_OFF_COUNT + BUZZER_LONG_OFF_COUNT
+#define ADJUST_TIME_GREEN_LED_BRIGHTNESS_CCR 10000
+#define ALARM_SET_GREEN_LED_BRIGHTNESS_CCR 5000
+#define ALARM_SET_RED_LED_BRIGHTNESS_CCR 20000
+#define FAULT_RED_LED_BRIGHTNESS_CCR 65535
 
 #include <stdint.h>
 #include "stm32g031xx.h"
@@ -167,5 +171,6 @@ uint8_t Set_Adjust_Time_LED_OFF(void);
 uint8_t Set_Alarm_Set_LEDs_OFF(void);
 uint8_t Initialise_Rotary_Encoder_LEDs(void);
 uint8_t Sound_Alarm(void);
+uint8_t Initialise_Valve_LEDs(void);
 
 #endif /* INC_MULTIPLEXER_H_ */

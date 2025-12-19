@@ -94,6 +94,7 @@ static void MX_LPTIM1_Init(void);
   */
 int main(void)
 {
+	//for (volatile int i = 0; i < 100000; i++);
 
 	/* USER CODE BEGIN 1 */
 
@@ -153,218 +154,228 @@ int main(void)
 	HAL_TIM_Encoder_Start(&htim2, TIM_CHANNEL_ALL);
 	HAL_LPTIM_SetOnce_Start_IT(&hlptim1, LPTIM1_CCR_CHECK, LPTIM1_CCR_CHECK);
 	Initialise_Rotary_Encoder_LEDs();
+	Initialise_Valve_LEDs();
+
+	//__HAL_TIM_SET_COMPARE(&htim1, TIM_CHANNEL_1, 10000);
+	//__HAL_TIM_SET_COMPARE(&htim1, TIM_CHANNEL_2, 10000);
+	//__HAL_TIM_SET_COMPARE(&htim1, TIM_CHANNEL_3, 10000);
 
 	while (1)
 	{
-		HAL_Delay(50);
-		master.encoder_first = master.encoder_second;
-		master.encoder_second = __HAL_TIM_GET_COUNTER(&htim2) >> 1;
-    /* USER CODE END WHILE */
-		if(master.system_mode_tracker.current_mode == HH_ADJUST_MODE ||
-				master.system_mode_tracker.current_mode == MM_ADJUST_MODE ||
-					master.system_mode_tracker.current_mode == SS_ADJUST_MODE){
+		if(master.alarm.alarm_triggered != 1){
 
-			if(master.system_mode_tracker.current_mode == HH_ADJUST_MODE){
+			HAL_Delay(50);
 
-				if(master.encoder_second >= master.encoder_first){
+			master.encoder_first = master.encoder_second;
+					master.encoder_second = __HAL_TIM_GET_COUNTER(&htim2) >> 1;
+			    /* USER CODE END WHILE */
+					if(master.system_mode_tracker.current_mode == HH_ADJUST_MODE ||
+							master.system_mode_tracker.current_mode == MM_ADJUST_MODE ||
+								master.system_mode_tracker.current_mode == SS_ADJUST_MODE){
 
-					if((master.time_adjust.Hours_Bin + (master.encoder_second - master.encoder_first)) > 23){
+						if(master.system_mode_tracker.current_mode == HH_ADJUST_MODE){
 
-						uint8_t temp = master.time_adjust.Hours_Bin + (master.encoder_second - master.encoder_first);
-						temp -= 23;
+							if(master.encoder_second >= master.encoder_first){
 
-						master.time_adjust.Hours_Bin = temp - 1;
+								if((master.time_adjust.Hours_Bin + (master.encoder_second - master.encoder_first)) > 23){
+
+									uint8_t temp = master.time_adjust.Hours_Bin + (master.encoder_second - master.encoder_first);
+									temp -= 23;
+
+									master.time_adjust.Hours_Bin = temp - 1;
+								}
+								else{
+
+									master.time_adjust.Hours_Bin += (master.encoder_second - master.encoder_first);
+								}
+							}
+							else{
+
+								if(((int16_t)master.time_adjust.Hours_Bin - ((int16_t)master.encoder_first - (int16_t)master.encoder_second)) < 0){
+
+									int16_t temp = (int16_t)master.time_adjust.Hours_Bin - ((int16_t)master.encoder_first - (int16_t)master.encoder_second);
+									temp += 23;
+
+									master.time_adjust.Hours_Bin = temp + 1;
+								}
+								else{
+
+									master.time_adjust.Hours_Bin -= (master.encoder_first - master.encoder_second);
+								}
+							}
+						}
+						else if(master.system_mode_tracker.current_mode == MM_ADJUST_MODE){
+
+							if(master.encoder_second >= master.encoder_first){
+
+								if((master.time_adjust.Minutes_Bin + (master.encoder_second - master.encoder_first)) > 59){
+
+									uint8_t temp = master.time_adjust.Minutes_Bin + (master.encoder_second - master.encoder_first);
+									temp -= 59;
+
+									master.time_adjust.Minutes_Bin = temp - 1;
+								}
+								else{
+
+									master.time_adjust.Minutes_Bin += (master.encoder_second - master.encoder_first);
+								}
+							}
+							else{
+
+								if(((int16_t)master.time_adjust.Minutes_Bin - ((int16_t)master.encoder_first - (int16_t)master.encoder_second)) < 0){
+
+									int16_t temp = (int16_t)master.time_adjust.Minutes_Bin - ((int16_t)master.encoder_first - (int16_t)master.encoder_second);
+									temp += 59;
+
+									master.time_adjust.Minutes_Bin = temp + 1;
+								}
+								else{
+
+									master.time_adjust.Minutes_Bin -= (master.encoder_first - master.encoder_second);
+								}
+							}
+						}
+						else if(master.system_mode_tracker.current_mode == SS_ADJUST_MODE){
+
+							if(master.encoder_second >= master.encoder_first){
+
+								if((master.time_adjust.Seconds_Bin + (master.encoder_second - master.encoder_first)) > 59){
+
+									uint8_t temp = master.time_adjust.Seconds_Bin + (master.encoder_second - master.encoder_first);
+									temp -= 59;
+
+									master.time_adjust.Seconds_Bin = temp - 1;
+								}
+								else{
+
+									master.time_adjust.Seconds_Bin += (master.encoder_second - master.encoder_first);
+								}
+							}
+							else{
+
+								if(((int16_t)master.time_adjust.Seconds_Bin - ((int16_t)master.encoder_first - (int16_t)master.encoder_second)) < 0){
+
+									int16_t temp = (int16_t)master.time_adjust.Seconds_Bin - ((int16_t)master.encoder_first - (int16_t)master.encoder_second);
+									temp += 59;
+
+									master.time_adjust.Seconds_Bin = temp + 1;
+								}
+								else{
+
+									master.time_adjust.Seconds_Bin -= (master.encoder_first - master.encoder_second);
+								}
+							}
+						}
+						master.time_adjust.adjust_time.Hours = RTC_ByteToBcd2(master.time_adjust.Hours_Bin);
+						master.time_adjust.adjust_time.Minutes = RTC_ByteToBcd2(master.time_adjust.Minutes_Bin);
+						master.time_adjust.adjust_time.Seconds = RTC_ByteToBcd2(master.time_adjust.Seconds_Bin);
 					}
-					else{
 
-						master.time_adjust.Hours_Bin += (master.encoder_second - master.encoder_first);
+					if(master.system_mode_tracker.current_mode == ALARM_SET_HH_MODE ||
+									master.system_mode_tracker.current_mode == ALARM_SET_MM_MODE ||
+										master.system_mode_tracker.current_mode == ALARM_SET_SS_MODE){
+
+						if(master.system_mode_tracker.current_mode == ALARM_SET_HH_MODE){
+
+							if(master.encoder_second >= master.encoder_first){
+
+								if((master.alarm.Hours_Bin + (master.encoder_second - master.encoder_first)) > 23){
+
+									uint8_t temp = master.alarm.Hours_Bin + (master.encoder_second - master.encoder_first);
+									temp -= 23;
+
+									master.alarm.Hours_Bin = temp - 1;
+								}
+								else{
+
+									master.alarm.Hours_Bin += (master.encoder_second - master.encoder_first);
+								}
+							}
+							else{
+
+								if(((int16_t)master.alarm.Hours_Bin - ((int16_t)master.encoder_first - (int16_t)master.encoder_second)) < 0){
+
+									int16_t temp = (int16_t)master.alarm.Hours_Bin - ((int16_t)master.encoder_first - (int16_t)master.encoder_second);
+									temp += 23;
+
+									master.alarm.Hours_Bin = temp + 1;
+								}
+								else{
+
+									master.alarm.Hours_Bin -= (master.encoder_first - master.encoder_second);
+								}
+							}
+						}
+						else if(master.system_mode_tracker.current_mode == ALARM_SET_MM_MODE){
+
+							if(master.encoder_second >= master.encoder_first){
+
+								if((master.alarm.Minutes_Bin + (master.encoder_second - master.encoder_first)) > 59){
+
+									uint8_t temp = master.alarm.Minutes_Bin + (master.encoder_second - master.encoder_first);
+									temp -= 59;
+
+									master.alarm.Minutes_Bin = temp - 1;
+								}
+								else{
+
+									master.alarm.Minutes_Bin += (master.encoder_second - master.encoder_first);
+								}
+							}
+							else{
+
+								if(((int16_t)master.alarm.Minutes_Bin - ((int16_t)master.encoder_first - (int16_t)master.encoder_second)) < 0){
+
+									int16_t temp = (int16_t)master.alarm.Minutes_Bin - ((int16_t)master.encoder_first - (int16_t)master.encoder_second);
+									temp += 59;
+
+									master.alarm.Minutes_Bin = temp + 1;
+								}
+								else{
+
+									master.alarm.Minutes_Bin -= (master.encoder_first - master.encoder_second);
+								}
+							}
+						}
+						else if(master.system_mode_tracker.current_mode == ALARM_SET_SS_MODE){
+
+							if(master.encoder_second >= master.encoder_first){
+
+								if((master.alarm.Seconds_Bin + (master.encoder_second - master.encoder_first)) > 59){
+
+									uint8_t temp = master.alarm.Seconds_Bin + (master.encoder_second - master.encoder_first);
+									temp -= 59;
+
+									master.alarm.Seconds_Bin = temp - 1;
+								}
+								else{
+
+									master.alarm.Seconds_Bin += (master.encoder_second - master.encoder_first);
+								}
+							}
+							else{
+
+								if(((int16_t)master.alarm.Seconds_Bin - ((int16_t)master.encoder_first - (int16_t)master.encoder_second)) < 0){
+
+									int16_t temp = (int16_t)master.alarm.Seconds_Bin - ((int16_t)master.encoder_first - (int16_t)master.encoder_second);
+									temp += 59;
+
+									master.alarm.Seconds_Bin = temp + 1;
+								}
+								else{
+
+									master.alarm.Seconds_Bin -= (master.encoder_first - master.encoder_second);
+								}
+							}
+						}
+						master.alarm.alarm_time.Hours = RTC_ByteToBcd2(master.alarm.Hours_Bin);
+						master.alarm.alarm_time.Minutes = RTC_ByteToBcd2(master.alarm.Minutes_Bin);
+						master.alarm.alarm_time.Seconds = RTC_ByteToBcd2(master.alarm.Seconds_Bin);
 					}
-				}
-				else{
-
-					if(((int16_t)master.time_adjust.Hours_Bin - ((int16_t)master.encoder_first - (int16_t)master.encoder_second)) < 0){
-
-						int16_t temp = (int16_t)master.time_adjust.Hours_Bin - ((int16_t)master.encoder_first - (int16_t)master.encoder_second);
-						temp += 23;
-
-						master.time_adjust.Hours_Bin = temp + 1;
-					}
-					else{
-
-						master.time_adjust.Hours_Bin -= (master.encoder_first - master.encoder_second);
-					}
-				}
-			}
-			else if(master.system_mode_tracker.current_mode == MM_ADJUST_MODE){
-
-				if(master.encoder_second >= master.encoder_first){
-
-					if((master.time_adjust.Minutes_Bin + (master.encoder_second - master.encoder_first)) > 59){
-
-						uint8_t temp = master.time_adjust.Minutes_Bin + (master.encoder_second - master.encoder_first);
-						temp -= 59;
-
-						master.time_adjust.Minutes_Bin = temp - 1;
-					}
-					else{
-
-						master.time_adjust.Minutes_Bin += (master.encoder_second - master.encoder_first);
-					}
-				}
-				else{
-
-					if(((int16_t)master.time_adjust.Minutes_Bin - ((int16_t)master.encoder_first - (int16_t)master.encoder_second)) < 0){
-
-						int16_t temp = (int16_t)master.time_adjust.Minutes_Bin - ((int16_t)master.encoder_first - (int16_t)master.encoder_second);
-						temp += 59;
-
-						master.time_adjust.Minutes_Bin = temp + 1;
-					}
-					else{
-
-						master.time_adjust.Minutes_Bin -= (master.encoder_first - master.encoder_second);
-					}
-				}
-			}
-			else if(master.system_mode_tracker.current_mode == SS_ADJUST_MODE){
-
-				if(master.encoder_second >= master.encoder_first){
-
-					if((master.time_adjust.Seconds_Bin + (master.encoder_second - master.encoder_first)) > 59){
-
-						uint8_t temp = master.time_adjust.Seconds_Bin + (master.encoder_second - master.encoder_first);
-						temp -= 59;
-
-						master.time_adjust.Seconds_Bin = temp - 1;
-					}
-					else{
-
-						master.time_adjust.Seconds_Bin += (master.encoder_second - master.encoder_first);
-					}
-				}
-				else{
-
-					if(((int16_t)master.time_adjust.Seconds_Bin - ((int16_t)master.encoder_first - (int16_t)master.encoder_second)) < 0){
-
-						int16_t temp = (int16_t)master.time_adjust.Seconds_Bin - ((int16_t)master.encoder_first - (int16_t)master.encoder_second);
-						temp += 59;
-
-						master.time_adjust.Seconds_Bin = temp + 1;
-					}
-					else{
-
-						master.time_adjust.Seconds_Bin -= (master.encoder_first - master.encoder_second);
-					}
-				}
-			}
-			master.time_adjust.adjust_time.Hours = RTC_ByteToBcd2(master.time_adjust.Hours_Bin);
-			master.time_adjust.adjust_time.Minutes = RTC_ByteToBcd2(master.time_adjust.Minutes_Bin);
-			master.time_adjust.adjust_time.Seconds = RTC_ByteToBcd2(master.time_adjust.Seconds_Bin);
 		}
 
-		if(master.system_mode_tracker.current_mode == ALARM_SET_HH_MODE ||
-						master.system_mode_tracker.current_mode == ALARM_SET_MM_MODE ||
-							master.system_mode_tracker.current_mode == ALARM_SET_SS_MODE){
-
-			if(master.system_mode_tracker.current_mode == ALARM_SET_HH_MODE){
-
-				if(master.encoder_second >= master.encoder_first){
-
-					if((master.alarm.Hours_Bin + (master.encoder_second - master.encoder_first)) > 23){
-
-						uint8_t temp = master.alarm.Hours_Bin + (master.encoder_second - master.encoder_first);
-						temp -= 23;
-
-						master.alarm.Hours_Bin = temp - 1;
-					}
-					else{
-
-						master.alarm.Hours_Bin += (master.encoder_second - master.encoder_first);
-					}
-				}
-				else{
-
-					if(((int16_t)master.alarm.Hours_Bin - ((int16_t)master.encoder_first - (int16_t)master.encoder_second)) < 0){
-
-						int16_t temp = (int16_t)master.alarm.Hours_Bin - ((int16_t)master.encoder_first - (int16_t)master.encoder_second);
-						temp += 23;
-
-						master.alarm.Hours_Bin = temp + 1;
-					}
-					else{
-
-						master.alarm.Hours_Bin -= (master.encoder_first - master.encoder_second);
-					}
-				}
-			}
-			else if(master.system_mode_tracker.current_mode == ALARM_SET_MM_MODE){
-
-				if(master.encoder_second >= master.encoder_first){
-
-					if((master.alarm.Minutes_Bin + (master.encoder_second - master.encoder_first)) > 59){
-
-						uint8_t temp = master.alarm.Minutes_Bin + (master.encoder_second - master.encoder_first);
-						temp -= 59;
-
-						master.alarm.Minutes_Bin = temp - 1;
-					}
-					else{
-
-						master.alarm.Minutes_Bin += (master.encoder_second - master.encoder_first);
-					}
-				}
-				else{
-
-					if(((int16_t)master.alarm.Minutes_Bin - ((int16_t)master.encoder_first - (int16_t)master.encoder_second)) < 0){
-
-						int16_t temp = (int16_t)master.alarm.Minutes_Bin - ((int16_t)master.encoder_first - (int16_t)master.encoder_second);
-						temp += 59;
-
-						master.alarm.Minutes_Bin = temp + 1;
-					}
-					else{
-
-						master.alarm.Minutes_Bin -= (master.encoder_first - master.encoder_second);
-					}
-				}
-			}
-			else if(master.system_mode_tracker.current_mode == ALARM_SET_SS_MODE){
-
-				if(master.encoder_second >= master.encoder_first){
-
-					if((master.alarm.Seconds_Bin + (master.encoder_second - master.encoder_first)) > 59){
-
-						uint8_t temp = master.alarm.Seconds_Bin + (master.encoder_second - master.encoder_first);
-						temp -= 59;
-
-						master.alarm.Seconds_Bin = temp - 1;
-					}
-					else{
-
-						master.alarm.Seconds_Bin += (master.encoder_second - master.encoder_first);
-					}
-				}
-				else{
-
-					if(((int16_t)master.alarm.Seconds_Bin - ((int16_t)master.encoder_first - (int16_t)master.encoder_second)) < 0){
-
-						int16_t temp = (int16_t)master.alarm.Seconds_Bin - ((int16_t)master.encoder_first - (int16_t)master.encoder_second);
-						temp += 59;
-
-						master.alarm.Seconds_Bin = temp + 1;
-					}
-					else{
-
-						master.alarm.Seconds_Bin -= (master.encoder_first - master.encoder_second);
-					}
-				}
-			}
-			master.alarm.alarm_time.Hours = RTC_ByteToBcd2(master.alarm.Hours_Bin);
-			master.alarm.alarm_time.Minutes = RTC_ByteToBcd2(master.alarm.Minutes_Bin);
-			master.alarm.alarm_time.Seconds = RTC_ByteToBcd2(master.alarm.Seconds_Bin);
-		}
 		/* USER CODE BEGIN 3 */
-		if(master.alarm.alarm_triggered == 1){
+		else{
 
 			Sound_Alarm();
 		}
@@ -977,6 +988,11 @@ static void MX_GPIO_Init(void)
   /*Configure GPIO pin Output Level */
   HAL_GPIO_WritePin(GPIOA, GPIO_Output_AS_0_Pin|GPIO_Output_AS_1_Pin|GPIO_Output_AS_2_Pin|GPIO_Output_AS_3_Pin
                           |GPIO_Output_AS_4_Pin|GPIO_Output_AS_5_Pin, GPIO_PIN_SET);
+
+#define T_JTMS_Pin GPIO_PIN_13
+#define T_JTMS_GPIO_Port GPIOA
+#define T_JTCK_Pin GPIO_PIN_14
+#define T_JTCK_GPIO_Port GPIOA
 
   /* EXTI interrupt init*/
   HAL_NVIC_SetPriority(EXTI0_1_IRQn, 0, 0);

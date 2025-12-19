@@ -511,7 +511,6 @@ void LPTIM1_Rotary_Encoder_Switch_Callback(LPTIM_HandleTypeDef *hlptim){
 				&& depressed_num < CLEAR_ALARM_COUNT_MAX){
 
 				Clear_Alarm();
-				master.alarm.alarm_triggered = 0;
 			}
 		}
 

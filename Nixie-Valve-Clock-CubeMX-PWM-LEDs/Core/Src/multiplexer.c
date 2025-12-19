@@ -276,7 +276,7 @@ uint8_t Check_Rotary_Encoder_Switch_State(volatile struct Rotary_Encoder_Switch_
 uint8_t Set_Fault_LED_ON(void){
 
 	HAL_TIM_PWM_Start(&htim3, TIM_CHANNEL_3);
-	__HAL_TIM_SET_COMPARE(&htim3, TIM_CHANNEL_3, 65535);
+	__HAL_TIM_SET_COMPARE(&htim3, TIM_CHANNEL_3, FAULT_RED_LED_BRIGHTNESS_CCR);
 
 	return 1;
 }
@@ -308,13 +308,10 @@ uint8_t Set_Alarm(uint8_t BCD_HH, uint8_t BCD_MM, uint8_t BCD_SS){
 uint8_t Clear_Alarm(void){
 
 	HAL_RTC_DeactivateAlarm(&hrtc, RTC_ALARM_A);
+	HAL_GPIO_WritePin(GPIO_Output_BUZZER_GPIO_Port, GPIO_Output_BUZZER_Pin, 0);
+	master.alarm.alarm_triggered = 0;
 
 	return 1;
-}
-
-void HAL_RTC_AlarmAEventCallback(RTC_HandleTypeDef *hrtc)
-{
-	asm("NOP");
 }
 
 uint8_t Set_Adjust_Time_LED_ON(void){
@@ -322,7 +319,7 @@ uint8_t Set_Adjust_Time_LED_ON(void){
 	//Set Rotary Encoder LED to Green
 
 	HAL_TIM_PWM_Start(&htim3, TIM_CHANNEL_1);
-	__HAL_TIM_SET_COMPARE(&htim3, TIM_CHANNEL_1, 65535);
+	__HAL_TIM_SET_COMPARE(&htim3, TIM_CHANNEL_1, ADJUST_TIME_GREEN_LED_BRIGHTNESS_CCR);
 
 	return 1;
 }
@@ -340,10 +337,10 @@ uint8_t Set_Alarm_Set_LEDs_ON(void){
 	//Set Rotary Encoder LEDs to Orange
 
 	HAL_TIM_PWM_Start(&htim3, TIM_CHANNEL_1);
-	__HAL_TIM_SET_COMPARE(&htim3, TIM_CHANNEL_1, 20000);
+	__HAL_TIM_SET_COMPARE(&htim3, TIM_CHANNEL_1, ALARM_SET_GREEN_LED_BRIGHTNESS_CCR);
 
 	HAL_TIM_PWM_Start(&htim3, TIM_CHANNEL_3);
-	__HAL_TIM_SET_COMPARE(&htim3, TIM_CHANNEL_3, 65535);
+	__HAL_TIM_SET_COMPARE(&htim3, TIM_CHANNEL_3, ALARM_SET_RED_LED_BRIGHTNESS_CCR);
 
 	return 1;
 }
@@ -363,6 +360,19 @@ uint8_t Initialise_Rotary_Encoder_LEDs(void){
 	__HAL_TIM_SET_COMPARE(&htim3, TIM_CHANNEL_3, 0);
 	HAL_TIM_PWM_Start(&htim3, TIM_CHANNEL_1);
 	__HAL_TIM_SET_COMPARE(&htim3, TIM_CHANNEL_1, 0);
+
+	return 1;
+}
+
+uint8_t Initialise_Valve_LEDs(void){
+
+	HAL_TIM_Base_Start(&htim1);
+	HAL_TIM_PWM_Start(&htim1, TIM_CHANNEL_1);
+	__HAL_TIM_SET_COMPARE(&htim1, TIM_CHANNEL_1, 0);
+	HAL_TIM_PWM_Start(&htim1, TIM_CHANNEL_2);
+	__HAL_TIM_SET_COMPARE(&htim1, TIM_CHANNEL_2, 0);
+	HAL_TIM_PWM_Start(&htim1, TIM_CHANNEL_3);
+	__HAL_TIM_SET_COMPARE(&htim1, TIM_CHANNEL_3, 0);
 
 	return 1;
 }
