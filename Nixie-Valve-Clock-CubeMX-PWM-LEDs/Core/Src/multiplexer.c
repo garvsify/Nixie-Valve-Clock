@@ -165,6 +165,7 @@ uint8_t Master_Init(struct Master *master){
 	master->alarm.alarm_time.StoreOperation = RTC_STOREOPERATION_RESET;
 
 	master->alarm.alarm_triggered = 0;
+	master->alarm.alarm_counter = 0;
 
 	return 1;
 }
@@ -344,6 +345,7 @@ uint8_t Clear_Alarm(void){
 
 	HAL_RTC_DeactivateAlarm(&hrtc, RTC_ALARM_A);
 	HAL_GPIO_WritePin(GPIO_Output_BUZZER_GPIO_Port, GPIO_Output_BUZZER_Pin, 0);
+	master.alarm.alarm_counter = 0;
 	master.alarm.alarm_triggered = 0;
 
 	return 1;
@@ -414,35 +416,34 @@ uint8_t Initialise_Valve_LEDs(void){
 
 uint8_t Sound_Alarm(void){
 
-	static uint32_t counter = 0;
 	const uint32_t short_tone = BUZZER_SHORT_TONE_COUNT;
 	const uint32_t short_off = BUZZER_SHORT_OFF_COUNT;
 	const uint32_t long_off = BUZZER_LONG_OFF_COUNT;
 
-	if(counter != BUZZER_COUNT_MAX){
+	if(master.alarm.alarm_counter != BUZZER_COUNT_MAX){
 
-		if(counter <= short_tone){
-
-			HAL_GPIO_WritePin(GPIO_Output_BUZZER_GPIO_Port, GPIO_Output_BUZZER_Pin, 1);
-		}
-		else if(counter > short_tone && counter <= (short_tone + short_off)){
-
-			HAL_GPIO_WritePin(GPIO_Output_BUZZER_GPIO_Port, GPIO_Output_BUZZER_Pin, 0);
-		}
-		else if(counter > (short_tone + short_off) && counter <= (short_tone + short_off + short_tone)){
+		if(master.alarm.alarm_counter <= short_tone){
 
 			HAL_GPIO_WritePin(GPIO_Output_BUZZER_GPIO_Port, GPIO_Output_BUZZER_Pin, 1);
 		}
-		else if(counter > (short_tone + short_off + short_tone) && counter <= (short_tone + short_off + short_tone + long_off)){
+		else if(master.alarm.alarm_counter > short_tone && master.alarm.alarm_counter <= (short_tone + short_off)){
+
+			HAL_GPIO_WritePin(GPIO_Output_BUZZER_GPIO_Port, GPIO_Output_BUZZER_Pin, 0);
+		}
+		else if(master.alarm.alarm_counter > (short_tone + short_off) && master.alarm.alarm_counter <= (short_tone + short_off + short_tone)){
+
+			HAL_GPIO_WritePin(GPIO_Output_BUZZER_GPIO_Port, GPIO_Output_BUZZER_Pin, 1);
+		}
+		else if(master.alarm.alarm_counter > (short_tone + short_off + short_tone) && master.alarm.alarm_counter <= (short_tone + short_off + short_tone + long_off)){
 
 			HAL_GPIO_WritePin(GPIO_Output_BUZZER_GPIO_Port, GPIO_Output_BUZZER_Pin, 0);
 		}
 
-		counter++;
+		master.alarm.alarm_counter++;
 	}
 	else{
 
-		counter = 0;
+		master.alarm.alarm_counter = 0;
 	}
 
 	return 1;
