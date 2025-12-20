@@ -344,9 +344,9 @@ uint8_t Set_Alarm(uint8_t BCD_HH, uint8_t BCD_MM, uint8_t BCD_SS){
 uint8_t Clear_Alarm(void){
 
 	HAL_RTC_DeactivateAlarm(&hrtc, RTC_ALARM_A);
-	HAL_GPIO_WritePin(GPIO_Output_BUZZER_GPIO_Port, GPIO_Output_BUZZER_Pin, 0);
 	master.alarm.alarm_counter = 0;
 	master.alarm.alarm_triggered = 0;
+	HAL_GPIO_WritePin(GPIO_Output_BUZZER_GPIO_Port, GPIO_Output_BUZZER_Pin, 0);
 
 	return 1;
 }
