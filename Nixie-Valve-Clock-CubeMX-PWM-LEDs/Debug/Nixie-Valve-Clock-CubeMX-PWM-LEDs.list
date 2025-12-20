@@ -5492,7 +5492,7 @@ static void MX_TIM17_Init(void)
  8002246:	46c0      	nop			@ (mov r8, r8)
  8002248:	20000488 	.word	0x20000488
  800224c:	40014800 	.word	0x40014800
- 8002250:	00009c40 	.word	0x00009c40
+ 8002250:	0000c350 	.word	0x0000c350
 
 08002254 <MX_USART2_UART_Init>:
   * @brief USART2 Initialization Function
