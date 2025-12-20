@@ -1463,79 +1463,79 @@ LOAD C:/ST/STM32CubeIDE_1.19.0/STM32CubeIDE/plugins/com.st.stm32cube.ide.mcu.ext
                 0x08000434                __clzsi2
  *(.text*)
  .text.TIM17_Multiplexer_Sequencer_Callback
-                0x08000470      0x35c ./Core/Src/custom_callbacks.o
+                0x08000470      0x360 ./Core/Src/custom_callbacks.o
                 0x08000470                TIM17_Multiplexer_Sequencer_Callback
  .text.TIM16_Anti_Cathode_Poisoning_Callback
-                0x080007cc       0xa0 ./Core/Src/custom_callbacks.o
-                0x080007cc                TIM16_Anti_Cathode_Poisoning_Callback
+                0x080007d0       0xa0 ./Core/Src/custom_callbacks.o
+                0x080007d0                TIM16_Anti_Cathode_Poisoning_Callback
  .text.TIM14_Valve_Blink_Callback
-                0x0800086c       0x18 ./Core/Src/custom_callbacks.o
-                0x0800086c                TIM14_Valve_Blink_Callback
+                0x08000870       0x18 ./Core/Src/custom_callbacks.o
+                0x08000870                TIM14_Valve_Blink_Callback
  .text.LPTIM1_Rotary_Encoder_Switch_Callback
-                0x08000884      0x2b8 ./Core/Src/custom_callbacks.o
-                0x08000884                LPTIM1_Rotary_Encoder_Switch_Callback
+                0x08000888      0x2b8 ./Core/Src/custom_callbacks.o
+                0x08000888                LPTIM1_Rotary_Encoder_Switch_Callback
  .text.HAL_GPIO_EXTI_Rising_Callback
-                0x08000b3c        0xe ./Core/Src/custom_callbacks.o
-                0x08000b3c                HAL_GPIO_EXTI_Rising_Callback
- *fill*         0x08000b4a        0x2 
+                0x08000b40        0xe ./Core/Src/custom_callbacks.o
+                0x08000b40                HAL_GPIO_EXTI_Rising_Callback
+ *fill*         0x08000b4e        0x2 
  .text.Alarm_Callback
-                0x08000b4c        0xc ./Core/Src/custom_callbacks.o
-                0x08000b4c                Alarm_Callback
+                0x08000b50        0xc ./Core/Src/custom_callbacks.o
+                0x08000b50                Alarm_Callback
  .text.RTC_Time_Init
-                0x08000b58       0x40 ./Core/Src/main.o
-                0x08000b58                RTC_Time_Init
+                0x08000b5c       0x40 ./Core/Src/main.o
+                0x08000b5c                RTC_Time_Init
  .text.SystemClock_Config
-                0x08000b98       0x90 ./Core/Src/main.o
-                0x08000b98                SystemClock_Config
+                0x08000b9c       0x90 ./Core/Src/main.o
+                0x08000b9c                SystemClock_Config
  .text.startup.main
-                0x08000c28      0x834 ./Core/Src/main.o
-                0x08000c28                main
+                0x08000c2c      0x834 ./Core/Src/main.o
+                0x08000c2c                main
  .text.Error_Handler
-                0x0800145c        0x4 ./Core/Src/main.o
-                0x0800145c                Error_Handler
+                0x08001460        0x4 ./Core/Src/main.o
+                0x08001460                Error_Handler
  .text.Write_Digit_to_Valve
-                0x08001460       0x5c ./Core/Src/multiplexer.o
-                0x08001460                Write_Digit_to_Valve
+                0x08001464       0x5c ./Core/Src/multiplexer.o
+                0x08001464                Write_Digit_to_Valve
  .text.Turn_All_Valves_Off
-                0x080014bc       0x28 ./Core/Src/multiplexer.o
-                0x080014bc                Turn_All_Valves_Off
+                0x080014c0       0x28 ./Core/Src/multiplexer.o
+                0x080014c0                Turn_All_Valves_Off
  .text.Start_Multiplexer_Timer
-                0x080014e4       0x24 ./Core/Src/multiplexer.o
-                0x080014e4                Start_Multiplexer_Timer
+                0x080014e8       0x24 ./Core/Src/multiplexer.o
+                0x080014e8                Start_Multiplexer_Timer
  .text.Start_Anti_Cathode_Poisoning_Timer
-                0x08001508       0x24 ./Core/Src/multiplexer.o
-                0x08001508                Start_Anti_Cathode_Poisoning_Timer
+                0x0800150c       0x24 ./Core/Src/multiplexer.o
+                0x0800150c                Start_Anti_Cathode_Poisoning_Timer
  .text.Start_Adjust_Time_Slash_Alarm_Set_Mode_Timer
-                0x0800152c       0x24 ./Core/Src/multiplexer.o
-                0x0800152c                Start_Adjust_Time_Slash_Alarm_Set_Mode_Timer
+                0x08001530       0x24 ./Core/Src/multiplexer.o
+                0x08001530                Start_Adjust_Time_Slash_Alarm_Set_Mode_Timer
  .text.Stop_Adjust_Time_Slash_Alarm_Set_Mode_Timer
-                0x08001550       0x1c ./Core/Src/multiplexer.o
-                0x08001550                Stop_Adjust_Time_Slash_Alarm_Set_Mode_Timer
+                0x08001554       0x1c ./Core/Src/multiplexer.o
+                0x08001554                Stop_Adjust_Time_Slash_Alarm_Set_Mode_Timer
  .text.Master_Init
-                0x0800156c       0x42 ./Core/Src/multiplexer.o
-                0x0800156c                Master_Init
+                0x08001570       0x42 ./Core/Src/multiplexer.o
+                0x08001570                Master_Init
  .text.Set_System_Mode_and_Store_Previous_Mode
-                0x080015ae        0xc ./Core/Src/multiplexer.o
-                0x080015ae                Set_System_Mode_and_Store_Previous_Mode
- *fill*         0x080015ba        0x2 
+                0x080015b2        0xc ./Core/Src/multiplexer.o
+                0x080015b2                Set_System_Mode_and_Store_Previous_Mode
+ *fill*         0x080015be        0x2 
  .text.Toggle_HV_Power_Supply
-                0x080015bc       0x1c ./Core/Src/multiplexer.o
-                0x080015bc                Toggle_HV_Power_Supply
+                0x080015c0       0x1c ./Core/Src/multiplexer.o
+                0x080015c0                Toggle_HV_Power_Supply
  .text.Get_RTC_Time
-                0x080015d8       0x28 ./Core/Src/multiplexer.o
-                0x080015d8                Get_RTC_Time
+                0x080015dc       0x28 ./Core/Src/multiplexer.o
+                0x080015dc                Get_RTC_Time
  .text.Check_Rotary_Encoder_Switch_State
-                0x08001600       0x5c ./Core/Src/multiplexer.o
-                0x08001600                Check_Rotary_Encoder_Switch_State
+                0x08001604       0x5c ./Core/Src/multiplexer.o
+                0x08001604                Check_Rotary_Encoder_Switch_State
  .text.Set_Fault_LED_ON
-                0x0800165c       0x20 ./Core/Src/multiplexer.o
-                0x0800165c                Set_Fault_LED_ON
+                0x08001660       0x20 ./Core/Src/multiplexer.o
+                0x08001660                Set_Fault_LED_ON
  .text.Set_Alarm
-                0x0800167c       0x4c ./Core/Src/multiplexer.o
-                0x0800167c                Set_Alarm
+                0x08001680       0x4c ./Core/Src/multiplexer.o
+                0x08001680                Set_Alarm
  .text.Clear_Alarm
-                0x080016c8       0x34 ./Core/Src/multiplexer.o
-                0x080016c8                Clear_Alarm
+                0x080016cc       0x30 ./Core/Src/multiplexer.o
+                0x080016cc                Clear_Alarm
  .text.Set_Adjust_Time_LED_ON
                 0x080016fc       0x20 ./Core/Src/multiplexer.o
                 0x080016fc                Set_Adjust_Time_LED_ON
