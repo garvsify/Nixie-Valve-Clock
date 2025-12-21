@@ -145,7 +145,7 @@ int main(void)
 
 	//Read_Time_From_Flash((RTC_TimeTypeDef*)&master.get_time);
 	RTC_Time_Init();
-	HAL_RTCEx_SetSmoothCalib(&hrtc, 32, CALP_DECREASE_FREQUENCY, CALM_DEFAULT); //calibrate time - (CALP × 512) − CALM - second arg is CALP, third arg is CALM
+	HAL_RTCEx_SetSmoothCalib(&hrtc, 32, CALP_INCREASE_FREQUENCY, CALM_DEFAULT); //calibrate time - (CALP × 512) − CALM - second arg is CALP, third arg is CALM
 	Master_Init(&master);
 	Start_Multiplexer_Timer();
 	Start_Anti_Cathode_Poisoning_Timer();
@@ -229,8 +229,8 @@ void SystemClock_Config(void)
   /** Configure LSE Drive Capability
   */
   HAL_PWR_EnableBkUpAccess();
-  //__HAL_RCC_LSEDRIVE_CONFIG(RCC_LSEDRIVE_MEDIUMLOW);
-  __HAL_RCC_LSEDRIVE_CONFIG(RCC_LSEDRIVE_MEDIUMHIGH);
+  __HAL_RCC_LSEDRIVE_CONFIG(RCC_LSEDRIVE_MEDIUMLOW);
+  //__HAL_RCC_LSEDRIVE_CONFIG(RCC_LSEDRIVE_MEDIUMHIGH);
   //__HAL_RCC_LSEDRIVE_CONFIG(RCC_LSEDRIVE_HIGH);
 
   /** Initializes the RCC Oscillators according to the specified parameters
