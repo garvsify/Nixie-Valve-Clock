@@ -6,7 +6,7 @@
  */
 
 #include "custom_callbacks.h"
-#include "main.h"
+#include "system.h"
 
 void TIM17_Multiplexer_Sequencer_Callback(TIM_HandleTypeDef *htim){
 
@@ -574,30 +574,26 @@ void UART2_RX_Transfer_Complete_Callback(UART_HandleTypeDef *huart){
 
 		ok = 1;
 	}
-	else if(master.RX_buffer[COMMAND_INDEX] == CHANGE_PPM_COMMAND){
+	else if(master.RX_buffer[COMMAND_INDEX] == CHANGE_CALM_COMMAND){
 
-		master.adjust_ppm = (uint16_t)(((uint32_t)master.RX_buffer[VALUE_INDEX] * PPM_MAX) >> 8);
+		master.calibration.CALM = (uint16_t)(((uint32_t)master.RX_buffer[VALUE_INDEX] * CALM_MAX) >> 8);
 
-		HAL_RTCEx_SetSmoothCalib(&hrtc, 32, master.adjust_ppm_polarity, master.adjust_ppm);
+		HAL_RTCEx_SetSmoothCalib(&hrtc, 32, master.calibration.CALP, master.calibration.CALM);
 
 		ok = 1;
 	}
-	else if(master.RX_buffer[COMMAND_INDEX] == CHANGE_PPM_ADJUST_POLARITY){
+	else if(master.RX_buffer[COMMAND_INDEX] == CHANGE_CALP_COMMAND){
 
-		if(master.RX_buffer[VALUE_INDEX] == ADJUST_TIME_CAL_DECREASE_FREQUENCY){
+		if(master.RX_buffer[VALUE_INDEX] == CALP_DECREASE_FREQUENCY){
 
-			master.adjust_ppm_polarity = ADJUST_TIME_CAL_DECREASE_FREQUENCY;
-
-			HAL_RTCEx_SetSmoothCalib(&hrtc, 32, master.adjust_ppm_polarity, master.adjust_ppm);
-
+			master.calibration.CALP = CALP_DECREASE_FREQUENCY;
+			HAL_RTCEx_SetSmoothCalib(&hrtc, 32, master.calibration.CALP, master.calibration.CALM);
 			ok = 1;
 		}
-		else if(master.RX_buffer[VALUE_INDEX] == ADJUST_TIME_CAL_INCREASE_FREQUENCY){
+		else if(master.RX_buffer[VALUE_INDEX] == CALP_INCREASE_FREQUENCY){
 
-			master.adjust_ppm_polarity = ADJUST_TIME_CAL_INCREASE_FREQUENCY;
-
-			HAL_RTCEx_SetSmoothCalib(&hrtc, 32, master.adjust_ppm_polarity, master.adjust_ppm);
-
+			master.calibration.CALP = CALP_INCREASE_FREQUENCY;
+			HAL_RTCEx_SetSmoothCalib(&hrtc, 32, master.calibration.CALP, master.calibration.CALM);
 			ok = 1;
 		}
 	}

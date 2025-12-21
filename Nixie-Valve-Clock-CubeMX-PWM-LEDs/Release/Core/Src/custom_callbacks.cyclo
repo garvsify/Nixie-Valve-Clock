@@ -5,4 +5,4 @@
 ../Core/Src/custom_callbacks.c:554:6:HAL_GPIO_EXTI_Rising_Callback	1
 ../Core/Src/custom_callbacks.c:561:6:Alarm_Callback	1
 ../Core/Src/custom_callbacks.c:566:6:UART2_RX_Transfer_Complete_Callback	6
-../Core/Src/custom_callbacks.c:615:6:UART2_TX_Transfer_Complete_Callback	1
+../Core/Src/custom_callbacks.c:611:6:UART2_TX_Transfer_Complete_Callback	1
