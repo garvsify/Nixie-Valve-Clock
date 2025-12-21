@@ -463,6 +463,13 @@ void LPTIM1_Rotary_Encoder_Switch_Callback(LPTIM_HandleTypeDef *hlptim){
 
 				Set_Alarm_Set_LEDs_ON();
 			}
+			//cancel alarm
+			else if((depressed_num >= CANCEL_ALARM_COUNT_MIN)
+					&& (depressed_num < CANCEL_ALARM_COUNT_MAX) && (master.alarm.alarm_set == 1)){
+
+				Clear_Alarm();
+				master.leds.Double_Flash_Red_LED = 1;
+			}
 		}
 		else if(time_adjust_mode_is_active == 1){
 

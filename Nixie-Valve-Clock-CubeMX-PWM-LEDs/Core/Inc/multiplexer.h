@@ -86,6 +86,7 @@ struct Time_Adjust{
 struct Alarm{
 
 	uint8_t alarm_triggered;
+	uint8_t alarm_set;
 	volatile uint32_t alarm_counter;
 	RTC_TimeTypeDef alarm_time;
 	uint8_t Hours_Bin;
