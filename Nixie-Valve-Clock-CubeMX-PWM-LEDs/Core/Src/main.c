@@ -145,7 +145,7 @@ int main(void)
 
 	//Read_Time_From_Flash((RTC_TimeTypeDef*)&master.get_time);
 	RTC_Time_Init();
-	HAL_RTCEx_SetSmoothCalib(&hrtc, 32, ADJUST_TIME_CAL_INCREASE_FREQUENCY, ADJUST_TIME_CAL_PPM); //calibrate time - second number = 0 -> slows down clock using final number //second number = 1 -> quickens the clock using final number
+	HAL_RTCEx_SetSmoothCalib(&hrtc, 32, ADJUST_TIME_CAL_INCREASE_FREQUENCY, ADJUST_TIME_CAL_PPM); //calibrate time - (CALP × 512) − CALM - second arg is CALP, third arg is CALM
 	Master_Init(&master);
 	Start_Multiplexer_Timer();
 	Start_Anti_Cathode_Poisoning_Timer();
