@@ -348,7 +348,7 @@ void TIM17_Multiplexer_Sequencer_Callback(TIM_HandleTypeDef *htim){
 	if(master.alarm.alarm_triggered == 1){
 
 		__HAL_TIM_SET_COMPARE(&htim1, TIM_CHANNEL_1, triangle_wavetable[counter]);
-		__HAL_TIM_SET_COMPARE(&htim1, TIM_CHANNEL_2, 65535 - triangle_wavetable[counter]);
+		__HAL_TIM_SET_COMPARE(&htim1, TIM_CHANNEL_2, triangle_wavetable[counter]);
 		__HAL_TIM_SET_COMPARE(&htim1, TIM_CHANNEL_3, triangle_wavetable[counter]);
 
 		if(counter == TRI_WAVETABLE_SIZE - 1){

@@ -455,6 +455,11 @@ uint8_t Sound_Alarm(void){
 		master.alarm.alarm_counter = 0;
 	}
 
+	if(master.alarm.alarm_triggered == 0){ //necessary as sometimes the buzzer gets stuck ON
+
+		HAL_GPIO_WritePin(GPIO_Output_BUZZER_GPIO_Port, GPIO_Output_BUZZER_Pin, 0);
+	}
+
 	return 1;
 }
 
