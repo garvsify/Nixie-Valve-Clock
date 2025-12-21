@@ -448,3 +448,38 @@ uint8_t Sound_Alarm(void){
 
 	return 1;
 }
+
+uint8_t Double_Flash_Red_Rotary_Encoder_LED(void){
+
+	if(master.leds.LED_counter[ROTARY_ENCODER_RED_LED_NUM] != LED_DOUBLE_FLASH_COUNT_MAX){
+
+		if(master.leds.LED_counter[ROTARY_ENCODER_RED_LED_NUM] <= LED_SHORT_ON_COUNT){
+
+			__HAL_TIM_SET_COMPARE(&htim3, TIM_CHANNEL_3, RED_LED_DOUBLE_FLASH_BRIGHTNESS_CCR);
+		}
+		else if(master.leds.LED_counter[ROTARY_ENCODER_RED_LED_NUM] > LED_SHORT_ON_COUNT
+		          && master.leds.LED_counter[ROTARY_ENCODER_RED_LED_NUM] <= (LED_SHORT_ON_COUNT + LED_SHORT_OFF_COUNT)){
+
+			__HAL_TIM_SET_COMPARE(&htim3, TIM_CHANNEL_3, 0);
+		}
+		else if(master.leds.LED_counter[ROTARY_ENCODER_RED_LED_NUM] > (LED_SHORT_ON_COUNT + LED_SHORT_OFF_COUNT)
+				          && master.leds.LED_counter[ROTARY_ENCODER_RED_LED_NUM] <= (LED_SHORT_ON_COUNT + LED_SHORT_OFF_COUNT + LED_SHORT_ON_COUNT)){
+
+			__HAL_TIM_SET_COMPARE(&htim3, TIM_CHANNEL_3, RED_LED_DOUBLE_FLASH_BRIGHTNESS_CCR);
+		}
+		else if(master.leds.LED_counter[ROTARY_ENCODER_RED_LED_NUM] > (LED_SHORT_ON_COUNT + LED_SHORT_OFF_COUNT + LED_SHORT_ON_COUNT)
+						  && master.leds.LED_counter[ROTARY_ENCODER_RED_LED_NUM] <= (LED_SHORT_ON_COUNT + LED_SHORT_OFF_COUNT + LED_SHORT_ON_COUNT + LED_SHORT_OFF_COUNT)){
+
+			__HAL_TIM_SET_COMPARE(&htim3, TIM_CHANNEL_3, 0);
+		}
+
+		master.leds.LED_counter[ROTARY_ENCODER_RED_LED_NUM]++;
+	}
+	else{
+
+		master.leds.LED_counter[ROTARY_ENCODER_RED_LED_NUM] = 0;
+		master.leds.Double_Flash_Red_LED = 0;
+	}
+
+	return 1;
+}
