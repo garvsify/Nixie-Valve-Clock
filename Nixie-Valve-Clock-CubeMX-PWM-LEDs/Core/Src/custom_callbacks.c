@@ -528,6 +528,8 @@ void LPTIM1_Rotary_Encoder_Switch_Callback(LPTIM_HandleTypeDef *hlptim){
 
 				Set_Alarm(master.alarm.alarm_time.Hours, master.alarm.alarm_time.Minutes, master.alarm.alarm_time.Seconds);
 				Set_Alarm_Set_LEDs_OFF();
+
+				master.alarm.alarm_set = 1;
 			}
 		}
 		else if(master.alarm.alarm_triggered == 1){

@@ -157,7 +157,7 @@ int main(void)
 	{
 		if(master.alarm.alarm_triggered != 1){
 
-			HAL_Delay(50);
+			HAL_Delay(ROTARY_ENCODER_MS_DELAY_COUNT_BETWEEN_CHECKS);
 
 			master.encoder_first = master.encoder_second;
 			master.encoder_second = __HAL_TIM_GET_COUNTER(&htim2) >> 1;
@@ -366,17 +366,16 @@ int main(void)
 				master.alarm.alarm_time.Seconds = RTC_ByteToBcd2(master.alarm.Seconds_Bin);
 			}
 		}
+		else{
 
+			Sound_Alarm();
+		}
 		if(master.leds.Double_Flash_Red_LED == 1){
 
 			Double_Flash_Red_Rotary_Encoder_LED();
 		}
 
 		/* USER CODE BEGIN 3 */
-		else{
-
-			Sound_Alarm();
-		}
 	}
   /* USER CODE END 3 */
 }
