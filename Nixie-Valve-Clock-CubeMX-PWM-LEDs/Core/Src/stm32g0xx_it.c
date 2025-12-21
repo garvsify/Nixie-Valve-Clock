@@ -156,6 +156,11 @@ void EXTI0_1_IRQHandler(void)
   /* USER CODE END EXTI0_1_IRQn 1 */
 }
 
+void USART2_IRQHandler(void){
+
+	HAL_UART_IRQHandler(&huart2);
+}
+
 /**
   * @brief This function handles EXTI line 4 to 15 interrupts.
   */

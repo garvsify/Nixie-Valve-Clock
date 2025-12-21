@@ -21,6 +21,7 @@
 #define ROTARY_ENCODER_SWITCH_INTERRUPT_PRIORITY 0// if not zero, adjusting dead time tends to extend the depression time for the rotary encoder switch
 #define ANTI_CATHODE_POISONING_TIMER_INTERRUPT_PRIORITY 2
 #define VALVE_BLINK_TIMER_INTERRUPT_PRIORITY 2
+#define UART_INTERRUPT_PRIORITY 2
 
 #define ANTI_CATHODE_POISONING_TIMER_WAITING_MODE_PRESCALER 65535  //with clkdivby4 should give ~4.5min overflow
 #define ANTI_CATHODE_POISONING_TIMER_WAITING_MODE_PERIOD_MINUS_ONE 65535 //5000(test) //with clkdivby4 should give ~4.5min overflow

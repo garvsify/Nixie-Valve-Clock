@@ -153,7 +153,7 @@ int main(void)
 	HAL_LPTIM_SetOnce_Start_IT(&hlptim1, LPTIM1_CCR_CHECK, LPTIM1_CCR_CHECK);
 	Initialise_Rotary_Encoder_LEDs();
 	Initialise_Valve_LEDs();
-	HAL_UART_Receive_IT(&huart2, (uint8_t*)master.RX_buffer, 1);//COMMAND_PLUS_ARGUMENT_NUM_BYTES);
+	HAL_UART_Receive_IT(&huart2, (uint8_t*)master.RX_buffer, COMMAND_PLUS_ARGUMENT_NUM_BYTES);
 
 	while (1)
 	{

@@ -573,6 +573,7 @@ void UART2_RX_Transfer_Complete_Callback(UART_HandleTypeDef *huart){
 	else if(master.RX_buffer[COMMAND_INDEX] == CHANGE_PPM_COMMAND){
 
 		master.adjust_ppm = (uint16_t)(((uint32_t)master.RX_buffer[VALUE_INDEX] * PPM_MAX) >> 8);
+
 		HAL_RTCEx_SetSmoothCalib(&hrtc, 32, master.adjust_ppm_polarity, master.adjust_ppm);
 	}
 	else if(master.RX_buffer[COMMAND_INDEX] == CHANGE_PPM_ADJUST_POLARITY){
@@ -592,5 +593,7 @@ void UART2_RX_Transfer_Complete_Callback(UART_HandleTypeDef *huart){
 	//clear buffer
 	master.RX_buffer[0] = 0;
 	master.RX_buffer[1] = 0;
+
+	HAL_UART_Receive_IT(&huart2, (uint8_t*)master.RX_buffer, COMMAND_PLUS_ARGUMENT_NUM_BYTES);
 }
 
