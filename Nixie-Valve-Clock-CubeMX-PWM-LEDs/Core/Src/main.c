@@ -367,6 +367,11 @@ int main(void)
 			}
 		}
 
+		if(master.leds.Double_Flash_Red_LED == 1){
+
+			Double_Flash_Red_Rotary_Encoder_LED();
+		}
+
 		/* USER CODE BEGIN 3 */
 		else{
 
