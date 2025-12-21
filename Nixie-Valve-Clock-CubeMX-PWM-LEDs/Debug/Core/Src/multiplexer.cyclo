@@ -24,3 +24,4 @@
 ../Core/Src/multiplexer.c:413:9:Initialise_Valve_LEDs	1
 ../Core/Src/multiplexer.c:426:9:Sound_Alarm	10
 ../Core/Src/multiplexer.c:466:9:Double_Flash_Red_Rotary_Encoder_LED	9
+../Core/Src/multiplexer.c:501:9:Check_Rotary_Encoder	31

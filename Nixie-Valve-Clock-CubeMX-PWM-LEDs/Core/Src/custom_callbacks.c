@@ -604,7 +604,7 @@ void UART2_RX_Transfer_Complete_Callback(UART_HandleTypeDef *huart){
 	//load transmit buffer with response
 	master.TX_buffer[RESPONSE_INDEX] = ok;
 
-	//clear buffer
+	//clear receive buffer
 	master.RX_buffer[COMMAND_INDEX] = 0;
 	master.RX_buffer[VALUE_INDEX] = 0;
 

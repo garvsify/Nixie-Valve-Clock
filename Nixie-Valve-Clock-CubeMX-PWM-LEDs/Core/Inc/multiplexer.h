@@ -69,7 +69,7 @@
 
 #define ADJUST_TIME_CAL_DECREASE_FREQUENCY 0
 #define ADJUST_TIME_CAL_INCREASE_FREQUENCY 1
-#define ADJUST_TIME_CAL_PPM 0
+#define ADJUST_TIME_CAL_PPM 200
 
 #define CHANGE_DEAD_TIME_COMMAND 0x00
 #define CHANGE_PPM_COMMAND 0x01
@@ -235,5 +235,6 @@ uint8_t Initialise_Rotary_Encoder_LEDs(void);
 uint8_t Sound_Alarm(void);
 uint8_t Initialise_Valve_LEDs(void);
 uint8_t Double_Flash_Red_Rotary_Encoder_LED(void);
+uint8_t Check_Rotary_Encoder(void);
 
 #endif /* INC_MULTIPLEXER_H_ */
