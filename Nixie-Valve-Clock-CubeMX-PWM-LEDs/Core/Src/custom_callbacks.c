@@ -17,7 +17,7 @@ void TIM17_Multiplexer_Sequencer_Callback(TIM_HandleTypeDef *htim){
 	Turn_All_Valves_Off(); // NEW: Ensure all valves are off at the start of each multiplex cycle, fixes bug, also means only have to
 	//find cases below where valves are ON only
 
-	for(uint32_t i = 0; i < DEAD_TIME; i++){
+	for(uint32_t i = 0; i < master.dead_time; i++){
 
 		asm("NOP");
 	}
@@ -561,5 +561,36 @@ void HAL_GPIO_EXTI_Rising_Callback(uint16_t GPIO_Pin){
 void Alarm_Callback(RTC_HandleTypeDef *hrtc)
 {
 	master.alarm.alarm_triggered = 1;
+}
+
+void UART2_RX_Transfer_Complete_Callback(UART_HandleTypeDef *huart){
+
+	//check for command type
+	if(master.RX_buffer[COMMAND_INDEX] == CHANGE_DEAD_TIME_COMMAND){
+
+		master.dead_time = (uint16_t)(((uint32_t)master.RX_buffer[VALUE_INDEX] * DEAD_TIME_MAX) >> 8);
+	}
+	else if(master.RX_buffer[COMMAND_INDEX] == CHANGE_PPM_COMMAND){
+
+		master.adjust_ppm = (uint16_t)(((uint32_t)master.RX_buffer[VALUE_INDEX] * PPM_MAX) >> 8);
+		HAL_RTCEx_SetSmoothCalib(&hrtc, 32, master.adjust_ppm_polarity, master.adjust_ppm);
+	}
+	else if(master.RX_buffer[COMMAND_INDEX] == CHANGE_PPM_ADJUST_POLARITY){
+
+		if(master.RX_buffer[VALUE_INDEX] == ADJUST_TIME_CAL_DECREASE_FREQUENCY){
+
+			master.adjust_ppm_polarity = ADJUST_TIME_CAL_DECREASE_FREQUENCY;
+		}
+		else if(master.RX_buffer[VALUE_INDEX] == ADJUST_TIME_CAL_INCREASE_FREQUENCY){
+
+			master.adjust_ppm_polarity = ADJUST_TIME_CAL_INCREASE_FREQUENCY;
+		}
+
+		HAL_RTCEx_SetSmoothCalib(&hrtc, 32, master.adjust_ppm_polarity, master.adjust_ppm);
+	}
+
+	//clear buffer
+	master.RX_buffer[0] = 0;
+	master.RX_buffer[1] = 0;
 }
 

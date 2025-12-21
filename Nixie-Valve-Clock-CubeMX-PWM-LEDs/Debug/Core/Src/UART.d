@@ -1,5 +1,4 @@
-Core/Src/custom_callbacks.o: ../Core/Src/custom_callbacks.c \
- ../Core/Inc/custom_callbacks.h \
+Core/Src/UART.o: ../Core/Src/UART.c ../Core/Inc/UART.h \
  ../Drivers/CMSIS/Device/ST/STM32G0xx/Include/stm32g031xx.h \
  ../Drivers/CMSIS/Include/core_cm0plus.h \
  ../Drivers/CMSIS/Include/cmsis_version.h \
@@ -36,9 +35,8 @@ Core/Src/custom_callbacks.o: ../Core/Src/custom_callbacks.c \
  ../Drivers/STM32G0xx_HAL_Driver/Inc/stm32g0xx_hal_uart.h \
  ../Drivers/STM32G0xx_HAL_Driver/Inc/stm32g0xx_hal_uart_ex.h \
  ../Core/Inc/main.h ../Core/Inc/custom_callbacks.h \
- ../Core/Inc/multiplexer.h ../Core/Inc/timers.h ../Core/Inc/main.h \
- ../Core/Inc/UART.h
-../Core/Inc/custom_callbacks.h:
+ ../Core/Inc/multiplexer.h ../Core/Inc/timers.h ../Core/Inc/UART.h
+../Core/Inc/UART.h:
 ../Drivers/CMSIS/Device/ST/STM32G0xx/Include/stm32g031xx.h:
 ../Drivers/CMSIS/Include/core_cm0plus.h:
 ../Drivers/CMSIS/Include/cmsis_version.h:
@@ -78,5 +76,4 @@ Core/Src/custom_callbacks.o: ../Core/Src/custom_callbacks.c \
 ../Core/Inc/custom_callbacks.h:
 ../Core/Inc/multiplexer.h:
 ../Core/Inc/timers.h:
-../Core/Inc/main.h:
 ../Core/Inc/UART.h:

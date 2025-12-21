@@ -20,4 +20,6 @@ void TIM1_CH3_Valve_LED_2_Callback(TIM_HandleTypeDef *htim);
 void LPTIM1_Rotary_Encoder_Switch_Callback(LPTIM_HandleTypeDef *hlptim);
 void HAL_GPIO_EXTI_Rising_Callback(uint16_t GPIO_Pin);
 void Alarm_Callback(RTC_HandleTypeDef *hrtc);
+void UART2_RX_Transfer_Complete_Callback(UART_HandleTypeDef *huart);
+
 #endif /* INC_CUSTOM_CALLBACKS_H_ */

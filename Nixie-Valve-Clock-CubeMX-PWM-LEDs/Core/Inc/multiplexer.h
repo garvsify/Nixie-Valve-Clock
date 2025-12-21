@@ -14,7 +14,8 @@
 #define NUM_BINARY_DIGITS_IN_BCD 4
 #define MULTIPLEXER_TIMER_PERIOD_MINUS_ONE 40000 //with 0 prescaler and clkdivby4 should give 4.096ms overflow; with 2 prescaler and clkdivby4 should give 12.288ms overflow
 #define MULTIPLEXER_TIMER_PRESCALER 3 //with 0 prescaler and clkdivby4 should give 4.096ms overflow; with 2 prescaler and clkdivby4 should give 12.288ms overflow
-#define DEAD_TIME 3000 //max value is realistically 3000, otherwise time measurements on rotary encoder switch are too long
+#define DEAD_TIME 2500 //max value is realistically 3000, otherwise time measurements on rotary encoder switch are too long
+#define DEAD_TIME_MAX 2500
 
 #define MULTIPLEXER_TIMER_INTERRUPT_PRIORITY 0 //has to be zero otherwise dead time fucks shit up, flickering starts occurring
 #define ROTARY_ENCODER_SWITCH_INTERRUPT_PRIORITY 0// if not zero, adjusting dead time tends to extend the depression time for the rotary encoder switch
@@ -34,7 +35,7 @@
 #define ROTARY_ENCODER_SWITCH_CONFIDENCE_COUNT 14
 #define COUNT_TO_DELAY_RISING_ROTARY_ENCODER_EDGE 4
 
-#define ROTARY_ENCODER_MS_DELAY_COUNT_BETWEEN_CHECKS 25
+#define ROTARY_ENCODER_MS_DELAY_COUNT_BETWEEN_CHECKS 10
 #define NUM_ROTARY_ENCODER_LEDs 2
 #define ROTARY_ENCODER_SWITCH_ENTER_SLASH_ADVANCE_TIME_ADJUST_MODE_COUNT_MIN 2000
 #define ROTARY_ENCODER_SWITCH_ENTER_SLASH_ADVANCE_TIME_ADJUST_MODE_COUNT_MAX ROTARY_ENCODER_SWITCH_ENTER_SLASH_ADVANCE_TIME_ADJUST_MODE_COUNT_MIN + 2000
@@ -60,14 +61,22 @@
 #define FAULT_RED_LED_BRIGHTNESS_CCR 65535
 #define ROTARY_ENCODER_RED_LED_NUM 1
 #define ROTARY_ENCODER_GREEN_LED_NUM 0
-#define LED_SHORT_ON_COUNT 8
-#define LED_SHORT_OFF_COUNT 6
+#define LED_SHORT_ON_COUNT 16
+#define LED_SHORT_OFF_COUNT 32
 #define LED_DOUBLE_FLASH_COUNT_MAX (LED_SHORT_ON_COUNT << 1) + (LED_SHORT_OFF_COUNT << 1)
 #define RED_LED_DOUBLE_FLASH_BRIGHTNESS_CCR 30000
 
 #define ADJUST_TIME_CAL_DECREASE_FREQUENCY 0
 #define ADJUST_TIME_CAL_INCREASE_FREQUENCY 1
 #define ADJUST_TIME_CAL_PPM 200
+
+#define CHANGE_DEAD_TIME_COMMAND 0x00
+#define CHANGE_PPM_COMMAND 0x01
+#define PPM_MAX 475
+#define CHANGE_PPM_ADJUST_POLARITY 0x02
+#define COMMAND_PLUS_ARGUMENT_NUM_BYTES 2
+#define COMMAND_INDEX 0
+#define VALUE_INDEX 1
 
 #define TRI_WAVETABLE_SIZE 256
 
@@ -178,6 +187,13 @@ struct Master{
 	struct LEDs leds;
 
 	volatile uint32_t depressed_num_monitor;
+
+	volatile uint8_t RX_buffer[COMMAND_PLUS_ARGUMENT_NUM_BYTES];
+
+	volatile uint16_t dead_time;
+
+	volatile uint8_t adjust_ppm_polarity;
+	volatile uint16_t adjust_ppm;
 };
 
 extern GPIO_TypeDef* Valve_Anode_Registers[NUM_VALVES];

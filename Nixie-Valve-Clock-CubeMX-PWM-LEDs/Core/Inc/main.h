@@ -30,6 +30,7 @@ extern "C" {
 #include "stm32g0xx_hal.h"
 #include "custom_callbacks.h"
 #include "multiplexer.h"
+#include "UART.h"
 
 /* Private includes ----------------------------------------------------------*/
 /* USER CODE BEGIN Includes */

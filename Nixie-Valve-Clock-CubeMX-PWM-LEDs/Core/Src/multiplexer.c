@@ -167,6 +167,13 @@ uint8_t Master_Init(struct Master *master){
 	master->alarm.alarm_triggered = 0;
 	master->alarm.alarm_counter = 0;
 
+	master->RX_buffer[0] = 0x00;
+
+	master->dead_time = DEAD_TIME;
+
+	master->adjust_ppm_polarity = ADJUST_TIME_CAL_DECREASE_FREQUENCY;
+    master->adjust_ppm = ADJUST_TIME_CAL_PPM;
+
 	return 1;
 }
 

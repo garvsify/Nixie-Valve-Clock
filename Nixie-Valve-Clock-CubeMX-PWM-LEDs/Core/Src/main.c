@@ -135,6 +135,7 @@ int main(void)
 	HAL_TIM_RegisterCallback(&htim14, HAL_TIM_PERIOD_ELAPSED_CB_ID, &TIM14_Valve_Blink_Callback);
 	HAL_LPTIM_RegisterCallback(&hlptim1, HAL_LPTIM_COMPARE_MATCH_CB_ID, &LPTIM1_Rotary_Encoder_Switch_Callback);
 	HAL_RTC_RegisterCallback(&hrtc, HAL_RTC_ALARM_A_EVENT_CB_ID, &Alarm_Callback);
+	HAL_UART_RegisterCallback(&huart2, HAL_UART_RX_COMPLETE_CB_ID, &UART2_RX_Transfer_Complete_Callback);
 
   /* USER CODE END 2 */
 
@@ -152,6 +153,7 @@ int main(void)
 	HAL_LPTIM_SetOnce_Start_IT(&hlptim1, LPTIM1_CCR_CHECK, LPTIM1_CCR_CHECK);
 	Initialise_Rotary_Encoder_LEDs();
 	Initialise_Valve_LEDs();
+	HAL_UART_Receive_IT(&huart2, (uint8_t*)master.RX_buffer, 1);//COMMAND_PLUS_ARGUMENT_NUM_BYTES);
 
 	while (1)
 	{
@@ -431,8 +433,8 @@ void SystemClock_Config(void)
   /** Configure LSE Drive Capability
   */
   HAL_PWR_EnableBkUpAccess();
-  //__HAL_RCC_LSEDRIVE_CONFIG(RCC_LSEDRIVE_LOW);
-  __HAL_RCC_LSEDRIVE_CONFIG(RCC_LSEDRIVE_HIGH);
+  __HAL_RCC_LSEDRIVE_CONFIG(RCC_LSEDRIVE_MEDIUMLOW);
+  //__HAL_RCC_LSEDRIVE_CONFIG(RCC_LSEDRIVE_HIGH);
 
   /** Initializes the RCC Oscillators according to the specified parameters
   * in the RCC_OscInitTypeDef structure.

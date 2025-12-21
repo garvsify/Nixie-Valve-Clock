@@ -35,7 +35,7 @@ Core/Src/timers.o: ../Core/Src/timers.c ../Core/Inc/timers.h \
  ../Drivers/STM32G0xx_HAL_Driver/Inc/stm32g0xx_hal_uart.h \
  ../Drivers/STM32G0xx_HAL_Driver/Inc/stm32g0xx_hal_uart_ex.h \
  ../Core/Inc/main.h ../Core/Inc/custom_callbacks.h \
- ../Core/Inc/multiplexer.h ../Core/Inc/timers.h
+ ../Core/Inc/multiplexer.h ../Core/Inc/timers.h ../Core/Inc/UART.h
 ../Core/Inc/timers.h:
 ../Drivers/CMSIS/Device/ST/STM32G0xx/Include/stm32g031xx.h:
 ../Drivers/CMSIS/Include/core_cm0plus.h:
@@ -76,3 +76,4 @@ Core/Src/timers.o: ../Core/Src/timers.c ../Core/Inc/timers.h \
 ../Core/Inc/custom_callbacks.h:
 ../Core/Inc/multiplexer.h:
 ../Core/Inc/timers.h:
+../Core/Inc/UART.h:
