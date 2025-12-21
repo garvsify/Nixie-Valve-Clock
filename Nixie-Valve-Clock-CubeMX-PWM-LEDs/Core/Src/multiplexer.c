@@ -166,6 +166,11 @@ uint8_t Master_Init(struct Master *master){
 
 	master->alarm.alarm_triggered = 0;
 	master->alarm.alarm_counter = 0;
+	master->alarm.alarm_set = 0;
+
+	master->leds.Double_Flash_Red_LED = 0;
+	master->leds.LED_counter[ROTARY_ENCODER_GREEN_LED_NUM] = 0;
+	master->leds.LED_counter[ROTARY_ENCODER_RED_LED_NUM] = 0;
 
 	return 1;
 }
@@ -346,6 +351,7 @@ uint8_t Clear_Alarm(void){
 	HAL_RTC_DeactivateAlarm(&hrtc, RTC_ALARM_A);
 	master.alarm.alarm_counter = 0;
 	master.alarm.alarm_triggered = 0;
+	master.alarm.alarm_set = 0;
 	HAL_GPIO_WritePin(GPIO_Output_BUZZER_GPIO_Port, GPIO_Output_BUZZER_Pin, 0);
 
 	return 1;
@@ -446,9 +452,44 @@ uint8_t Sound_Alarm(void){
 		master.alarm.alarm_counter = 0;
 	}
 
-	if(master.alarm.alarm_triggered == 0){
+	if(master.alarm.alarm_triggered == 0){ //necessary as sometimes the buzzer gets stuck ON
 
 		HAL_GPIO_WritePin(GPIO_Output_BUZZER_GPIO_Port, GPIO_Output_BUZZER_Pin, 0);
+	}
+
+	return 1;
+}
+
+uint8_t Double_Flash_Red_Rotary_Encoder_LED(void){
+
+	if(master.leds.LED_counter[ROTARY_ENCODER_RED_LED_NUM] != LED_DOUBLE_FLASH_COUNT_MAX){
+
+		if(master.leds.LED_counter[ROTARY_ENCODER_RED_LED_NUM] <= LED_SHORT_ON_COUNT){
+
+			__HAL_TIM_SET_COMPARE(&htim3, TIM_CHANNEL_3, RED_LED_DOUBLE_FLASH_BRIGHTNESS_CCR);
+		}
+		else if(master.leds.LED_counter[ROTARY_ENCODER_RED_LED_NUM] > LED_SHORT_ON_COUNT
+		          && master.leds.LED_counter[ROTARY_ENCODER_RED_LED_NUM] <= (LED_SHORT_ON_COUNT + LED_SHORT_OFF_COUNT)){
+
+			__HAL_TIM_SET_COMPARE(&htim3, TIM_CHANNEL_3, 0);
+		}
+		else if(master.leds.LED_counter[ROTARY_ENCODER_RED_LED_NUM] > (LED_SHORT_ON_COUNT + LED_SHORT_OFF_COUNT)
+				          && master.leds.LED_counter[ROTARY_ENCODER_RED_LED_NUM] <= (LED_SHORT_ON_COUNT + LED_SHORT_OFF_COUNT + LED_SHORT_ON_COUNT)){
+
+			__HAL_TIM_SET_COMPARE(&htim3, TIM_CHANNEL_3, RED_LED_DOUBLE_FLASH_BRIGHTNESS_CCR);
+		}
+		else if(master.leds.LED_counter[ROTARY_ENCODER_RED_LED_NUM] > (LED_SHORT_ON_COUNT + LED_SHORT_OFF_COUNT + LED_SHORT_ON_COUNT)
+						  && master.leds.LED_counter[ROTARY_ENCODER_RED_LED_NUM] <= (LED_SHORT_ON_COUNT + LED_SHORT_OFF_COUNT + LED_SHORT_ON_COUNT + LED_SHORT_OFF_COUNT)){
+
+			__HAL_TIM_SET_COMPARE(&htim3, TIM_CHANNEL_3, 0);
+		}
+
+		master.leds.LED_counter[ROTARY_ENCODER_RED_LED_NUM]++;
+	}
+	else{
+
+		master.leds.LED_counter[ROTARY_ENCODER_RED_LED_NUM] = 0;
+		master.leds.Double_Flash_Red_LED = 0;
 	}
 
 	return 1;

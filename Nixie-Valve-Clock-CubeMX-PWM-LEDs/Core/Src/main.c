@@ -143,15 +143,15 @@ int main(void)
 
 	//Read_Time_From_Flash((RTC_TimeTypeDef*)&master.get_time);
 	RTC_Time_Init();
-	HAL_RTCEx_SetSmoothCalib(&hrtc, 32, 1, 250); //calibrate time - second number = 0 -> slows down clock using final number //second number = 1 -> quickens the clock using final number
+	HAL_RTCEx_SetSmoothCalib(&hrtc, 32, 1, 0); //calibrate time - second number = 0 -> slows down clock using final number //second number = 1 -> quickens the clock using final number
 	Master_Init(&master);
 	Start_Multiplexer_Timer();
 	Start_Anti_Cathode_Poisoning_Timer();
 	Toggle_HV_Power_Supply(1);
-	HAL_TIM_Encoder_Start(&htim2, TIM_CHANNEL_ALL);
-	HAL_LPTIM_SetOnce_Start_IT(&hlptim1, LPTIM1_CCR_CHECK, LPTIM1_CCR_CHECK);
 	Initialise_Rotary_Encoder_LEDs();
 	Initialise_Valve_LEDs();
+	HAL_TIM_Encoder_Start(&htim2, TIM_CHANNEL_ALL);
+	HAL_LPTIM_SetOnce_Start_IT(&hlptim1, LPTIM1_CCR_CHECK, LPTIM1_CCR_CHECK);
 
 	while (1)
 	{
@@ -365,8 +365,12 @@ int main(void)
 				master.alarm.alarm_time.Minutes = RTC_ByteToBcd2(master.alarm.Minutes_Bin);
 				master.alarm.alarm_time.Seconds = RTC_ByteToBcd2(master.alarm.Seconds_Bin);
 			}
-		}
 
+			if(master.leds.Double_Flash_Red_LED == 1){
+
+				Double_Flash_Red_Rotary_Encoder_LED();
+			}
+		}
 		/* USER CODE BEGIN 3 */
 		else{
 
@@ -427,8 +431,8 @@ void SystemClock_Config(void)
   /** Configure LSE Drive Capability
   */
   HAL_PWR_EnableBkUpAccess();
-  //__HAL_RCC_LSEDRIVE_CONFIG(RCC_LSEDRIVE_LOW);
-  __HAL_RCC_LSEDRIVE_CONFIG(RCC_LSEDRIVE_HIGH);
+  __HAL_RCC_LSEDRIVE_CONFIG(RCC_LSEDRIVE_MEDIUMLOW);
+  //__HAL_RCC_LSEDRIVE_CONFIG(RCC_LSEDRIVE_HIGH);
 
   /** Initializes the RCC Oscillators according to the specified parameters
   * in the RCC_OscInitTypeDef structure.

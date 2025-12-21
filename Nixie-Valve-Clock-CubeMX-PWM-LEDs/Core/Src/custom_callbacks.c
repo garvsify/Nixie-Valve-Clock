@@ -424,6 +424,7 @@ void LPTIM1_Rotary_Encoder_Switch_Callback(LPTIM_HandleTypeDef *hlptim){
 	Check_Rotary_Encoder_Switch_State(&master.rotary_encoder_switch_states);
 
 	static uint64_t depressed_num = 0;
+	master.depressed_num_monitor = depressed_num;
 	static uint8_t time_adjust_mode_is_active = 0;
 	static uint8_t alarm_set_mode_is_active = 0;
 
@@ -445,6 +446,7 @@ void LPTIM1_Rotary_Encoder_Switch_Callback(LPTIM_HandleTypeDef *hlptim){
 
 				Set_Adjust_Time_LED_ON();
 			}
+			//enter alarm set mode
 			else if(depressed_num >= SET_ALARM_COUNT_MIN
 					&& depressed_num < SET_ALARM_COUNT_MAX){
 
@@ -457,6 +459,13 @@ void LPTIM1_Rotary_Encoder_Switch_Callback(LPTIM_HandleTypeDef *hlptim){
 				master.alarm.Seconds_Bin = RTC_Bcd2ToByte(master.alarm.alarm_time.Seconds);
 
 				Set_Alarm_Set_LEDs_ON();
+			}
+			//cancel alarm
+			else if((depressed_num >= CANCEL_ALARM_COUNT_MIN)
+					&& (depressed_num < CANCEL_ALARM_COUNT_MAX) && (master.alarm.alarm_set == 1)){
+
+				Clear_Alarm();
+				master.leds.Double_Flash_Red_LED = 1;
 			}
 		}
 		else if(time_adjust_mode_is_active == 1){
@@ -513,7 +522,7 @@ void LPTIM1_Rotary_Encoder_Switch_Callback(LPTIM_HandleTypeDef *hlptim){
 				Set_System_Mode_and_Store_Previous_Mode(&master.system_mode_tracker, NORMAL_MODE);
 				Stop_Adjust_Time_Slash_Alarm_Set_Mode_Timer();
 				alarm_set_mode_is_active = 0;
-
+				master.alarm.alarm_set = 1;
 				Set_Alarm(master.alarm.alarm_time.Hours, master.alarm.alarm_time.Minutes, master.alarm.alarm_time.Seconds);
 				Set_Alarm_Set_LEDs_OFF();
 			}

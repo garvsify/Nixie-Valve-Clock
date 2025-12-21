@@ -2,5 +2,5 @@
 ../Core/Src/custom_callbacks.c:367:6:TIM16_Anti_Cathode_Poisoning_Callback	16	static
 ../Core/Src/custom_callbacks.c:410:6:TIM14_Valve_Blink_Callback	16	static
 ../Core/Src/custom_callbacks.c:422:6:LPTIM1_Rotary_Encoder_Switch_Callback	24	static
-../Core/Src/custom_callbacks.c:540:6:HAL_GPIO_EXTI_Rising_Callback	16	static
-../Core/Src/custom_callbacks.c:547:6:Alarm_Callback	16	static
+../Core/Src/custom_callbacks.c:549:6:HAL_GPIO_EXTI_Rising_Callback	16	static
+../Core/Src/custom_callbacks.c:556:6:Alarm_Callback	16	static
