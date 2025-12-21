@@ -34,6 +34,7 @@
 #define ROTARY_ENCODER_SWITCH_CONFIDENCE_COUNT 14
 #define COUNT_TO_DELAY_RISING_ROTARY_ENCODER_EDGE 4
 
+#define NUM_ROTARY_ENCODER_LEDs 2
 #define ROTARY_ENCODER_SWITCH_ENTER_SLASH_ADVANCE_TIME_ADJUST_MODE_COUNT_MIN 2000
 #define ROTARY_ENCODER_SWITCH_ENTER_SLASH_ADVANCE_TIME_ADJUST_MODE_COUNT_MAX ROTARY_ENCODER_SWITCH_ENTER_SLASH_ADVANCE_TIME_ADJUST_MODE_COUNT_MIN + 2000
 #define ROTARY_ENCODER_SWITCH_SAVE_TIME_COUNT_MIN 5500
@@ -77,21 +78,21 @@ enum Blink_State{
 
 struct Time_Adjust{
 
-	RTC_TimeTypeDef adjust_time;
-	uint8_t Hours_Bin;
-	uint8_t Minutes_Bin;
-	uint8_t Seconds_Bin;
+	volatile RTC_TimeTypeDef adjust_time;
+	volatile uint8_t Hours_Bin;
+	volatile uint8_t Minutes_Bin;
+	volatile uint8_t Seconds_Bin;
 };
 
 struct Alarm{
 
-	uint8_t alarm_triggered;
-	uint8_t alarm_set;
+	volatile uint8_t alarm_triggered;
+	volatile uint8_t alarm_set;
 	volatile uint32_t alarm_counter;
-	RTC_TimeTypeDef alarm_time;
-	uint8_t Hours_Bin;
-	uint8_t Minutes_Bin;
-	uint8_t Seconds_Bin;
+	volatile RTC_TimeTypeDef alarm_time;
+	volatile uint8_t Hours_Bin;
+	volatile uint8_t Minutes_Bin;
+	volatile uint8_t Seconds_Bin;
 };
 
 enum System_Mode{
@@ -129,6 +130,12 @@ struct Software_Timer{
 	uint8_t enabled;
 };
 
+struct LEDs{
+
+	volatile uint32_t LED_counter[NUM_ROTARY_ENCODER_LEDs];
+	volatile uint8_t Double_Flash_Red_LED;
+};
+
 enum Rotary_Encoder_Switch_State{
 
 	ROTARY_ENCODER_SWITCH_STATE_NOT_DEPRESSED,
@@ -137,23 +144,33 @@ enum Rotary_Encoder_Switch_State{
 
 struct Rotary_Encoder_Switch_States{
 
-	enum Rotary_Encoder_Switch_State rotary_encoder_switch_state;
-	enum Rotary_Encoder_Switch_State rotary_encoder_switch_prev_state;
+	volatile enum Rotary_Encoder_Switch_State rotary_encoder_switch_state;
+	volatile enum Rotary_Encoder_Switch_State rotary_encoder_switch_prev_state;
 };
 
 struct Master{
 
 	struct Anti_Cathode_Poisoning anti_cathode_poisoning;
+
 	struct System_Mode_Tracker system_mode_tracker;
-	volatile struct Time_Adjust time_adjust;
-	volatile struct Alarm alarm;
+
+	struct Time_Adjust time_adjust;
 	volatile RTC_TimeTypeDef get_time;
 	volatile RTC_DateTypeDef get_date;
+
+	struct Alarm alarm;
+
 	struct Software_Timer software_timers[1]; //not yet used
+
 	uint32_t encoder_first;
 	uint32_t encoder_second;
-	volatile struct Rotary_Encoder_Switch_States rotary_encoder_switch_states;
+	struct Rotary_Encoder_Switch_States rotary_encoder_switch_states;
+
 	volatile uint8_t valve_blink_state;
+
+	struct LEDs leds;
+
+	volatile uint32_t depressed_num_monitor;
 };
 
 extern GPIO_TypeDef* Valve_Anode_Registers[NUM_VALVES];
@@ -190,5 +207,6 @@ uint8_t Set_Alarm_Set_LEDs_OFF(void);
 uint8_t Initialise_Rotary_Encoder_LEDs(void);
 uint8_t Sound_Alarm(void);
 uint8_t Initialise_Valve_LEDs(void);
+uint8_t Double_Flash_Red_Rotary_Encoder_LED(void);
 
 #endif /* INC_MULTIPLEXER_H_ */
