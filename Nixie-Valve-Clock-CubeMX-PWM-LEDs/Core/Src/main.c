@@ -136,6 +136,7 @@ int main(void)
 	HAL_LPTIM_RegisterCallback(&hlptim1, HAL_LPTIM_COMPARE_MATCH_CB_ID, &LPTIM1_Rotary_Encoder_Switch_Callback);
 	HAL_RTC_RegisterCallback(&hrtc, HAL_RTC_ALARM_A_EVENT_CB_ID, &Alarm_Callback);
 	HAL_UART_RegisterCallback(&huart2, HAL_UART_RX_COMPLETE_CB_ID, &UART2_RX_Transfer_Complete_Callback);
+	HAL_UART_RegisterCallback(&huart2, HAL_UART_TX_COMPLETE_CB_ID, &UART2_TX_Transfer_Complete_Callback);
 
   /* USER CODE END 2 */
 

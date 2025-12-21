@@ -78,6 +78,8 @@
 #define COMMAND_PLUS_ARGUMENT_NUM_BYTES 2
 #define COMMAND_INDEX 0
 #define VALUE_INDEX 1
+#define RESPONSE_NUM_BYTES 1
+#define RESPONSE_INDEX 0
 
 #define TRI_WAVETABLE_SIZE 256
 
@@ -190,6 +192,7 @@ struct Master{
 	volatile uint32_t depressed_num_monitor;
 
 	volatile uint8_t RX_buffer[COMMAND_PLUS_ARGUMENT_NUM_BYTES];
+	volatile uint8_t TX_buffer[RESPONSE_NUM_BYTES];
 
 	volatile uint16_t dead_time;
 

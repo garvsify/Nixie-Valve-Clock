@@ -168,6 +168,8 @@ uint8_t Master_Init(struct Master *master){
 	master->alarm.alarm_counter = 0;
 
 	master->RX_buffer[0] = 0x00;
+	master->RX_buffer[1] = 0x00;
+	master->TX_buffer[0] = 0x00;
 
 	master->dead_time = DEAD_TIME;
 

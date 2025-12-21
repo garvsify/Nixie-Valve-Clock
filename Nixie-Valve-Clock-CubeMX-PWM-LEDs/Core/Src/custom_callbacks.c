@@ -565,35 +565,54 @@ void Alarm_Callback(RTC_HandleTypeDef *hrtc)
 
 void UART2_RX_Transfer_Complete_Callback(UART_HandleTypeDef *huart){
 
+	uint8_t ok = 0;
+
 	//check for command type
 	if(master.RX_buffer[COMMAND_INDEX] == CHANGE_DEAD_TIME_COMMAND){
 
 		master.dead_time = (uint16_t)(((uint32_t)master.RX_buffer[VALUE_INDEX] * DEAD_TIME_MAX) >> 8);
+
+		ok = 1;
 	}
 	else if(master.RX_buffer[COMMAND_INDEX] == CHANGE_PPM_COMMAND){
 
 		master.adjust_ppm = (uint16_t)(((uint32_t)master.RX_buffer[VALUE_INDEX] * PPM_MAX) >> 8);
 
 		HAL_RTCEx_SetSmoothCalib(&hrtc, 32, master.adjust_ppm_polarity, master.adjust_ppm);
+
+		ok = 1;
 	}
 	else if(master.RX_buffer[COMMAND_INDEX] == CHANGE_PPM_ADJUST_POLARITY){
 
 		if(master.RX_buffer[VALUE_INDEX] == ADJUST_TIME_CAL_DECREASE_FREQUENCY){
 
 			master.adjust_ppm_polarity = ADJUST_TIME_CAL_DECREASE_FREQUENCY;
+
+			HAL_RTCEx_SetSmoothCalib(&hrtc, 32, master.adjust_ppm_polarity, master.adjust_ppm);
+
+			ok = 1;
 		}
 		else if(master.RX_buffer[VALUE_INDEX] == ADJUST_TIME_CAL_INCREASE_FREQUENCY){
 
 			master.adjust_ppm_polarity = ADJUST_TIME_CAL_INCREASE_FREQUENCY;
-		}
 
-		HAL_RTCEx_SetSmoothCalib(&hrtc, 32, master.adjust_ppm_polarity, master.adjust_ppm);
+			HAL_RTCEx_SetSmoothCalib(&hrtc, 32, master.adjust_ppm_polarity, master.adjust_ppm);
+
+			ok = 1;
+		}
 	}
+	//load transmit buffer with response
+	master.TX_buffer[RESPONSE_INDEX] = ok;
 
 	//clear buffer
-	master.RX_buffer[0] = 0;
-	master.RX_buffer[1] = 0;
+	master.RX_buffer[COMMAND_INDEX] = 0;
+	master.RX_buffer[VALUE_INDEX] = 0;
 
+	HAL_UART_Transmit_IT(&huart2, (uint8_t*)master.TX_buffer, RESPONSE_NUM_BYTES);
 	HAL_UART_Receive_IT(&huart2, (uint8_t*)master.RX_buffer, COMMAND_PLUS_ARGUMENT_NUM_BYTES);
+}
+
+void UART2_TX_Transfer_Complete_Callback(UART_HandleTypeDef *huart){
+
 }
 
