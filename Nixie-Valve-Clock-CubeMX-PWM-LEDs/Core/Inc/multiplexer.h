@@ -14,6 +14,13 @@
 #define NUM_BINARY_DIGITS_IN_BCD 4
 #define MULTIPLEXER_TIMER_PERIOD_MINUS_ONE 40000 //with 0 prescaler and clkdivby4 should give 4.096ms overflow; with 2 prescaler and clkdivby4 should give 12.288ms overflow
 #define MULTIPLEXER_TIMER_PRESCALER 3 //with 0 prescaler and clkdivby4 should give 4.096ms overflow; with 2 prescaler and clkdivby4 should give 12.288ms overflow
+#define DEAD_TIME 4000 //max value is realistically 4000, otherwise time measurements on rotary encoder switch are too long
+
+#define MULTIPLEXER_TIMER_INTERRUPT_PRIORITY 0 //has to be zero otherwise dead time fucks shit up, flickering starts occurring
+#define ROTARY_ENCODER_SWITCH_INTERRUPT_PRIORITY 0// if not zero, adjusting dead time tends to extend the depression time for the rotary encoder switch
+#define ANTI_CATHODE_POISONING_TIMER_INTERRUPT_PRIORITY 2
+#define VALVE_BLINK_TIMER_INTERRUPT_PRIORITY 2
+
 #define ANTI_CATHODE_POISONING_TIMER_WAITING_MODE_PRESCALER 65535  //with clkdivby4 should give ~4.5min overflow
 #define ANTI_CATHODE_POISONING_TIMER_WAITING_MODE_PERIOD_MINUS_ONE 65535 //5000(test) //with clkdivby4 should give ~4.5min overflow
 #define ANTI_CATHODE_POISONING_TIMER_ACTIVE_MODE_PRESCALER 25 //with clkdivby4 should give 204.8ms overflow //was 49
@@ -47,6 +54,10 @@
 #define ALARM_SET_GREEN_LED_BRIGHTNESS_CCR 5000
 #define ALARM_SET_RED_LED_BRIGHTNESS_CCR 20000
 #define FAULT_RED_LED_BRIGHTNESS_CCR 65535
+
+#define ADJUST_TIME_CAL_DECREASE_FREQUENCY 0
+#define ADJUST_TIME_CAL_INCREASE_FREQUENCY 1
+#define ADJUST_TIME_CAL_PPM 0
 
 #define TRI_WAVETABLE_SIZE 256
 

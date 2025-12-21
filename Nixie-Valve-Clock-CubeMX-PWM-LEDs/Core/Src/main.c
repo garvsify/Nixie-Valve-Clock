@@ -143,7 +143,7 @@ int main(void)
 
 	//Read_Time_From_Flash((RTC_TimeTypeDef*)&master.get_time);
 	RTC_Time_Init();
-	HAL_RTCEx_SetSmoothCalib(&hrtc, 32, 1, 475); //calibrate time - second number = 0 -> slows down clock using final number //second number = 1 -> quickens the clock using final number
+	HAL_RTCEx_SetSmoothCalib(&hrtc, 32, ADJUST_TIME_CAL_DECREASE_FREQUENCY, ADJUST_TIME_CAL_PPM); //calibrate time - second number = 0 -> slows down clock using final number //second number = 1 -> quickens the clock using final number
 	Master_Init(&master);
 	Start_Multiplexer_Timer();
 	Start_Anti_Cathode_Poisoning_Timer();
@@ -1030,7 +1030,7 @@ void MX_LPTIM1_Init(void)
 
   /* USER CODE END LPTIM1_Init 2 */
 
-  HAL_NVIC_SetPriority(LPTIM1_IRQn, 2, 2);
+  HAL_NVIC_SetPriority(LPTIM1_IRQn, ROTARY_ENCODER_SWITCH_INTERRUPT_PRIORITY, ROTARY_ENCODER_SWITCH_INTERRUPT_PRIORITY);
   HAL_NVIC_EnableIRQ(LPTIM1_IRQn);
 }
 

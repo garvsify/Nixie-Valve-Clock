@@ -13,374 +13,359 @@ void TIM17_Multiplexer_Sequencer_Callback(TIM_HandleTypeDef *htim){
 	static uint8_t valve = 0;
 	uint8_t BCD = 0;
 	uint8_t valve_on = 0;
-	uint8_t dead_time = 0;
-	uint8_t dead_time_counter = 0;
 
-	if(dead_time){
+	Turn_All_Valves_Off(); // NEW: Ensure all valves are off at the start of each multiplex cycle, fixes bug, also means only have to
+	//find cases below where valves are ON only
 
-		Turn_All_Valves_Off();
+	for(uint32_t i = 0; i < DEAD_TIME; i++){
 
-		if(dead_time_counter == 10000){
+		asm("NOP");
+	}
 
-			dead_time = 0;
-			dead_time_counter = 0;
+	if(master.system_mode_tracker.current_mode == VALVES_OFF_MODE){
+
+		valve_on = 0;
+	}
+	else if(master.system_mode_tracker.current_mode == NORMAL_MODE){
+
+		Get_RTC_Time();
+
+		valve_on = 1;
+
+		if(valve == 0){
+
+			BCD = (master.get_time.Hours >> 4) & 0xF;
+		}
+		else if(valve == 1){
+
+			BCD = master.get_time.Hours & 0xF;
+		}
+		else if(valve == 2){
+
+			BCD = (master.get_time.Minutes >> 4) & 0xF;
+		}
+		else if(valve == 3){
+
+			BCD = master.get_time.Minutes & 0xF;
+		}
+		else if(valve == 4){
+
+			BCD = (master.get_time.Seconds >> 4) & 0xF;
+		}
+		else if(valve == 5){
+
+			BCD = master.get_time.Seconds & 0xF;
+		}
+	}
+	else if(master.system_mode_tracker.current_mode == ANTI_CATHODE_POISONING_MODE){
+
+		valve_on = 1;
+
+		BCD = master.anti_cathode_poisoning.counter & 0xF;
+	}
+	else if(master.system_mode_tracker.current_mode == HH_ADJUST_MODE || master.system_mode_tracker.current_mode == ALARM_SET_HH_MODE){
+
+		if(valve == 0){
+
+			if(master.valve_blink_state == 1){
+
+				valve_on = 1;
+			}
+			if(master.system_mode_tracker.current_mode == HH_ADJUST_MODE){
+
+				BCD = (master.time_adjust.adjust_time.Hours >> 4) & 0xF;
+			}
+			else if(master.system_mode_tracker.current_mode == ALARM_SET_HH_MODE){
+
+				BCD = (master.alarm.alarm_time.Hours >> 4) & 0xF;
+			}
+		}
+		else if(valve == 1){
+
+			if(master.valve_blink_state == 1){
+
+				valve_on = 1;
+			}
+			if(master.system_mode_tracker.current_mode == HH_ADJUST_MODE){
+
+				BCD = master.time_adjust.adjust_time.Hours & 0xF;
+			}
+			else if(master.system_mode_tracker.current_mode == ALARM_SET_HH_MODE){
+
+				BCD = master.alarm.alarm_time.Hours & 0xF;
+			}
+		}
+		else if(valve == 2){
+
+			valve_on = 1;
+
+			if(master.system_mode_tracker.current_mode == HH_ADJUST_MODE){
+
+				BCD = (master.time_adjust.adjust_time.Minutes >> 4) & 0xF;
+			}
+			else if(master.system_mode_tracker.current_mode == ALARM_SET_HH_MODE){
+
+				BCD = (master.alarm.alarm_time.Minutes >> 4) & 0xF;
+			}
+		}
+		else if(valve == 3){
+
+			valve_on = 1;
+
+			if(master.system_mode_tracker.current_mode == HH_ADJUST_MODE){
+
+				BCD = master.time_adjust.adjust_time.Minutes & 0xF;
+			}
+			else if(master.system_mode_tracker.current_mode == ALARM_SET_HH_MODE){
+
+				BCD = master.alarm.alarm_time.Minutes & 0xF;
+			}
+		}
+		else if(valve == 4){
+
+			valve_on = 1;
+
+			if(master.system_mode_tracker.current_mode == HH_ADJUST_MODE){
+
+				BCD = (master.time_adjust.adjust_time.Seconds >> 4) & 0xF;
+			}
+			else if(master.system_mode_tracker.current_mode == ALARM_SET_HH_MODE){
+
+				BCD = (master.alarm.alarm_time.Seconds >> 4) & 0xF;
+			}
+		}
+		else if(valve == 5){
+
+			valve_on = 1;
+
+			if(master.system_mode_tracker.current_mode == HH_ADJUST_MODE){
+
+				BCD = master.time_adjust.adjust_time.Seconds & 0xF;
+			}
+			else if(master.system_mode_tracker.current_mode == ALARM_SET_HH_MODE){
+
+				BCD = master.alarm.alarm_time.Seconds & 0xF;
+			}
+		}
+	}
+	else if(master.system_mode_tracker.current_mode == MM_ADJUST_MODE || master.system_mode_tracker.current_mode == ALARM_SET_MM_MODE){
+
+		if(valve == 0){
+
+			valve_on = 1;
+
+			if(master.system_mode_tracker.current_mode == MM_ADJUST_MODE){
+
+				BCD = (master.time_adjust.adjust_time.Hours >> 4) & 0xF;
+			}
+			else if(master.system_mode_tracker.current_mode == ALARM_SET_MM_MODE){
+
+				BCD = (master.alarm.alarm_time.Hours >> 4) & 0xF;
+			}
+		}
+		else if(valve == 1){
+
+			valve_on = 1;
+
+			if(master.system_mode_tracker.current_mode == MM_ADJUST_MODE){
+
+				BCD = master.time_adjust.adjust_time.Hours & 0xF;
+			}
+			else if(master.system_mode_tracker.current_mode == ALARM_SET_MM_MODE){
+
+				BCD = master.alarm.alarm_time.Hours & 0xF;
+			}
+		}
+		else if(valve == 2){
+
+			if(master.valve_blink_state == 1){
+
+				valve_on = 1;
+			}
+			if(master.system_mode_tracker.current_mode == MM_ADJUST_MODE){
+
+				BCD = (master.time_adjust.adjust_time.Minutes >> 4) & 0xF;
+			}
+			else if(master.system_mode_tracker.current_mode == ALARM_SET_MM_MODE){
+
+				BCD = (master.alarm.alarm_time.Minutes >> 4) & 0xF;
+			}
+		}
+		else if(valve == 3){
+
+			if(master.valve_blink_state == 1){
+
+				valve_on = 1;
+			}
+			if(master.system_mode_tracker.current_mode == MM_ADJUST_MODE){
+
+				BCD = master.time_adjust.adjust_time.Minutes & 0xF;
+			}
+			else if(master.system_mode_tracker.current_mode == ALARM_SET_MM_MODE){
+
+				BCD = master.alarm.alarm_time.Minutes & 0xF;
+			}
+		}
+		else if(valve == 4){
+
+			valve_on = 1;
+
+			if(master.system_mode_tracker.current_mode == MM_ADJUST_MODE){
+
+				BCD = (master.time_adjust.adjust_time.Seconds >> 4) & 0xF;
+			}
+			else if(master.system_mode_tracker.current_mode == ALARM_SET_MM_MODE){
+
+				BCD = (master.alarm.alarm_time.Seconds >> 4) & 0xF;
+			}
+		}
+		else if(valve == 5){
+
+			valve_on = 1;
+
+			if(master.system_mode_tracker.current_mode == MM_ADJUST_MODE){
+
+				BCD = master.time_adjust.adjust_time.Seconds & 0xF;
+			}
+			else if(master.system_mode_tracker.current_mode == ALARM_SET_MM_MODE){
+
+				BCD = master.alarm.alarm_time.Seconds & 0xF;
+			}
+		}
+	}
+	else if(master.system_mode_tracker.current_mode == SS_ADJUST_MODE || master.system_mode_tracker.current_mode == ALARM_SET_SS_MODE){
+
+		if(valve == 0){
+
+			valve_on = 1;
+
+			if(master.system_mode_tracker.current_mode == SS_ADJUST_MODE){
+
+				BCD = (master.time_adjust.adjust_time.Hours >> 4) & 0xF;
+			}
+			else if(master.system_mode_tracker.current_mode == ALARM_SET_SS_MODE){
+
+				BCD = (master.alarm.alarm_time.Hours >> 4) & 0xF;
+			}
+		}
+		else if(valve == 1){
+
+			valve_on = 1;
+
+			if(master.system_mode_tracker.current_mode == SS_ADJUST_MODE){
+
+				BCD = master.time_adjust.adjust_time.Hours & 0xF;
+			}
+			else if(master.system_mode_tracker.current_mode == ALARM_SET_SS_MODE){
+
+				BCD = master.alarm.alarm_time.Hours & 0xF;
+			}
+		}
+		else if(valve == 2){
+
+			valve_on = 1;
+
+			if(master.system_mode_tracker.current_mode == SS_ADJUST_MODE){
+
+				BCD = (master.time_adjust.adjust_time.Minutes >> 4) & 0xF;
+			}
+			else if(master.system_mode_tracker.current_mode == ALARM_SET_SS_MODE){
+
+				BCD = (master.alarm.alarm_time.Minutes >> 4) & 0xF;
+			}
+		}
+		else if(valve == 3){
+
+			valve_on = 1;
+
+			if(master.system_mode_tracker.current_mode == SS_ADJUST_MODE){
+
+				BCD = master.time_adjust.adjust_time.Minutes & 0xF;
+			}
+			else if(master.system_mode_tracker.current_mode == ALARM_SET_SS_MODE){
+
+				BCD = master.alarm.alarm_time.Minutes & 0xF;
+			}
+		}
+		else if(valve == 4){
+
+			if(master.valve_blink_state == 1){
+
+				valve_on = 1;
+			}
+			if(master.system_mode_tracker.current_mode == SS_ADJUST_MODE){
+
+				BCD = (master.time_adjust.adjust_time.Seconds >> 4) & 0xF;
+			}
+			else if(master.system_mode_tracker.current_mode == ALARM_SET_SS_MODE){
+
+				BCD = (master.alarm.alarm_time.Seconds >> 4) & 0xF;
+			}
+		}
+		else if(valve == 5){
+
+			if(master.valve_blink_state == 1){
+
+				valve_on = 1;
+			}
+			if(master.system_mode_tracker.current_mode == SS_ADJUST_MODE){
+
+				BCD = master.time_adjust.adjust_time.Seconds & 0xF;
+			}
+			else if(master.system_mode_tracker.current_mode == ALARM_SET_SS_MODE){
+
+				BCD = master.alarm.alarm_time.Seconds & 0xF;
+			}
+		}
+	}
+
+	if(valve_on){
+
+		Write_Digit_to_Valve(valve, BCD);
+	}
+
+	valve++;
+
+	if(valve == NUM_VALVES){
+
+		valve = 0;
+	}
+
+
+	if(master.system_mode_tracker.current_mode == NORMAL_MODE || (master.system_mode_tracker.current_mode == ANTI_CATHODE_POISONING_MODE && master.system_mode_tracker.previous_mode == NORMAL_MODE)){
+
+		HAL_GPIO_WritePin(GPIO_Output_IN_3_0_GPIO_Port, GPIO_Output_IN_3_0_Pin, 1);
+		HAL_GPIO_WritePin(GPIO_Output_IN_3_1_GPIO_Port, GPIO_Output_IN_3_1_Pin, 1);
+	}
+	else{
+
+		HAL_GPIO_WritePin(GPIO_Output_IN_3_0_GPIO_Port, GPIO_Output_IN_3_0_Pin, 0);
+		HAL_GPIO_WritePin(GPIO_Output_IN_3_1_GPIO_Port, GPIO_Output_IN_3_1_Pin, 0);
+	}
+
+	static uint16_t counter = 0;
+
+	if(master.alarm.alarm_triggered == 1){
+
+		__HAL_TIM_SET_COMPARE(&htim1, TIM_CHANNEL_1, triangle_wavetable[counter]);
+		__HAL_TIM_SET_COMPARE(&htim1, TIM_CHANNEL_2, triangle_wavetable[counter]);
+		__HAL_TIM_SET_COMPARE(&htim1, TIM_CHANNEL_3, triangle_wavetable[counter]);
+
+		if(counter == TRI_WAVETABLE_SIZE - 1){
+
+			counter = 0;
 		}
 		else{
 
-			dead_time_counter++;
-			dead_time = 1;
+			counter++;
 		}
 	}
 	else{
 
-		Turn_All_Valves_Off(); // NEW: Ensure all valves are off at the start of each multiplex cycle, fixes bug, also means only have to
-			//find cases below where valves are ON only
-
-			if(master.system_mode_tracker.current_mode == VALVES_OFF_MODE){
-
-				valve_on = 0;
-			}
-			else if(master.system_mode_tracker.current_mode == NORMAL_MODE){
-
-				Get_RTC_Time();
-
-				valve_on = 1;
-
-				if(valve == 0){
-
-					BCD = (master.get_time.Hours >> 4) & 0xF;
-				}
-				else if(valve == 1){
-
-					BCD = master.get_time.Hours & 0xF;
-				}
-				else if(valve == 2){
-
-					BCD = (master.get_time.Minutes >> 4) & 0xF;
-				}
-				else if(valve == 3){
-
-					BCD = master.get_time.Minutes & 0xF;
-				}
-				else if(valve == 4){
-
-					BCD = (master.get_time.Seconds >> 4) & 0xF;
-				}
-				else if(valve == 5){
-
-					BCD = master.get_time.Seconds & 0xF;
-				}
-			}
-			else if(master.system_mode_tracker.current_mode == ANTI_CATHODE_POISONING_MODE){
-
-				valve_on = 1;
-
-				BCD = master.anti_cathode_poisoning.counter & 0xF;
-			}
-			else if(master.system_mode_tracker.current_mode == HH_ADJUST_MODE || master.system_mode_tracker.current_mode == ALARM_SET_HH_MODE){
-
-				if(valve == 0){
-
-					if(master.valve_blink_state == 1){
-
-						valve_on = 1;
-					}
-					if(master.system_mode_tracker.current_mode == HH_ADJUST_MODE){
-
-						BCD = (master.time_adjust.adjust_time.Hours >> 4) & 0xF;
-					}
-					else if(master.system_mode_tracker.current_mode == ALARM_SET_HH_MODE){
-
-						BCD = (master.alarm.alarm_time.Hours >> 4) & 0xF;
-					}
-				}
-				else if(valve == 1){
-
-					if(master.valve_blink_state == 1){
-
-						valve_on = 1;
-					}
-					if(master.system_mode_tracker.current_mode == HH_ADJUST_MODE){
-
-						BCD = master.time_adjust.adjust_time.Hours & 0xF;
-					}
-					else if(master.system_mode_tracker.current_mode == ALARM_SET_HH_MODE){
-
-						BCD = master.alarm.alarm_time.Hours & 0xF;
-					}
-				}
-				else if(valve == 2){
-
-					valve_on = 1;
-
-					if(master.system_mode_tracker.current_mode == HH_ADJUST_MODE){
-
-						BCD = (master.time_adjust.adjust_time.Minutes >> 4) & 0xF;
-					}
-					else if(master.system_mode_tracker.current_mode == ALARM_SET_HH_MODE){
-
-						BCD = (master.alarm.alarm_time.Minutes >> 4) & 0xF;
-					}
-				}
-				else if(valve == 3){
-
-					valve_on = 1;
-
-					if(master.system_mode_tracker.current_mode == HH_ADJUST_MODE){
-
-						BCD = master.time_adjust.adjust_time.Minutes & 0xF;
-					}
-					else if(master.system_mode_tracker.current_mode == ALARM_SET_HH_MODE){
-
-						BCD = master.alarm.alarm_time.Minutes & 0xF;
-					}
-				}
-				else if(valve == 4){
-
-					valve_on = 1;
-
-					if(master.system_mode_tracker.current_mode == HH_ADJUST_MODE){
-
-						BCD = (master.time_adjust.adjust_time.Seconds >> 4) & 0xF;
-					}
-					else if(master.system_mode_tracker.current_mode == ALARM_SET_HH_MODE){
-
-						BCD = (master.alarm.alarm_time.Seconds >> 4) & 0xF;
-					}
-				}
-				else if(valve == 5){
-
-					valve_on = 1;
-
-					if(master.system_mode_tracker.current_mode == HH_ADJUST_MODE){
-
-						BCD = master.time_adjust.adjust_time.Seconds & 0xF;
-					}
-					else if(master.system_mode_tracker.current_mode == ALARM_SET_HH_MODE){
-
-						BCD = master.alarm.alarm_time.Seconds & 0xF;
-					}
-				}
-			}
-			else if(master.system_mode_tracker.current_mode == MM_ADJUST_MODE || master.system_mode_tracker.current_mode == ALARM_SET_MM_MODE){
-
-				if(valve == 0){
-
-					valve_on = 1;
-
-					if(master.system_mode_tracker.current_mode == MM_ADJUST_MODE){
-
-						BCD = (master.time_adjust.adjust_time.Hours >> 4) & 0xF;
-					}
-					else if(master.system_mode_tracker.current_mode == ALARM_SET_MM_MODE){
-
-						BCD = (master.alarm.alarm_time.Hours >> 4) & 0xF;
-					}
-				}
-				else if(valve == 1){
-
-					valve_on = 1;
-
-					if(master.system_mode_tracker.current_mode == MM_ADJUST_MODE){
-
-						BCD = master.time_adjust.adjust_time.Hours & 0xF;
-					}
-					else if(master.system_mode_tracker.current_mode == ALARM_SET_MM_MODE){
-
-						BCD = master.alarm.alarm_time.Hours & 0xF;
-					}
-				}
-				else if(valve == 2){
-
-					if(master.valve_blink_state == 1){
-
-						valve_on = 1;
-					}
-					if(master.system_mode_tracker.current_mode == MM_ADJUST_MODE){
-
-						BCD = (master.time_adjust.adjust_time.Minutes >> 4) & 0xF;
-					}
-					else if(master.system_mode_tracker.current_mode == ALARM_SET_MM_MODE){
-
-						BCD = (master.alarm.alarm_time.Minutes >> 4) & 0xF;
-					}
-				}
-				else if(valve == 3){
-
-					if(master.valve_blink_state == 1){
-
-						valve_on = 1;
-					}
-					if(master.system_mode_tracker.current_mode == MM_ADJUST_MODE){
-
-						BCD = master.time_adjust.adjust_time.Minutes & 0xF;
-					}
-					else if(master.system_mode_tracker.current_mode == ALARM_SET_MM_MODE){
-
-						BCD = master.alarm.alarm_time.Minutes & 0xF;
-					}
-				}
-				else if(valve == 4){
-
-					valve_on = 1;
-
-					if(master.system_mode_tracker.current_mode == MM_ADJUST_MODE){
-
-						BCD = (master.time_adjust.adjust_time.Seconds >> 4) & 0xF;
-					}
-					else if(master.system_mode_tracker.current_mode == ALARM_SET_MM_MODE){
-
-						BCD = (master.alarm.alarm_time.Seconds >> 4) & 0xF;
-					}
-				}
-				else if(valve == 5){
-
-					valve_on = 1;
-
-					if(master.system_mode_tracker.current_mode == MM_ADJUST_MODE){
-
-						BCD = master.time_adjust.adjust_time.Seconds & 0xF;
-					}
-					else if(master.system_mode_tracker.current_mode == ALARM_SET_MM_MODE){
-
-						BCD = master.alarm.alarm_time.Seconds & 0xF;
-					}
-				}
-			}
-			else if(master.system_mode_tracker.current_mode == SS_ADJUST_MODE || master.system_mode_tracker.current_mode == ALARM_SET_SS_MODE){
-
-				if(valve == 0){
-
-					valve_on = 1;
-
-					if(master.system_mode_tracker.current_mode == SS_ADJUST_MODE){
-
-						BCD = (master.time_adjust.adjust_time.Hours >> 4) & 0xF;
-					}
-					else if(master.system_mode_tracker.current_mode == ALARM_SET_SS_MODE){
-
-						BCD = (master.alarm.alarm_time.Hours >> 4) & 0xF;
-					}
-				}
-				else if(valve == 1){
-
-					valve_on = 1;
-
-					if(master.system_mode_tracker.current_mode == SS_ADJUST_MODE){
-
-						BCD = master.time_adjust.adjust_time.Hours & 0xF;
-					}
-					else if(master.system_mode_tracker.current_mode == ALARM_SET_SS_MODE){
-
-						BCD = master.alarm.alarm_time.Hours & 0xF;
-					}
-				}
-				else if(valve == 2){
-
-					valve_on = 1;
-
-					if(master.system_mode_tracker.current_mode == SS_ADJUST_MODE){
-
-						BCD = (master.time_adjust.adjust_time.Minutes >> 4) & 0xF;
-					}
-					else if(master.system_mode_tracker.current_mode == ALARM_SET_SS_MODE){
-
-						BCD = (master.alarm.alarm_time.Minutes >> 4) & 0xF;
-					}
-				}
-				else if(valve == 3){
-
-					valve_on = 1;
-
-					if(master.system_mode_tracker.current_mode == SS_ADJUST_MODE){
-
-						BCD = master.time_adjust.adjust_time.Minutes & 0xF;
-					}
-					else if(master.system_mode_tracker.current_mode == ALARM_SET_SS_MODE){
-
-						BCD = master.alarm.alarm_time.Minutes & 0xF;
-					}
-				}
-				else if(valve == 4){
-
-					if(master.valve_blink_state == 1){
-
-						valve_on = 1;
-					}
-					if(master.system_mode_tracker.current_mode == SS_ADJUST_MODE){
-
-						BCD = (master.time_adjust.adjust_time.Seconds >> 4) & 0xF;
-					}
-					else if(master.system_mode_tracker.current_mode == ALARM_SET_SS_MODE){
-
-						BCD = (master.alarm.alarm_time.Seconds >> 4) & 0xF;
-					}
-				}
-				else if(valve == 5){
-
-					if(master.valve_blink_state == 1){
-
-						valve_on = 1;
-					}
-					if(master.system_mode_tracker.current_mode == SS_ADJUST_MODE){
-
-						BCD = master.time_adjust.adjust_time.Seconds & 0xF;
-					}
-					else if(master.system_mode_tracker.current_mode == ALARM_SET_SS_MODE){
-
-						BCD = master.alarm.alarm_time.Seconds & 0xF;
-					}
-				}
-			}
-
-			if(valve_on){
-
-				Write_Digit_to_Valve(valve, BCD);
-			}
-
-			valve++;
-
-			if(valve == NUM_VALVES){
-
-				valve = 0;
-			}
-
-
-			if(master.system_mode_tracker.current_mode == NORMAL_MODE || (master.system_mode_tracker.current_mode == ANTI_CATHODE_POISONING_MODE && master.system_mode_tracker.previous_mode == NORMAL_MODE)){
-
-				HAL_GPIO_WritePin(GPIO_Output_IN_3_0_GPIO_Port, GPIO_Output_IN_3_0_Pin, 1);
-				HAL_GPIO_WritePin(GPIO_Output_IN_3_1_GPIO_Port, GPIO_Output_IN_3_1_Pin, 1);
-			}
-			else{
-
-				HAL_GPIO_WritePin(GPIO_Output_IN_3_0_GPIO_Port, GPIO_Output_IN_3_0_Pin, 0);
-				HAL_GPIO_WritePin(GPIO_Output_IN_3_1_GPIO_Port, GPIO_Output_IN_3_1_Pin, 0);
-			}
-
-			static uint16_t counter = 0;
-
-			if(master.alarm.alarm_triggered == 1){
-
-				__HAL_TIM_SET_COMPARE(&htim1, TIM_CHANNEL_1, triangle_wavetable[counter]);
-				__HAL_TIM_SET_COMPARE(&htim1, TIM_CHANNEL_2, triangle_wavetable[counter]);
-				__HAL_TIM_SET_COMPARE(&htim1, TIM_CHANNEL_3, triangle_wavetable[counter]);
-
-				if(counter == TRI_WAVETABLE_SIZE - 1){
-
-					counter = 0;
-				}
-				else{
-
-					counter++;
-				}
-			}
-			else{
-
-				__HAL_TIM_SET_COMPARE(&htim1, TIM_CHANNEL_1, 0);
-				__HAL_TIM_SET_COMPARE(&htim1, TIM_CHANNEL_2, 0);
-				__HAL_TIM_SET_COMPARE(&htim1, TIM_CHANNEL_3, 0);
-				counter = 0;
-			}
+		__HAL_TIM_SET_COMPARE(&htim1, TIM_CHANNEL_1, 0);
+		__HAL_TIM_SET_COMPARE(&htim1, TIM_CHANNEL_2, 0);
+		__HAL_TIM_SET_COMPARE(&htim1, TIM_CHANNEL_3, 0);
+		counter = 0;
 	}
 }
 
