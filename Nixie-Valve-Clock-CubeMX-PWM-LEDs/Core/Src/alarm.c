@@ -1,10 +1,3 @@
-/*
- * alarm.c
- *
- *  Created on: 21 Dec 2025
- *      Author: James Garvey
- */
-
 #include "system.h"
 
 const uint16_t triangle_wavetable[TRI_WAVETABLE_SIZE] = {

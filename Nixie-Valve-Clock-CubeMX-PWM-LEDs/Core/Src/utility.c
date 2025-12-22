@@ -1,10 +1,3 @@
-/*
- * utility.c
- *
- *  Created on: 21 Dec 2025
- *      Author: James Garvey
- */
-
 #include "system.h"
 
 uint8_t Master_Init(struct Master *master){

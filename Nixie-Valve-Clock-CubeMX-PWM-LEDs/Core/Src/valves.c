@@ -1,10 +1,3 @@
-/*
- * valves.c
- *
- *  Created on: 21 Dec 2025
- *      Author: James Garvey
- */
-
 #include "system.h"
 
 GPIO_TypeDef* Valve_Anode_Registers[NUM_VALVES] = {GPIO_Output_AS_0_GPIO_Port, GPIO_Output_AS_1_GPIO_Port, GPIO_Output_AS_2_GPIO_Port, GPIO_Output_AS_3_GPIO_Port, GPIO_Output_AS_4_GPIO_Port, GPIO_Output_AS_5_GPIO_Port};

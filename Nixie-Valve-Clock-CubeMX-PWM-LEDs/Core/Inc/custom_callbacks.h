@@ -1,10 +1,3 @@
-/*
- * custom_callbacks.h
- *
- *  Created on: 2 Dec 2025
- *      Author: James Garvey
- */
-
 #ifndef INC_CUSTOM_CALLBACKS_H_
 #define INC_CUSTOM_CALLBACKS_H_
 

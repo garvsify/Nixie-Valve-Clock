@@ -1,0 +1,14 @@
+../Core/Src/config.c:43:6:RTC_Time_Init	3
+../Core/Src/config.c:81:6:SystemClock_Config	3
+../Core/Src/config.c:136:6:MX_RTC_Init	2
+../Core/Src/config.c:163:6:MX_TIM1_Init	9
+../Core/Src/config.c:251:6:MX_TIM2_Init	3
+../Core/Src/config.c:291:6:MX_TIM3_Init	7
+../Core/Src/config.c:351:6:MX_TIM14_Init	4
+../Core/Src/config.c:387:6:MX_TIM16_Init	5
+../Core/Src/config.c:442:6:MX_TIM17_Init	5
+../Core/Src/config.c:498:6:MX_USART2_UART_Init	2
+../Core/Src/config.c:523:6:MX_GPIO_Init	1
+../Core/Src/config.c:581:6:MX_LPTIM1_Init	2
+../Core/Src/config.c:3:9:System_Init	1
+../Core/Src/config.c:606:6:Error_Handler	1

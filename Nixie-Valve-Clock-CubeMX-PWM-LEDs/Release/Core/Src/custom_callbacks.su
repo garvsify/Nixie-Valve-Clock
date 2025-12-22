@@ -1,8 +1,8 @@
-../Core/Src/custom_callbacks.c:11:6:TIM17_Multiplexer_Sequencer_Callback	16	static,ignoring_inline_asm
-../Core/Src/custom_callbacks.c:372:6:TIM16_Anti_Cathode_Poisoning_Callback	24	static
-../Core/Src/custom_callbacks.c:415:6:TIM14_Valve_Blink_Callback	0	static
-../Core/Src/custom_callbacks.c:427:6:LPTIM1_Rotary_Encoder_Switch_Callback	40	static
-../Core/Src/custom_callbacks.c:554:6:HAL_GPIO_EXTI_Rising_Callback	8	static
-../Core/Src/custom_callbacks.c:561:6:Alarm_Callback	0	static
-../Core/Src/custom_callbacks.c:566:6:UART2_RX_Transfer_Complete_Callback	16	static
-../Core/Src/custom_callbacks.c:611:6:UART2_TX_Transfer_Complete_Callback	0	static
+../Core/Src/custom_callbacks.c:3:6:TIM17_Multiplexer_Sequencer_Callback	16	static,ignoring_inline_asm
+../Core/Src/custom_callbacks.c:364:6:TIM16_Anti_Cathode_Poisoning_Callback	24	static
+../Core/Src/custom_callbacks.c:407:6:TIM14_Valve_Blink_Callback	0	static
+../Core/Src/custom_callbacks.c:419:6:LPTIM1_Rotary_Encoder_Switch_Callback	40	static
+../Core/Src/custom_callbacks.c:546:6:HAL_GPIO_EXTI_Rising_Callback	8	static
+../Core/Src/custom_callbacks.c:553:6:Alarm_Callback	0	static
+../Core/Src/custom_callbacks.c:558:6:UART2_RX_Transfer_Complete_Callback	16	static
+../Core/Src/custom_callbacks.c:603:6:UART2_TX_Transfer_Complete_Callback	0	static

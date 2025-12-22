@@ -1,10 +1,3 @@
-/*
- * timers.c
- *
- *  Created on: 2 Dec 2025
- *      Author: James Garvey
- */
-
 #include "system.h"
 
 uint8_t Start_OC_TIM(TIM_HandleTypeDef *TIM, uint32_t OC_TIM_channel){

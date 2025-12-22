@@ -1,10 +1,3 @@
-/*
- * flash.c
- *
- *  Created on: 21 Dec 2025
- *      Author: James Garvey
- */
-
 #include "system.h"
 
 uint8_t Write_Time_In_Flash(RTC_TimeTypeDef *time){

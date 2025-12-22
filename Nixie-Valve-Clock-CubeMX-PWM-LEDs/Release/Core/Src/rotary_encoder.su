@@ -1,2 +1,2 @@
-../Core/Src/rotary_encoder.c:10:9:Check_Rotary_Encoder	16	static
-../Core/Src/rotary_encoder.c:222:9:Check_Rotary_Encoder_Switch_State	8	static
+../Core/Src/rotary_encoder.c:3:9:Check_Rotary_Encoder	16	static
+../Core/Src/rotary_encoder.c:215:9:Check_Rotary_Encoder_Switch_State	8	static

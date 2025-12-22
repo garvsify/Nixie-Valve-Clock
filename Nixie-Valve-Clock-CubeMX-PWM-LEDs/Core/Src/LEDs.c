@@ -1,10 +1,3 @@
-/*
- * LEDs.c
- *
- *  Created on: 21 Dec 2025
- *      Author: James Garvey
- */
-
 #include "system.h"
 
 uint8_t Double_Flash_Red_Rotary_Encoder_LED(void){

@@ -1,6 +1,7 @@
 "./Core/Src/LEDs.o"
 "./Core/Src/alarm.o"
 "./Core/Src/anti_cathode_poisoning.o"
+"./Core/Src/config.o"
 "./Core/Src/custom_callbacks.o"
 "./Core/Src/flash.o"
 "./Core/Src/main.o"

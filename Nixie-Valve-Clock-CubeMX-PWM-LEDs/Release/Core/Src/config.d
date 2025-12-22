@@ -1,4 +1,4 @@
-Core/Src/valves.o: ../Core/Src/valves.c ../Core/Inc/system.h \
+Core/Src/config.o: ../Core/Src/config.c ../Core/Inc/system.h \
  ../Drivers/CMSIS/Device/ST/STM32G0xx/Include/stm32g031xx.h \
  ../Drivers/CMSIS/Include/core_cm0plus.h \
  ../Drivers/CMSIS/Include/cmsis_version.h \

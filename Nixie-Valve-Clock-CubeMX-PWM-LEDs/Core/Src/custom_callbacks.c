@@ -1,11 +1,3 @@
-/*
- * custom_callbacks.c
- *
- *  Created on: 2 Dec 2025
- *      Author: James Garvey
- */
-
-#include "custom_callbacks.h"
 #include "system.h"
 
 void TIM17_Multiplexer_Sequencer_Callback(TIM_HandleTypeDef *htim){

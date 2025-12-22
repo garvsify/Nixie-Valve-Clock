@@ -1,18 +1,11 @@
-/*
- * system.h
- *
- *  Created on: 21 Dec 2025
- *      Author: James Garvey
- */
-
 #ifndef INC_SYSTEM_H_
 #define INC_SYSTEM_H_
 
 #include <stdint.h>
 #include "stm32g031xx.h"
 #include "stm32g0xx_hal.h"
-#include "main.h"
 #include "defines.h"
+#include "custom_callbacks.h"
 
 enum Blink_State{
 
@@ -138,6 +131,33 @@ extern uint16_t BCD_Pins[NUM_BINARY_DIGITS_IN_BCD];
 
 extern const uint16_t triangle_wavetable[TRI_WAVETABLE_SIZE];
 extern struct Master master;
+
+extern RTC_HandleTypeDef hrtc; //RTC
+extern TIM_HandleTypeDef htim1; //valve LEDs
+extern TIM_HandleTypeDef htim2; //rotary encoder
+extern TIM_HandleTypeDef htim3; //rotary encoder LEDs
+extern TIM_HandleTypeDef htim14; //time adjust timer (for blinking valves)
+extern TIM_HandleTypeDef htim16; //anti-cathode poisoning timer
+extern TIM_HandleTypeDef htim17; //multiplexer timer
+extern UART_HandleTypeDef huart2; //VCP
+extern LPTIM_HandleTypeDef hlptim1; //rotary encoder switch check
+
+uint8_t System_Init(void);
+void SystemClock_Config(void);
+void MX_GPIO_Init(void);
+void MX_RTC_Init(void);
+void MX_TIM2_Init(void);
+void MX_TIM3_Init(void);
+void MX_USART2_UART_Init(void);
+void MX_TIM1_Init(void);
+void MX_TIM17_Init(void);
+void MX_TIM16_Init(void);
+void MX_TIM14_Init(void);
+void MX_LPTIM1_Init(void);
+void RTC_Time_Init(void);
+void HAL_TIM_MspPostInit(TIM_HandleTypeDef *TIM);
+
+void Error_Handler(void);
 
 uint8_t Write_Digit_to_Valve(uint8_t valve_num, uint8_t BCD_of_digit);
 uint8_t Turn_All_Valves_Off(void);

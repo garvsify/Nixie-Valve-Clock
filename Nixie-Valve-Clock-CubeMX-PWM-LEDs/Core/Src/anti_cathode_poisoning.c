@@ -1,10 +1,3 @@
-/*
- * anti_cathode_poisoning.c
- *
- *  Created on: 21 Dec 2025
- *      Author: James Garvey
- */
-
 #include "system.h"
 
 uint8_t Start_Anti_Cathode_Poisoning_Timer(void){

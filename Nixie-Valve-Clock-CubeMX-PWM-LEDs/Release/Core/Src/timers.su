@@ -1,2 +1,2 @@
-../Core/Src/timers.c:10:9:Start_OC_TIM	8	static
-../Core/Src/timers.c:22:9:Stop_OC_TIM	8	static
+../Core/Src/timers.c:3:9:Start_OC_TIM	8	static
+../Core/Src/timers.c:15:9:Stop_OC_TIM	8	static

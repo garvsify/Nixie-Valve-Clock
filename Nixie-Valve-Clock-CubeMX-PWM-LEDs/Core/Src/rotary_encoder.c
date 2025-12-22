@@ -1,17 +1,10 @@
-/*
- * rotary_encoder.c
- *
- *  Created on: 21 Dec 2025
- *      Author: James Garvey
- */
-
 #include "system.h"
 
 uint8_t Check_Rotary_Encoder(void){
 
 	master.encoder_first = master.encoder_second;
 	master.encoder_second = __HAL_TIM_GET_COUNTER(&htim2) >> 1;
-	/* USER CODE END WHILE */
+
 	if(master.system_mode_tracker.current_mode == HH_ADJUST_MODE ||
 		master.system_mode_tracker.current_mode == MM_ADJUST_MODE ||
 		 master.system_mode_tracker.current_mode == SS_ADJUST_MODE){
