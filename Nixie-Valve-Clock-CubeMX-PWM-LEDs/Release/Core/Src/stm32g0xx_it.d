@@ -34,8 +34,7 @@ Core/Src/stm32g0xx_it.o: ../Core/Src/stm32g0xx_it.c ../Core/Inc/system.h \
  ../Drivers/STM32G0xx_HAL_Driver/Inc/stm32g0xx_hal_tim_ex.h \
  ../Drivers/STM32G0xx_HAL_Driver/Inc/stm32g0xx_hal_uart.h \
  ../Drivers/STM32G0xx_HAL_Driver/Inc/stm32g0xx_hal_uart_ex.h \
- ../Core/Inc/defines.h ../Core/Inc/custom_callbacks.h \
- ../Core/Inc/stm32g0xx_it.h
+ ../Core/Inc/defines.h ../Core/Inc/stm32g0xx_it.h
 ../Core/Inc/system.h:
 ../Drivers/CMSIS/Device/ST/STM32G0xx/Include/stm32g031xx.h:
 ../Drivers/CMSIS/Include/core_cm0plus.h:
@@ -73,5 +72,4 @@ Core/Src/stm32g0xx_it.o: ../Core/Src/stm32g0xx_it.c ../Core/Inc/system.h \
 ../Drivers/STM32G0xx_HAL_Driver/Inc/stm32g0xx_hal_uart.h:
 ../Drivers/STM32G0xx_HAL_Driver/Inc/stm32g0xx_hal_uart_ex.h:
 ../Core/Inc/defines.h:
-../Core/Inc/custom_callbacks.h:
 ../Core/Inc/stm32g0xx_it.h:
