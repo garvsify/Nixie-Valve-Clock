@@ -1,6 +1,6 @@
-../Core/Src/valves.c:17:9:Write_Digit_to_Valve	32	static
-../Core/Src/valves.c:41:9:Turn_Valve_Off	16	static
-../Core/Src/valves.c:48:9:Turn_All_Valves_Off	16	static
-../Core/Src/valves.c:57:9:Start_Adjust_Time_Slash_Alarm_Set_Mode_Timer	24	static
-../Core/Src/valves.c:71:9:Stop_Adjust_Time_Slash_Alarm_Set_Mode_Timer	24	static
-../Core/Src/valves.c:83:9:Toggle_HV_Power_Supply	16	static
+../Core/Src/valves.c:10:9:Write_Digit_to_Valve	32	static
+../Core/Src/valves.c:34:9:Turn_Valve_Off	16	static
+../Core/Src/valves.c:41:9:Turn_All_Valves_Off	16	static
+../Core/Src/valves.c:50:9:Start_Adjust_Time_Slash_Alarm_Set_Mode_Timer	24	static
+../Core/Src/valves.c:64:9:Stop_Adjust_Time_Slash_Alarm_Set_Mode_Timer	24	static
+../Core/Src/valves.c:76:9:Toggle_HV_Power_Supply	16	static

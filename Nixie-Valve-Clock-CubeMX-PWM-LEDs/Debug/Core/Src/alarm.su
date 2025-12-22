@@ -1,3 +1,3 @@
-../Core/Src/alarm.c:45:9:Sound_Alarm	24	static
-../Core/Src/alarm.c:85:9:Set_Alarm	64	static
-../Core/Src/alarm.c:109:9:Clear_Alarm	8	static
+../Core/Src/alarm.c:38:9:Sound_Alarm	24	static
+../Core/Src/alarm.c:78:9:Set_Alarm	64	static
+../Core/Src/alarm.c:102:9:Clear_Alarm	8	static

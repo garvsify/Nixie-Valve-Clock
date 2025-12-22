@@ -64,10 +64,10 @@
 #define VALVE_ANODE_OFF_STATE 1
 #define VALVE_ANODE_ON_STATE 0
 #define NUM_BINARY_DIGITS_IN_BCD 4
-#define MULTIPLEXER_TIMER_PERIOD_MINUS_ONE 40000 //with 0 prescaler and clkdivby4 should give 4.096ms overflow; with 2 prescaler and clkdivby4 should give 12.288ms overflow
+#define MULTIPLEXER_TIMER_PERIOD_MINUS_ONE 39000 //with 0 prescaler and clkdivby4 should give 4.096ms overflow; with 2 prescaler and clkdivby4 should give 12.288ms overflow
 #define MULTIPLEXER_TIMER_PRESCALER 3 //with 0 prescaler and clkdivby4 should give 4.096ms overflow; with 2 prescaler and clkdivby4 should give 12.288ms overflow
-#define DEAD_TIME 2500 //max value is realistically 3000, otherwise time measurements on rotary encoder switch are too long
-#define DEAD_TIME_MAX 2500
+#define DEAD_TIME 2200 //max value is realistically 3000, otherwise time measurements on rotary encoder switch are too long
+#define DEAD_TIME_MAX 2200
 
 #define MULTIPLEXER_TIMER_INTERRUPT_PRIORITY 0 //has to be zero otherwise dead time fucks shit up, flickering starts occurring
 #define ROTARY_ENCODER_SWITCH_INTERRUPT_PRIORITY 0// if not zero, adjusting dead time tends to extend the depression time for the rotary encoder switch
