@@ -1,0 +1,15 @@
+Altium Designer Pick and Place Locations
+C:\Users\James Garvey\AppData\Local\Temp\Releases\Snapshot\1\Sources\Assembly\Pick Place EUROCIRCUITS\Nixie Valve Clock Rotary Encoder Daughterboard_EUROCIRCUITS_CPL.csv
+
+========================================================================================================================
+File Design Information:
+
+Date:       31/12/25
+Time:       18:08
+Revision:   Not in VersionControl
+Variant:    No variations
+Units used: mm
+
+"Designator","Layer","Center-X(mm)","Center-Y(mm)","Rotation"
+"P1","BottomLayer","8,0000mm","4,7647mm","0"
+"E1","TopLayer","8,0000mm","25,5147mm","0"

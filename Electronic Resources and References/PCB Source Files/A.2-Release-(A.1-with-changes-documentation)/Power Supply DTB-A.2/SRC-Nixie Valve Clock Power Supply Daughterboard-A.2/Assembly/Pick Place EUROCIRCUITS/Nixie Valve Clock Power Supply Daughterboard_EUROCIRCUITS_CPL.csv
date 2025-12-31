@@ -1,0 +1,58 @@
+Altium Designer Pick and Place Locations
+C:\Users\James Garvey\AppData\Local\Temp\Releases\Snapshot\1\Sources\Assembly\Pick Place EUROCIRCUITS\Nixie Valve Clock Power Supply Daughterboard_EUROCIRCUITS_CPL.csv
+
+========================================================================================================================
+File Design Information:
+
+Date:       31/12/25
+Time:       18:16
+Revision:   Not in VersionControl
+Variant:    No variations
+Units used: mm
+
+"Designator","Layer","Center-X(mm)","Center-Y(mm)","Rotation"
+"R3","BottomLayer","46,3542mm","35,2000mm","270"
+"R1","BottomLayer","52,0354mm","33,2474mm","90"
+"C15","BottomLayer","49,6843mm","36,8613mm","180"
+"J3","BottomLayer","40,5000mm","6,0000mm","0"
+"D3","BottomLayer","40,5764mm","43,5618mm","270"
+"U3","BottomLayer","47,5612mm","43,5000mm","0"
+"R15","BottomLayer","23,2750mm","12,5853mm","0"
+"R14","BottomLayer","29,3452mm","15,5930mm","0"
+"R13","BottomLayer","48,9862mm","27,6081mm","180"
+"R12","BottomLayer","11,4446mm","11,6002mm","0"
+"R11","BottomLayer","44,9992mm","16,0775mm","90"
+"TR1","BottomLayer","15,8940mm","14,2927mm","90"
+"R9","BottomLayer","11,2652mm","21,3450mm","90"
+"Q5","BottomLayer","23,5250mm","9,9653mm","270"
+"Q4","BottomLayer","28,4702mm","10,1604mm","90"
+"Q3","BottomLayer","16,0591mm","28,8250mm","90"
+"Q2","BottomLayer","50,4224mm","15,2660mm","270"
+"C14","BottomLayer","44,8014mm","48,0868mm","0"
+"U2","BottomLayer","49,2362mm","34,0474mm","180"
+"U1","BottomLayer","16,9591mm","20,7100mm","180"
+"R8","BottomLayer","27,7412mm","5,3285mm","0"
+"R7","BottomLayer","43,3866mm","28,3831mm","0"
+"R6","BottomLayer","48,9630mm","21,6703mm","270"
+"R5","BottomLayer","47,9630mm","30,6115mm","0"
+"R4","BottomLayer","9,9196mm","14,2659mm","180"
+"R2","BottomLayer","51,1755mm","20,8950mm","0"
+"Q1","BottomLayer","51,2112mm","23,3684mm","90"
+"L1","BottomLayer","26,6132mm","34,1559mm","180"
+"J2","TopLayer","5,5000mm","25,0000mm","90"
+"J1","TopLayer","49,5000mm","25,0000mm","90"
+"D2","BottomLayer","46,0675mm","25,4000mm","0"
+"D1","BottomLayer","15,8841mm","38,5749mm","0"
+"C13","BottomLayer","44,8513mm","38,9868mm","0"
+"C12","BottomLayer","11,6841mm","16,7750mm","180"
+"C11","BottomLayer","21,9945mm","20,4964mm","270"
+"C10","BottomLayer","25,7000mm","22,6950mm","270"
+"C9","BottomLayer","43,6980mm","30,8443mm","90"
+"C8","BottomLayer","14,5591mm","44,5000mm","90"
+"C7","BottomLayer","18,7000mm","44,5000mm","90"
+"C6","BottomLayer","4,7747mm","34,5250mm","180"
+"C5","BottomLayer","5,7959mm","44,5000mm","90"
+"C4","BottomLayer","4,7959mm","38,7733mm","180"
+"C3","BottomLayer","10,1847mm","44,5000mm","90"
+"C2","BottomLayer","31,0000mm","22,6950mm","270"
+"C1","BottomLayer","6,1750mm","31,3515mm","180"

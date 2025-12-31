@@ -1,0 +1,15 @@
+Altium Designer Pick and Place Locations
+C:\Users\James Garvey\AppData\Local\Temp\Releases\Snapshot\1\Sources\Assembly\Pick Place JLCPCB\Nixie Valve Clock Rotary Encoder Daughterboard_JLCPCB_CPL.csv
+
+========================================================================================================================
+File Design Information:
+
+Date:       31/12/25
+Time:       18:09
+Revision:   Not in VersionControl
+Variant:    No variations
+Units used: mm
+
+"Designator","Center-X(mm)","Center-Y(mm)","Layer","Rotation"
+"P1","8,0000mm","4,7647mm","BottomLayer","0"
+"E1","8,0000mm","25,5147mm","TopLayer","0"
