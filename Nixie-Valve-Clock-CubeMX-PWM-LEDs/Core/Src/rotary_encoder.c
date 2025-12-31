@@ -11,7 +11,7 @@ uint8_t Check_Rotary_Encoder(void){
 
 		if(master.system_mode_tracker.current_mode == HH_ADJUST_MODE){
 
-			if(master.encoder_second >= master.encoder_first){
+			if(master.encoder_second > master.encoder_first){
 
 				if((master.time_adjust.Hours_Bin + (master.encoder_second - master.encoder_first)) > 23){
 
@@ -25,7 +25,7 @@ uint8_t Check_Rotary_Encoder(void){
 					master.time_adjust.Hours_Bin += (master.encoder_second - master.encoder_first);
 				}
 			}
-			else{
+			else if(master.encoder_second < master.encoder_first){
 
 				if(((int16_t)master.time_adjust.Hours_Bin - ((int16_t)master.encoder_first - (int16_t)master.encoder_second)) < 0){
 
@@ -42,7 +42,7 @@ uint8_t Check_Rotary_Encoder(void){
 		}
 		else if(master.system_mode_tracker.current_mode == MM_ADJUST_MODE){
 
-			if(master.encoder_second >= master.encoder_first){
+			if(master.encoder_second > master.encoder_first){
 
 				if((master.time_adjust.Minutes_Bin + (master.encoder_second - master.encoder_first)) > 59){
 
@@ -56,7 +56,7 @@ uint8_t Check_Rotary_Encoder(void){
 					master.time_adjust.Minutes_Bin += (master.encoder_second - master.encoder_first);
 				}
 			}
-			else{
+			else if(master.encoder_second < master.encoder_first){
 
 				if(((int16_t)master.time_adjust.Minutes_Bin - ((int16_t)master.encoder_first - (int16_t)master.encoder_second)) < 0){
 
@@ -73,7 +73,7 @@ uint8_t Check_Rotary_Encoder(void){
 		}
 		else if(master.system_mode_tracker.current_mode == SS_ADJUST_MODE){
 
-			if(master.encoder_second >= master.encoder_first){
+			if(master.encoder_second > master.encoder_first){
 
 				if((master.time_adjust.Seconds_Bin + (master.encoder_second - master.encoder_first)) > 59){
 
@@ -87,7 +87,7 @@ uint8_t Check_Rotary_Encoder(void){
 					master.time_adjust.Seconds_Bin += (master.encoder_second - master.encoder_first);
 				}
 			}
-			else{
+			else if(master.encoder_second < master.encoder_first){
 
 				if(((int16_t)master.time_adjust.Seconds_Bin - ((int16_t)master.encoder_first - (int16_t)master.encoder_second)) < 0){
 
@@ -113,7 +113,7 @@ uint8_t Check_Rotary_Encoder(void){
 
 		if(master.system_mode_tracker.current_mode == ALARM_SET_HH_MODE){
 
-			if(master.encoder_second >= master.encoder_first){
+			if(master.encoder_second > master.encoder_first){
 
 				if((master.alarm.Hours_Bin + (master.encoder_second - master.encoder_first)) > 23){
 
@@ -127,7 +127,7 @@ uint8_t Check_Rotary_Encoder(void){
 					master.alarm.Hours_Bin += (master.encoder_second - master.encoder_first);
 				}
 			}
-			else{
+			if(master.encoder_second < master.encoder_first){
 
 				if(((int16_t)master.alarm.Hours_Bin - ((int16_t)master.encoder_first - (int16_t)master.encoder_second)) < 0){
 
@@ -144,7 +144,7 @@ uint8_t Check_Rotary_Encoder(void){
 		}
 		else if(master.system_mode_tracker.current_mode == ALARM_SET_MM_MODE){
 
-			if(master.encoder_second >= master.encoder_first){
+			if(master.encoder_second > master.encoder_first){
 
 				if((master.alarm.Minutes_Bin + (master.encoder_second - master.encoder_first)) > 59){
 
@@ -158,7 +158,7 @@ uint8_t Check_Rotary_Encoder(void){
 					master.alarm.Minutes_Bin += (master.encoder_second - master.encoder_first);
 				}
 			}
-			else{
+			if(master.encoder_second < master.encoder_first){
 
 				if(((int16_t)master.alarm.Minutes_Bin - ((int16_t)master.encoder_first - (int16_t)master.encoder_second)) < 0){
 
@@ -175,7 +175,7 @@ uint8_t Check_Rotary_Encoder(void){
 		}
 		else if(master.system_mode_tracker.current_mode == ALARM_SET_SS_MODE){
 
-			if(master.encoder_second >= master.encoder_first){
+			if(master.encoder_second > master.encoder_first){
 
 				if((master.alarm.Seconds_Bin + (master.encoder_second - master.encoder_first)) > 59){
 
@@ -189,7 +189,7 @@ uint8_t Check_Rotary_Encoder(void){
 					master.alarm.Seconds_Bin += (master.encoder_second - master.encoder_first);
 				}
 			}
-			else{
+			if(master.encoder_second < master.encoder_first){
 
 				if(((int16_t)master.alarm.Seconds_Bin - ((int16_t)master.encoder_first - (int16_t)master.encoder_second)) < 0){
 
