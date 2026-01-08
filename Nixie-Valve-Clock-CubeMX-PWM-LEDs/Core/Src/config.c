@@ -26,7 +26,7 @@ uint8_t System_Init(void){
 
 	//Read_Time_From_Flash((RTC_TimeTypeDef*)&master.get_time);
 	RTC_Time_Init();
-	HAL_RTCEx_SetSmoothCalib(&hrtc, 32, CALP_INCREASE_FREQUENCY, CALM_DEFAULT); //calibrate time - (CALP × 512) − CALM - second arg is CALP, third arg is CALM
+	HAL_RTCEx_SetSmoothCalib(&hrtc, 32, CALP_DECREASE_FREQUENCY, CALM_DEFAULT); //calibrate time - (CALP × 512) − CALM - second arg is CALP, third arg is CALM
 	Master_Init(&master);
 	Start_Multiplexer_Timer();
 	Start_Anti_Cathode_Poisoning_Timer();

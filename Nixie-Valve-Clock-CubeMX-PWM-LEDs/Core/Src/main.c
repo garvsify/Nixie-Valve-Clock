@@ -1,8 +1,14 @@
 #include "main.h"
 
+int32_t temp_mon = 0;
+
 int main(void){
 
 	System_Init();
+
+	//debug
+	__HAL_TIM_SET_COUNTER(&htim2, 0xFFFFFFFF);
+	//debug
 
 	while(1){
 

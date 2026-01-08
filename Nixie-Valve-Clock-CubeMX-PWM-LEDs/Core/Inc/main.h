@@ -14,4 +14,6 @@ LPTIM_HandleTypeDef hlptim1;
 UART_HandleTypeDef huart2;
 struct Master master;
 
+int32_t temp_mon;
+
 #endif /* __MAIN_H */
