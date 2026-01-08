@@ -1,2 +1,2 @@
-../Core/Src/rotary_encoder.c:3:9:Check_Rotary_Encoder	68
+../Core/Src/rotary_encoder.c:3:9:Check_Rotary_Encoder	73
 ../Core/Src/rotary_encoder.c:418:9:Check_Rotary_Encoder_Switch_State	7

@@ -80,16 +80,16 @@ uint8_t Check_Rotary_Encoder(void){
 
 				if(master.encoder_first < 5 && master.encoder_second > 2147483642){ //roll over condition
 
-					if((master.time_adjust.Minutes_Bin - ((2147483647 - master.encoder_second) + master.encoder_first)) < 0){
+					if((int32_t)master.time_adjust.Minutes_Bin - ((2147483647 - (int32_t)master.encoder_second) + (int32_t)master.encoder_first + 1) < 0){
 
-						int16_t temp = (int16_t)master.time_adjust.Minutes_Bin - ((2147483647 - master.encoder_second) + master.encoder_first);
-						temp += 23;
+						int32_t temp = (int32_t)master.time_adjust.Minutes_Bin - ((2147483647 - (int32_t)master.encoder_second) + (int32_t)master.encoder_first);
+						temp += 59;
 
-						master.time_adjust.Minutes_Bin = temp - 1;
+						master.time_adjust.Minutes_Bin = temp;
 					}
 					else{
 
-						master.time_adjust.Minutes_Bin -= ((2147483647 - master.encoder_second) + master.encoder_first);
+						master.time_adjust.Minutes_Bin -= (uint8_t)((2147483647 - (int32_t)master.encoder_second) + (int32_t)master.encoder_first + 1);
 					}
 				}
 				else{ //not a roll over
@@ -111,30 +111,30 @@ uint8_t Check_Rotary_Encoder(void){
 
 				if(master.encoder_second < 5 && master.encoder_first > 2147483642){ //roll over condition
 
-					if((int16_t)master.time_adjust.Minutes_Bin + ((2147483647 - master.encoder_first) + master.encoder_second) > 59){
+					if((int32_t)master.time_adjust.Minutes_Bin + ((2147483647 - (int32_t)master.encoder_first) + (int32_t)master.encoder_second + 1) > 59){
 
-						uint8_t temp = master.time_adjust.Minutes_Bin + ((2147483647 - master.encoder_first) + master.encoder_second);
+						int32_t temp = (int32_t)master.time_adjust.Minutes_Bin + ((2147483647 - (int32_t)master.encoder_first) + (int32_t)master.encoder_second);
 						temp -= 59;
 
-						master.time_adjust.Minutes_Bin = temp - 1;
+						master.time_adjust.Minutes_Bin = temp;
 					}
 					else{
 
-						master.time_adjust.Minutes_Bin += ((2147483647 - master.encoder_first) + master.encoder_second);
+						master.time_adjust.Minutes_Bin += (uint8_t)((2147483647 - (int32_t)master.encoder_first) + (int32_t)master.encoder_second + 1);
 					}
 				}
 				else{ //not a roll over
 
-					if(((int16_t)master.time_adjust.Minutes_Bin - ((int16_t)master.encoder_first - (int16_t)master.encoder_second)) < 0){
+					if(((int32_t)master.time_adjust.Minutes_Bin - ((int32_t)master.encoder_first - (int32_t)master.encoder_second)) < 0){
 
-						int16_t temp = (int16_t)master.time_adjust.Minutes_Bin - ((int16_t)master.encoder_first - (int16_t)master.encoder_second);
+						int32_t temp = (int32_t)master.time_adjust.Minutes_Bin - ((int32_t)master.encoder_first - (int32_t)master.encoder_second);
 						temp += 59;
 
-						master.time_adjust.Minutes_Bin = temp + 1;
+						master.time_adjust.Minutes_Bin = (uint8_t)(temp + 1);
 					}
 					else{
 
-						master.time_adjust.Minutes_Bin -= (master.encoder_first - master.encoder_second);
+						master.time_adjust.Minutes_Bin -= (uint8_t)(master.encoder_first - master.encoder_second);
 					}
 				}
 			}
@@ -145,16 +145,16 @@ uint8_t Check_Rotary_Encoder(void){
 
 				if(master.encoder_first < 5 && master.encoder_second > 2147483642){ //roll over condition
 
-					if((master.time_adjust.Seconds_Bin - ((2147483647 - master.encoder_second) + master.encoder_first)) < 0){
+					if((int32_t)master.time_adjust.Seconds_Bin - ((2147483647 - (int32_t)master.encoder_second) + (int32_t)master.encoder_first + 1) < 0){
 
-						int16_t temp = (int16_t)master.time_adjust.Seconds_Bin - ((2147483647 - master.encoder_second) + master.encoder_first);
+						int32_t temp = (int32_t)master.time_adjust.Seconds_Bin - ((2147483647 - (int32_t)master.encoder_second) + (int32_t)master.encoder_first);
 						temp += 59;
 
-						master.time_adjust.Seconds_Bin = temp - 1;
+						master.time_adjust.Seconds_Bin = temp;
 					}
 					else{
 
-						master.time_adjust.Seconds_Bin -= ((2147483647 - master.encoder_second) + master.encoder_first);
+						master.time_adjust.Seconds_Bin -= (uint8_t)((2147483647 - (int32_t)master.encoder_second) + (int32_t)master.encoder_first + 1);
 					}
 				}
 				else{ //not a roll over
@@ -176,30 +176,30 @@ uint8_t Check_Rotary_Encoder(void){
 
 				if(master.encoder_second < 5 && master.encoder_first > 2147483642){ //roll over condition
 
-					if((int16_t)master.time_adjust.Seconds_Bin + ((2147483647 - master.encoder_first) + master.encoder_second) > 59){
+					if((int32_t)master.time_adjust.Seconds_Bin + ((2147483647 - (int32_t)master.encoder_first) + (int32_t)master.encoder_second + 1) > 59){
 
-						uint8_t temp = master.time_adjust.Seconds_Bin + ((2147483647 - master.encoder_first) + master.encoder_second);
+						int32_t temp = (int32_t)master.time_adjust.Seconds_Bin + ((2147483647 - (int32_t)master.encoder_first) + (int32_t)master.encoder_second);
 						temp -= 59;
 
-						master.time_adjust.Seconds_Bin = temp - 1;
+						master.time_adjust.Seconds_Bin = temp;
 					}
 					else{
 
-						master.time_adjust.Seconds_Bin += ((2147483647 - master.encoder_first) + master.encoder_second);
+						master.time_adjust.Seconds_Bin += (uint8_t)((2147483647 - (int32_t)master.encoder_first) + (int32_t)master.encoder_second + 1);
 					}
 				}
 				else{ //not a roll over
 
-					if(((int16_t)master.time_adjust.Seconds_Bin - ((int16_t)master.encoder_first - (int16_t)master.encoder_second)) < 0){
+					if(((int32_t)master.time_adjust.Seconds_Bin - ((int32_t)master.encoder_first - (int32_t)master.encoder_second)) < 0){
 
-						int16_t temp = (int16_t)master.time_adjust.Seconds_Bin - ((int16_t)master.encoder_first - (int16_t)master.encoder_second);
+						int32_t temp = (int32_t)master.time_adjust.Seconds_Bin - ((int32_t)master.encoder_first - (int32_t)master.encoder_second);
 						temp += 59;
 
-						master.time_adjust.Seconds_Bin = temp + 1;
+						master.time_adjust.Seconds_Bin = (uint8_t)(temp + 1);
 					}
 					else{
 
-						master.time_adjust.Seconds_Bin -= (master.encoder_first - master.encoder_second);
+						master.time_adjust.Seconds_Bin -= (uint8_t)(master.encoder_first - master.encoder_second);
 					}
 				}
 			}
@@ -208,7 +208,7 @@ uint8_t Check_Rotary_Encoder(void){
 		master.time_adjust.adjust_time.Minutes = RTC_ByteToBcd2(master.time_adjust.Minutes_Bin);
 		master.time_adjust.adjust_time.Seconds = RTC_ByteToBcd2(master.time_adjust.Seconds_Bin);
 	}
-	if(master.system_mode_tracker.current_mode == ALARM_SET_HH_MODE ||
+	else if(master.system_mode_tracker.current_mode == ALARM_SET_HH_MODE ||
 		master.system_mode_tracker.current_mode == ALARM_SET_MM_MODE ||
 		 master.system_mode_tracker.current_mode == ALARM_SET_SS_MODE){
 
@@ -218,16 +218,16 @@ uint8_t Check_Rotary_Encoder(void){
 
 				if(master.encoder_first < 5 && master.encoder_second > 2147483642){ //roll over condition
 
-					if((master.alarm.Hours_Bin - ((2147483647 - master.encoder_second) + master.encoder_first)) < 0){
+					if((int32_t)master.alarm.Hours_Bin - ((2147483647 - (int32_t)master.encoder_second) + (int32_t)master.encoder_first + 1) < 0){
 
-						int16_t temp = (int16_t)master.alarm.Hours_Bin - ((2147483647 - master.encoder_second) + master.encoder_first);
+						int32_t temp = (int32_t)master.alarm.Hours_Bin - ((2147483647 - (int32_t)master.encoder_second) + (int32_t)master.encoder_first);
 						temp += 23;
 
-						master.alarm.Hours_Bin = temp - 1;
+						master.alarm.Hours_Bin = temp;
 					}
 					else{
 
-						master.alarm.Hours_Bin -= ((2147483647 - master.encoder_second) + master.encoder_first);
+						master.alarm.Hours_Bin -= (uint8_t)((2147483647 - (int32_t)master.encoder_second) + (int32_t)master.encoder_first + 1);
 					}
 				}
 				else{ //not a roll over
@@ -249,30 +249,30 @@ uint8_t Check_Rotary_Encoder(void){
 
 				if(master.encoder_second < 5 && master.encoder_first > 2147483642){ //roll over condition
 
-					if((int16_t)master.alarm.Hours_Bin + ((2147483647 - master.encoder_first) + master.encoder_second) > 23){
+					if((int32_t)master.alarm.Hours_Bin + ((2147483647 - (int32_t)master.encoder_first) + (int32_t)master.encoder_second + 1) > 23){
 
-						uint8_t temp = master.alarm.Hours_Bin + ((2147483647 - master.encoder_first) + master.encoder_second);
+						int32_t temp = (int32_t)master.alarm.Hours_Bin + ((2147483647 - (int32_t)master.encoder_first) + (int32_t)master.encoder_second);
 						temp -= 23;
 
-						master.alarm.Hours_Bin = temp - 1;
+						master.alarm.Hours_Bin = temp;
 					}
 					else{
 
-						master.alarm.Hours_Bin += ((2147483647 - master.encoder_first) + master.encoder_second);
+						master.alarm.Hours_Bin += (uint8_t)((2147483647 - (int32_t)master.encoder_first) + (int32_t)master.encoder_second + 1);
 					}
 				}
 				else{ //not a roll over
 
-					if(((int16_t)master.alarm.Hours_Bin - ((int16_t)master.encoder_first - (int16_t)master.encoder_second)) < 0){
+					if(((int32_t)master.alarm.Hours_Bin - ((int32_t)master.encoder_first - (int32_t)master.encoder_second)) < 0){
 
-						int16_t temp = (int16_t)master.alarm.Hours_Bin - ((int16_t)master.encoder_first - (int16_t)master.encoder_second);
+						int32_t temp = (int32_t)master.alarm.Hours_Bin - ((int32_t)master.encoder_first - (int32_t)master.encoder_second);
 						temp += 23;
 
-						master.alarm.Hours_Bin = temp + 1;
+						master.alarm.Hours_Bin = (uint8_t)(temp + 1);
 					}
 					else{
 
-						master.alarm.Hours_Bin -= (master.encoder_first - master.encoder_second);
+						master.alarm.Hours_Bin -= (uint8_t)(master.encoder_first - master.encoder_second);
 					}
 				}
 			}
@@ -283,16 +283,16 @@ uint8_t Check_Rotary_Encoder(void){
 
 				if(master.encoder_first < 5 && master.encoder_second > 2147483642){ //roll over condition
 
-					if((master.alarm.Minutes_Bin - ((2147483647 - master.encoder_second) + master.encoder_first)) < 0){
+					if((int32_t)master.alarm.Minutes_Bin - ((2147483647 - (int32_t)master.encoder_second) + (int32_t)master.encoder_first + 1) < 0){
 
-						int16_t temp = (int16_t)master.alarm.Minutes_Bin - ((2147483647 - master.encoder_second) + master.encoder_first);
-						temp += 23;
+						int32_t temp = (int32_t)master.alarm.Minutes_Bin - ((2147483647 - (int32_t)master.encoder_second) + (int32_t)master.encoder_first);
+						temp += 59;
 
-						master.alarm.Minutes_Bin = temp - 1;
+						master.alarm.Minutes_Bin = temp;
 					}
 					else{
 
-						master.alarm.Minutes_Bin -= ((2147483647 - master.encoder_second) + master.encoder_first);
+						master.alarm.Minutes_Bin -= (uint8_t)((2147483647 - (int32_t)master.encoder_second) + (int32_t)master.encoder_first + 1);
 					}
 				}
 				else{ //not a roll over
@@ -314,30 +314,30 @@ uint8_t Check_Rotary_Encoder(void){
 
 				if(master.encoder_second < 5 && master.encoder_first > 2147483642){ //roll over condition
 
-					if((int16_t)master.alarm.Minutes_Bin + ((2147483647 - master.encoder_first) + master.encoder_second) > 59){
+					if((int32_t)master.alarm.Minutes_Bin + ((2147483647 - (int32_t)master.encoder_first) + (int32_t)master.encoder_second + 1) > 59){
 
-						uint8_t temp = master.alarm.Minutes_Bin + ((2147483647 - master.encoder_first) + master.encoder_second);
+						int32_t temp = (int32_t)master.alarm.Minutes_Bin + ((2147483647 - (int32_t)master.encoder_first) + (int32_t)master.encoder_second);
 						temp -= 59;
 
-						master.alarm.Minutes_Bin = temp - 1;
+						master.alarm.Minutes_Bin = temp;
 					}
 					else{
 
-						master.alarm.Minutes_Bin += ((2147483647 - master.encoder_first) + master.encoder_second);
+						master.alarm.Minutes_Bin += (uint8_t)((2147483647 - (int32_t)master.encoder_first) + (int32_t)master.encoder_second + 1);
 					}
 				}
 				else{ //not a roll over
 
-					if(((int16_t)master.alarm.Minutes_Bin - ((int16_t)master.encoder_first - (int16_t)master.encoder_second)) < 0){
+					if(((int32_t)master.alarm.Minutes_Bin - ((int32_t)master.encoder_first - (int32_t)master.encoder_second)) < 0){
 
-						int16_t temp = (int16_t)master.alarm.Minutes_Bin - ((int16_t)master.encoder_first - (int16_t)master.encoder_second);
+						int32_t temp = (int32_t)master.alarm.Minutes_Bin - ((int32_t)master.encoder_first - (int32_t)master.encoder_second);
 						temp += 59;
 
-						master.alarm.Minutes_Bin = temp + 1;
+						master.alarm.Minutes_Bin = (uint8_t)(temp + 1);
 					}
 					else{
 
-						master.alarm.Minutes_Bin -= (master.encoder_first - master.encoder_second);
+						master.alarm.Minutes_Bin -= (uint8_t)(master.encoder_first - master.encoder_second);
 					}
 				}
 			}
@@ -348,16 +348,16 @@ uint8_t Check_Rotary_Encoder(void){
 
 				if(master.encoder_first < 5 && master.encoder_second > 2147483642){ //roll over condition
 
-					if((master.alarm.Seconds_Bin - ((2147483647 - master.encoder_second) + master.encoder_first)) < 0){
+					if((int32_t)master.alarm.Seconds_Bin - ((2147483647 - (int32_t)master.encoder_second) + (int32_t)master.encoder_first + 1) < 0){
 
-						int16_t temp = (int16_t)master.alarm.Seconds_Bin - ((2147483647 - master.encoder_second) + master.encoder_first);
-						temp += 23;
+						int32_t temp = (int32_t)master.alarm.Seconds_Bin - ((2147483647 - (int32_t)master.encoder_second) + (int32_t)master.encoder_first);
+						temp += 59;
 
-						master.alarm.Seconds_Bin = temp - 1;
+						master.alarm.Seconds_Bin = temp;
 					}
 					else{
 
-						master.alarm.Seconds_Bin -= ((2147483647 - master.encoder_second) + master.encoder_first);
+						master.alarm.Seconds_Bin -= (uint8_t)((2147483647 - (int32_t)master.encoder_second) + (int32_t)master.encoder_first + 1);
 					}
 				}
 				else{ //not a roll over
@@ -379,30 +379,30 @@ uint8_t Check_Rotary_Encoder(void){
 
 				if(master.encoder_second < 5 && master.encoder_first > 2147483642){ //roll over condition
 
-					if((int16_t)master.alarm.Seconds_Bin + ((2147483647 - master.encoder_first) + master.encoder_second) > 59){
+					if((int32_t)master.alarm.Seconds_Bin + ((2147483647 - (int32_t)master.encoder_first) + (int32_t)master.encoder_second + 1) > 59){
 
-						uint8_t temp = master.alarm.Seconds_Bin + ((2147483647 - master.encoder_first) + master.encoder_second);
+						int32_t temp = (int32_t)master.alarm.Seconds_Bin + ((2147483647 - (int32_t)master.encoder_first) + (int32_t)master.encoder_second);
 						temp -= 59;
 
-						master.alarm.Seconds_Bin = temp - 1;
+						master.alarm.Seconds_Bin = temp;
 					}
 					else{
 
-						master.alarm.Seconds_Bin += ((2147483647 - master.encoder_first) + master.encoder_second);
+						master.alarm.Seconds_Bin += (uint8_t)((2147483647 - (int32_t)master.encoder_first) + (int32_t)master.encoder_second + 1);
 					}
 				}
 				else{ //not a roll over
 
-					if(((int16_t)master.alarm.Seconds_Bin - ((int16_t)master.encoder_first - (int16_t)master.encoder_second)) < 0){
+					if(((int32_t)master.alarm.Seconds_Bin - ((int32_t)master.encoder_first - (int32_t)master.encoder_second)) < 0){
 
-						int16_t temp = (int16_t)master.alarm.Seconds_Bin - ((int16_t)master.encoder_first - (int16_t)master.encoder_second);
+						int32_t temp = (int32_t)master.alarm.Seconds_Bin - ((int32_t)master.encoder_first - (int32_t)master.encoder_second);
 						temp += 59;
 
-						master.alarm.Seconds_Bin = temp + 1;
+						master.alarm.Seconds_Bin = (uint8_t)(temp + 1);
 					}
 					else{
 
-						master.alarm.Seconds_Bin -= (master.encoder_first - master.encoder_second);
+						master.alarm.Seconds_Bin -= (uint8_t)(master.encoder_first - master.encoder_second);
 					}
 				}
 			}
